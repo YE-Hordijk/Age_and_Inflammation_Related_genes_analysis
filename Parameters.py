@@ -1,0 +1,14 @@
+update_files = False
+GENE_SELECTION = "cell-age-signatures"
+inflam_synonyms = {' cytokines', 'inflam', 'infection', 'immune response', 'antibody', 'cytokine rush', 'senescence'}
+experiment_name = "expTESTING_BEREN"
+tissue = "Whole Blood"
+select_on_genes = True
+use_middle_age = False
+YOUNG = "20-49"
+MIDDLE = "50-59"
+OLD = "60-79"
+random_baseline = False
+removing_outliers = False
+PredictionModel = "DecisionTree"
+PredictionMethod = "Classification"
