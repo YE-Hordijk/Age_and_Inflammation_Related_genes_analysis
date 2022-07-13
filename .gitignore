@@ -1,0 +1,8 @@
+# Unwanted filetypes
+Source
+*.csv
+*.png
+*.txt
+rubbish
+venv
+/*
