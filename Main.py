@@ -5,6 +5,9 @@ import os
 import re
 from GeneralFunctions import st
 
+#import Parameters as P
+from Parameters import P
+
 
 #*******************************************************************************
 #******************************** FUNCTIONS ************************************
@@ -12,13 +15,14 @@ from GeneralFunctions import st
 def update_parameter(par):
 	#Giving a string quotationmarks
 	if not (par.split(" = ")[1] in ["False", "True"]) and not isinstance(par.split(" = ")[1], int) and not par.split(" = ")[1].startswith(("{", "[")):
-		par = par.split(" = ")[0] + " = " + "\""+par.split(" = ")[1]+"\""
+		par = par.split(" = ")[0] + " = " + "\""+par.split(" = ")[1]+"\"" #putting quotation marks around the value
 	found = False
 	f = open("Parameters.py", "r+")
 	d = f.readlines()
+	
 	f.seek(0) #to the beginning of the file
 	for i in d:
-		if (par.split(" = ")[0] not in i): f.write(i) #if this parameter should not be changed, leave it by copying
+		if (par.split(" = ")[0] not in i): f.write(i) #if this line is not to be over writen by the new parameter, leave it by copying
 		else:
 			f.write(par+"\n")
 			found = True
@@ -49,6 +53,7 @@ def setup_experiment(experiment_name):
 #*******************************************************************************
 
 # 1) Setting parameters with which the experiment will be performed
+"""
 class S: #Settings
 	experiment_name = "expTESTING_BEREN"
 	update_files = False
@@ -63,55 +68,87 @@ class S: #Settings
 	OLD = "60-79"
 	random_baseline = False
 	removing_outliers = False #True
-	PredictionModel = "DecisionTree"#"RandomForest" #"DecisionTree" #"Support Vector Machine"
+	PredictionModel = "RandomForest"#"DecisionTree"#"RandomForest" #"DecisionTree" #"Support Vector Machine"
 	PredictionMethod = "Classification" #"Regression"
+"""
 #*******************************************************************************
+def calculate_filenames(Use_middle_age, Select_on_genes, Geneselection):
+	#Calculating the names of the metadatafile and the countsfile
+	if Select_on_genes: metafilename = Geneselection #variable for nameing files and folders
+	else: metafilename = "NoGeneSelection"
+	if Use_middle_age:	metafilename += "_With-MiddleAge_METADATA.txt"
+	else: 								metafilename += "_No-MiddleAge_METADATA.txt"
+	countsfilename = metafilename[:-12] + "unnormalized.txt"
+	return countsfilename, metafilename
 
-#Calculating the names of the metadatafile and the countsfile
-if S.select_on_genes: metafilename = S.GENE_SELECTION #variable for nameing files and folders
-else: metafilename = "NoGeneSelection"
-if S.use_middle_age:	metafilename += "_With-MiddleAge_METADATA.txt"
-else: 								metafilename += "_No-MiddleAge_METADATA.txt"
-countsfilename = metafilename[:-12] + "unnormalized.txt"
+
+
+countsfilename, metafilename = calculate_filenames(P.use_middle_age, P.select_on_genes, P.GENE_SELECTION)
+
+
 
 
 # 2)-------------------------------------------------------------------------------
-#Sending the parameters to extern script so that all scripts can use these parameters
-for attr in vars(S):
-	if not attr.startswith("__"):
-		str(attr+" = "+str(vars(S)[attr]))
-		update_parameter(str(attr+" = "+str(vars(S)[attr])))
+setup_experiment(P.experiment_name)
 
 # 3)-------------------------------------------------------------------------------
-
-setup_experiment(S.experiment_name)
-
-"""
-#***CREATING A GENELIST****
-if (S.select_on_genes):
-	print(st.GREEN, "\n*********** CREATE GENELIST **********", st.RST)
-	import Create_genelist as CG
-	genedict = CG.create_genelist()
-	#subprocess.call ("/usr/bin/python3 Create_genelist.py "+arguments(S.update_files, S.GENE_SELECTION, shell=True)
+#Sending the parameters to extern script so that all scripts can use these parameters
+#for attr in vars(S):
+#	if not attr.startswith("__"):
+#		str(attr+" = "+str(vars(S)[attr]))
+#		update_parameter(str(attr+" = "+str(vars(S)[attr])))
 
 
-#****PREPROCESSING THE DATA for R******
-print(st.GREEN, "\n*********** PREPROCESSING DATA FOR R **********", st.RST)
-subprocess.call ("/usr/bin/python3 Preprocessing.py "+arguments(S.update_files, S.GENE_SELECTION), shell=True)
 
+for g in ["senescence", "searchwords","cell-age-signatures", "genes-from-papers", "all"]: #XXX
+	P.GENE_SELECTION = g
+	print(g, "-- ", P.GENE_SELECTION)
+	input("apen?")
+	
+
+	#***CREATING A GENELIST****
+	if (P.select_on_genes):
+		print(st.GREEN, "\n*********** CREATE GENELIST **********", st.RST)
+		import Create_genelist as CG
+		genedict = CG.create_genelist()
+		#subprocess.call ("/usr/bin/python3 Create_genelist.py "+arguments(P.update_files, P.GENE_SELECTION, shell=True)
+
+
+	#****PREPROCESSING THE DATA for R******
+	print(st.GREEN, "\n*********** PREPROCESSING DATA FOR R **********", st.RST)
+	#subprocess.call ("/usr/bin/python3 Preprocessing.py "+arguments(P.update_files, P.GENE_SELECTION), shell=True)
+	import Preprocessing as Pr
+	#Pr.Preprocessing()
+	input("krokodillen?")
+exit()
 #****USING R******
+countsfilename, metafilename = calculate_filenames(P.use_middle_age, True, g) #XXX
+
 print(st.GREEN, "\n*********** NORMALIZING AND VISUALIZING WITH R **********", st.RST)
 #Arguments: 1) countfile, 2) metadate, 3) project name
-subprocess.call ("/usr/bin/Rscript --vanilla Normalize_and_visualize.R "+arguments(countsfilename, metafilename, S.experiment_name), shell=True) ##Needs 3 argumets
+subprocess.call ("/usr/bin/Rscript --vanilla Normalize_and_visualize.R "+arguments(countsfilename, metafilename, P.experiment_name), shell=True) ##Needs 3 argumets
 
+
+for i in ["DecisionTree", "RandomForest", "Support Vector Machine"]: #XXX
+	update_parameter("PredictionModel = "+i) #XXX
+"""
+update_parameter("PredictionModel = Support Vector Machine") #XXX
+for g in ["all", "senescence", "searchwords","cell-age-signatures", "genes-from-papers"]: #XXX
+	update_parameter("GENE_SELECTION = "+g) #XXX
+
+	#****Machinelearning****
+	print(st.GREEN, "\n*********** MACHINE LEARNING **********", st.RST)
+	subprocess.call ("/usr/bin/python3 Machinelearning.py "+arguments(), shell=True)
+	print("terug van Machine Learning 😃️")
+
+"""
 """
 
 
-#****Machinelearning****
-#TODO
-print(st.GREEN, "\n*********** MACHINE LEARNING **********", st.RST)
-subprocess.call ("/usr/bin/python3 Machinelearning.py "+arguments(), shell=True)
-print("terug van Machine Learning 😃️")
+#****Extracting important genes from PCfiles and finding outliers
+print(st.GREEN, "\n*********** ExtractingPCs **********", st.RST)
+subprocess.call ("/usr/bin/python3 ExtractingPCs.py "+arguments(), shell=True)
+
 
 #****DO R again
 #TODO
@@ -122,4 +159,5 @@ print("terug van Machine Learning 😃️")
 #**** PRODUCE Gene list_x
 #TODO
 
+"""
 

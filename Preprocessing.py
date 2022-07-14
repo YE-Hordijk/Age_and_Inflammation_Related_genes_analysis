@@ -13,7 +13,7 @@ import psutil #for checking if enough diskspace
 #General packages
 import GeneralFunctions as GF
 from GeneralFunctions import st
-import Parameters as P
+from Parameters import P
 
 import numpy as np
 from numpy import log as ln
@@ -48,7 +48,8 @@ help_name = GENE_SELECTION #variable for nameing files and folders
 if use_middle_age:	help_name += "_With-MiddleAge_METADATA.txt"
 else: 							help_name += "_No-MiddleAge_METADATA.txt"
 
-
+print(GENE_SELECTION)
+input("in preprocessing checking if the right geneselection?")
 
 
 #*******************************************************************************
@@ -136,10 +137,11 @@ def add_new_row(new_row):
 #******************************************************************************#
 ################################################################################
 
+#def Preprocessing():
 #__________________Updating of downloading source files_________________________
-	GF.ensure_file('https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_reads.gct.gz','GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_reads.gct.gz', update_files)
-	GF.ensure_file('https://storage.googleapis.com/gtex_analysis_v8/annotations/GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt', 'GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt', update_files)
-	GF.ensure_file('https://storage.googleapis.com/gtex_analysis_v8/annotations/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt', 'GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt', update_files)
+GF.ensure_file('https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_reads.gct.gz','GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_reads.gct.gz', update_files)
+GF.ensure_file('https://storage.googleapis.com/gtex_analysis_v8/annotations/GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt', 'GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt', update_files)
+GF.ensure_file('https://storage.googleapis.com/gtex_analysis_v8/annotations/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt', 'GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt', update_files)
 
 
 #__________________Reading and converting the datafiles_________________________

@@ -3,7 +3,8 @@
 #Packages
 import GeneralFunctions as GF
 from GeneralFunctions import st
-import Parameters as P
+#import Parameters as P
+from Parameters import P
 
 import sys
 import pandas as pd
@@ -26,15 +27,15 @@ class CG:
 	cellSignatures = pd.DataFrame()
 
 
-update_files = P.update_files
-GENE_SELECTION = P.GENE_SELECTION
-inflam_synonyms = P.inflam_synonyms
+#update_files = P.update_files
+#GENE_SELECTION = P.GENE_SELECTION
+#inflam_synonyms = P.inflam_synonyms
 
 
 
-print("Geneselection = ",P.GENE_SELECTION)
-if GENE_SELECTION == "searchwords": print("Searchwords: ", P.inflam_synonyms)
-
+print("Geneselection = ", P.GENE_SELECTION)
+if P.GENE_SELECTION == "searchwords": print("Searchwords: ", P.inflam_synonyms)
+input ("checking if the right geneselection")
 #*******************************************************************************
 #MOST IMPORTANT GENES-LISTS COPIED FORM PAPERS
 Asso_Inflam_Age = ['FCGR1A','GRAMD1C','PNP','CD274','DPEP2','TSTA3','KREMEN1',
@@ -77,11 +78,11 @@ def create_inflamrelated_gene_list(temppathways = {}):
 	pathwaygenes = {}
 
 	
-	if GENE_SELECTION == "senescence": Tinflam_synonyms = {"senescence"}
-	else: Tinflam_synonyms = inflam_synonyms
+	if P.GENE_SELECTION == "senescence": Tinflam_synonyms = {"senescence"}
+	else: Tinflam_synonyms = P.inflam_synonyms
 	
 	#SEARCHWORDS	creating a list of related genes based on searchwords found in pathways desription
-	if GENE_SELECTION in['searchwords', 'senescence', 'all']:
+	if P.GENE_SELECTION in['searchwords', 'senescence', 'all']:
 		countpathways = 0
 		for pathway_description in temppathways: #looping over all the pathways (with lists of related genes)
 			countpathways += 1
@@ -91,21 +92,21 @@ def create_inflamrelated_gene_list(temppathways = {}):
 						pathwaygenes[gene] = None #adding gene to pathwaygenes dictionary
 
 	#CELL-AGE-SIGNATURES	creating list of realted genes by importing from cellAgen and Signatures
-	if GENE_SELECTION=='cell-age-signatures' or GENE_SELECTION=='all':
+	if P.GENE_SELECTION=='cell-age-signatures' or P.GENE_SELECTION=='all':
 		new_genes = pd.concat((CG.cellAge["gene_name"], CG.signatures["gene_symbol"]), axis=0, ignore_index=True, sort=False)
 		for gene in new_genes:
 			pathwaygenes[gene] = None #adding gene to pathwaygenes dictionary
 
 	#GENES_FROM_PAPERS	creating list of related genes by reading predefined lists (based on genes from papers)
-	if GENE_SELECTION=='genes-from-papers' or GENE_SELECTION=='all':
+	if P.GENE_SELECTION=='genes-from-papers' or P.GENE_SELECTION=='all':
 		for gene in genes_from_papers:
 			pathwaygenes[gene] = None #adding gene to pathwaygenes dictionary
 	
 	try: del pathwaygenes[""]
 	except: pass
 	#Printing how manny genes where found
-	if GENE_SELECTION == "searchwords":	woord = inflam_synonyms 
-	else: 	woord = GENE_SELECTION
+	if P.GENE_SELECTION == "searchwords":	woord = P.inflam_synonyms 
+	else: 	woord = P.GENE_SELECTION
 	print(st.YELLOW,st.BOLD,len(pathwaygenes.keys()),"genes are related to", woord, st.RST)
 	
 	return pathwaygenes
@@ -117,23 +118,26 @@ def create_inflamrelated_gene_list(temppathways = {}):
 ################################################################################
 
 def create_genelist():
+	print(P.GENE_SELECTION)
+
+	
 	#***********Importing nessesary files*****************************************
-	GF.ensure_file('https://maayanlab.cloud/Enrichr/geneSetLibrary?mode=text&libraryName=WikiPathways_2019_Human', 'WikiPathways_2019_Human', update_files)
-	GF.ensure_file('https://maayanlab.cloud/Enrichr/geneSetLibrary?mode=text&libraryName=KEGG_2019_Human', 'KEGG_2019_Human', update_files)
-	GF.ensure_file('https://maayanlab.cloud/Enrichr/geneSetLibrary?mode=text&libraryName=GO_Biological_Process_2017b', 'GO_Biological_Process_2017b', update_files)
-	GF.ensure_file('https://genomics.senescence.info/cells/cellAge.zip', 'cellAge1.zip', update_files)
-	GF.ensure_file('https://genomics.senescence.info/cells/cellSignatures.zip', 'signatures1.zip', update_files)
+	GF.ensure_file('https://maayanlab.cloud/Enrichr/geneSetLibrary?mode=text&libraryName=WikiPathways_2019_Human', 'WikiPathways_2019_Human', P.update_files)
+	GF.ensure_file('https://maayanlab.cloud/Enrichr/geneSetLibrary?mode=text&libraryName=KEGG_2019_Human', 'KEGG_2019_Human', P.update_files)
+	GF.ensure_file('https://maayanlab.cloud/Enrichr/geneSetLibrary?mode=text&libraryName=GO_Biological_Process_2017b', 'GO_Biological_Process_2017b', P.update_files)
+	GF.ensure_file('https://genomics.senescence.info/cells/cellAge.zip', 'cellAge1.zip', P.update_files)
+	GF.ensure_file('https://genomics.senescence.info/cells/cellSignatures.zip', 'signatures1.zip', P.update_files)
 
 
 	#*********Reading the gene-pathway linking files (if nessesary)***************
 	temppathways = {}
-	if GENE_SELECTION in ["searchwords", "senescence", 'all']: #if GENE_SELECTION is one of these 3 options
+	if P.GENE_SELECTION in ["searchwords", "senescence", 'all']: #if P.GENE_SELECTION is one of these 3 options
 		wikipath = GF.readfile("Source/WikiPathways_2019_Human", '\t', 0, "dictionary")
 		kegg = GF.readfile("Source/KEGG_2019_Human", '\t', 0, "dictionary")
 		go = GF.readfile("Source/GO_Biological_Process_2017b", '\t', 0, "dictionary")
 		temppathways = {**wikipath, **kegg, **go}
 
-	if GENE_SELECTION == "cell-age-signatures" or GENE_SELECTION=='all':
+	if P.GENE_SELECTION == "cell-age-signatures" or P.GENE_SELECTION=='all':
 		CG.cellAge = GF.readfile('Source/cellAge1.csv', ';', 0, "dataframe")
 		CG.signatures = GF.readfile('Source/signatures1.csv', ';', 0, "dataframe")
 	

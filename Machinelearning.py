@@ -1,10 +1,10 @@
-#Preprocessing.py
+#Machinelearning.py
 
 
 #General packages
 import GeneralFunctions as GF
 from GeneralFunctions import st
-import Parameters as P
+from Parameters import P
 
 import numpy as np
 from numpy import log as ln
@@ -157,7 +157,7 @@ def write_latex_line(w, bold):
 			w[i] = str(w[i])
 		if bold: f.write("\\textbf{}".format("{"+w[i]+"}"))
 		else: f.write(w[i])
-		if w[i] == w[-1]: 
+		if (w[i] == w[-1]) and (w[i] != " "): 
 			f.write(" \\\\")
 			if bold:	f.write(" \hline\n")
 			else:			f.write("\n")
@@ -296,7 +296,10 @@ print(df_RNA_seq.iloc[0:,1:])
 if "Machine_Learning_Results" not in os.listdir(P.experiment_name): #Making a folder for the machinelearning results
 	os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Machine_Learning_Results"))
 
-f = open(P.experiment_name+"/Machine_Learning_Results/"+help_name+"_Mach_Ler_Results.txt", "w")
+if MODEL not in os.listdir(P.experiment_name+"/Machine_Learning_Results"): #Making a folder for the machinelearning results
+	os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Machine_Learning_Results/"+MODEL))
+
+f = open(P.experiment_name+"/Machine_Learning_Results/"+MODEL+"/"+help_name+"_"+MODEL+"_ML_Results.txt", "w")
 f.write(help_name+":") #write the first line
 
 ################# Making the model #############################################
@@ -324,6 +327,11 @@ print(st.YELLOW, st.BOLD,"Number of examples", len(y), "(nr of people)", st.RST)
 X = df_RNA_seq.drop(['age'],axis=1).values #Making X, on which the prediction has to be made
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False) #Splitting into train and test data
 
+print(P.GENE_SELECTION)
+print(MODEL) 	
+print(df_RNA_seq)
+
+input("veder?")
 #-------------------------------------------------------------------------------
 print("<-> Starting modeling process for {}...".format(MODEL))
 
@@ -413,12 +421,12 @@ for group in ages:
 	if group in ["Young", 1]: #If young group
 		word = help_name.split("_")[0].capitalize()
 		if GenelistnameIsLong: word = "-".join(word.split("-")[0:2])
-		write_latex_line([word , group, " ", Precision, Recall, F1, group_predicted, group_real, correct], False)
+		if use_middle_age: write_latex_line([word , group, " ", Precision, Recall, F1, group_predicted, group_real, correct], False)
+		else: write_latex_line([help_name.split("_")[0], group, Accuracy, Precision, Recall, F1, group_predicted, group_real, correct], False)
 	elif group in ["Middle", 2]: #If middle group
-		if use_middle_age:
-			if (GenelistnameIsLong): word = "-".join(help_name.split("_")[0].split("-")[2:])
-			write_latex_line([word, group, Accuracy, Precision, Recall, F1, group_predicted, group_real, correct], False)
-		else: write_latex_line([word, group, Accuracy, "1", "1", "1", "1", "1", "1"], False)
+		if (GenelistnameIsLong): word = "-".join(help_name.split("_")[0].split("-")[2:])
+		if use_middle_age: write_latex_line([word, group, Accuracy, Precision, Recall, F1, group_predicted, group_real, correct], False)
+		#else: write_latex_line([word, " ", Accuracy, " ", " ", " ", " ", " ", " "], False)
 	else: 
 		word = help_name.split("_")[1] #Group is old
 		write_latex_line([word, group, " ", Precision, Recall, F1, group_predicted, group_real, correct], False)
@@ -443,24 +451,48 @@ print("Average F1 (over all ",numgroups," age groups):	", mean_f1, st.RST )
 
 f.close() #WEGHALEN
 
-#exit("Machinelearning is klaar")
 
+################################################################################
 ########### EXTRACTING LIST OF MOST IMPORTANT GENES ############################
+if MODEL != "Support Vector Machine":
+	importances = clf.feature_importances_ #creating a list with importance values for all the genes
 
-importances = clf.feature_importances_ #creating a list with importance values for all the genes
 
-feature_dict = {}
-for feat, importance in zip(df_RNA_seq.iloc[0:,2:].columns, importances): #linking the genes and their importances together
-	feature_dict[feat] = importance #filling a diccccccccccccccccccccccccccccccccccccctionary with genes as keys and their importance as values
+	####### PLOTTING THE GENE IMPORTANCE FOR RANDOM FORREST #####################---
+	if MODEL == "RandomForest":
+		std = np.std([tree.feature_importances_ for tree in clf.estimators_], axis=0).tolist()
+		std.sort(reverse=True)
+		std2 = std[:50] #The 50 most imporatant genes
+		forest_importances = pd.Series(importances, index=df_RNA_seq.iloc[0:,1:].columns)
+		forest_importances = forest_importances.sort_values(ascending=False) #df.sort_values(by=['col1'])
+		forest_importances2 = forest_importances[:50] #The 50 most important genes
 
-feature_dict = dict(sorted(feature_dict.items(), key=lambda item: item[1], reverse=True)) #Sorting the genes from important to not important
-best_features = list(islice(feature_dict.items(), 10)) #take the best 80 genes
+		#Making a plot that shows the gene importance of the many decision trees together with random forest
+		fig, ax = plt.subplots(figsize=(14,8))
+		forest_importances2.plot.bar(yerr=std2, ax=ax)
+		ax.set_title("Feature importances using MDI")
+		ax.set_ylabel("Mean decrease in impurity")
+		fig.tight_layout()
+		plt.rcParams["figure.figsize"] = (10,6)
+		plt.savefig(P.experiment_name+'/'+GENE_SELECTION+'_FeatureImportances.pdf')
+		#plt.show()
 
-telly = 0
-for i in best_features: #printing the best features
-	telly += 1
-	if (len(i[0])>6): print(telly,'. ',i[0], ':	', i[1])
-	else:	print(telly,'. ',i[0], ':		', i[1])
+	###########################################################################-----
+
+	#@@@@@@@@@@@@@@@@@@
+
+	feature_dict = {}
+	for feat, importance in zip(df_RNA_seq.iloc[0:,2:].columns, importances): #linking the genes and their importances together
+		feature_dict[feat] = importance #filling a diccccccccccccccccccccccccccccccccccccctionary with genes as keys and their importance as values
+
+	feature_dict = dict(sorted(feature_dict.items(), key=lambda item: item[1], reverse=True)) #Sorting the genes from important to not important
+	best_features = list(islice(feature_dict.items(), 10)) #take the best 80 genes
+
+	telly = 0
+	for i in best_features: #printing the best features
+		telly += 1
+		if (len(i[0])>6): print(telly,'. ',i[0], ':	', i[1])
+		else:	print(telly,'. ',i[0], ':		', i[1])
 
 
 """
@@ -511,7 +543,7 @@ if MODEL == "DecisionTree":
 								fontsize=3
 								)#;
 
-	fig.savefig('imagename01111111111111111111.png')
+	fig.savefig(GENE_SELECTION+' DecisionTree.png')
 #plt.figure(dpi=800) #,figsize=(10,10))  # set plot size (denoted in inches)
 #tree.plot_tree(clf, fontsize=2, filled=True, feature_names = fn)
 #plt.show()
