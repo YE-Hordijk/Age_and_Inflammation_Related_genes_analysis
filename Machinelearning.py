@@ -9,6 +9,7 @@ from Parameters import P
 import numpy as np
 from numpy import log as ln
 import os
+import math
 import pandas as pd
 import math as mt
 import statistics
@@ -31,6 +32,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import make_classification
 import sklearn
 
+
 #ACCESSING PARAMETER SETTINGS
 
 
@@ -39,8 +41,6 @@ RNACountsFileName = "RNAseqfile_Tissue="+P.tissue+".csv"
 pathwaygenes = {}
 random_baseline = P.random_baseline
 removing_outliers = P.removing_outliers
-METHOD = P.PredictionMethod #classification or regression
-MODEL = P.PredictionModel # randomforrest or decision tree or support vector machine
 help_name = ""
 df_subjects = pd.DataFrame([])
 df_RNA_seq = pd.DataFrame([])
@@ -60,8 +60,6 @@ def set_vars():
 	pathwaygenes = {}
 	random_baseline = P.random_baseline
 	removing_outliers = P.removing_outliers
-	METHOD = P.PredictionMethod #classification or regression
-	MODEL = P.PredictionModel # randomforrest or decision tree or support vector machine
 	df_subjects = pd.DataFrame([])
 	df_RNA_seq = pd.DataFrame([])
 
@@ -153,7 +151,12 @@ def add_new_row(new_row):
 	df_RNA_seq2 = pd.concat([df_RNA_seq2.reindex([len(df_RNA_seq2)-1]) , df_RNA_seq2.iloc[0:len(df_RNA_seq2)-1]])
 	return df_RNA_seq2
 #*******************************************************************************
-def write_latex_line(w, bold):
+def write_latex_line(w, bold, f):
+	if w[1] == 1: w[1] = "Young"
+	elif w[1] == 2: w[1] = "Middle"
+	elif w[1] == 3: w[1] = "Old"
+	#print(w)
+	#input("verder?")
 	if bold:
 		f.write("\\begin{table}[H]\n")
 		f.write("\t\centering\n\t\small\n")
@@ -181,7 +184,9 @@ def write_latex_line(w, bold):
 
 def machinelearning():
 	set_vars()
-
+	global df_subjects
+	global df_RNA_seq
+	
 	#Reading SAMPLES dictionary and only selecting samples from a specific tissue
 	df_samples = strip_data_file("Source/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt", 0, 0, '\t')
 	lst_samples = df_samples['SAMPID'].tolist() #sample IDs from dataframe to list
@@ -204,9 +209,7 @@ def machinelearning():
 		x = df_RNA_seq.iloc[0:, 2:].shape[0] # x = number of rows 
 		y = df_RNA_seq.iloc[0:, 2:].shape[1] # y = number of columns
 		df_RNA_seq.iloc[0:,2:]  = pd.DataFrame(np.random.randint(1,28,size=(x, y))) #creating random dataframe with same size
-		print("Random mmatrix for baseline: ", df_RNA_seq)
-
-
+		print("Random matrix for baseline: ", df_RNA_seq)
 
 
 	#________Adding new rows with subject information_______________________________
@@ -221,7 +224,6 @@ def machinelearning():
 
 	df_RNA_seq = df_RNA_seq.set_index('Name')
 	print(df_RNA_seq)
-
 
 
 
@@ -297,40 +299,34 @@ def machinelearning():
 		df_RNA_seq = df_RNA_seq.drop([i], axis=1) #remove the row "DTHHRDY" and "sex"
 	df_RNA_seq = df_RNA_seq.fillna(0) #missing values become zero
 
-
-	print(df_RNA_seq.iloc[0:,1:])
-
+	#print(df_RNA_seq.iloc[0:,1:])
 	df_RNA_seq.iloc[0:,1:] = log_adjustment(df_RNA_seq.iloc[0:,1:])
-
-	print(df_RNA_seq.iloc[0:,1:])
-
+	#print(df_RNA_seq.iloc[0:,1:])
 
 
-	##############make folder for machinelearning results###########################
+
+	############## Make folder for machinelearning results #######################
 	if "Machine_Learning_Results" not in os.listdir(P.experiment_name): #Making a folder for the machinelearning results
 		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Machine_Learning_Results"))
 
-	if MODEL not in os.listdir(P.experiment_name+"/Machine_Learning_Results"): #Making a folder for the machinelearning results
-		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Machine_Learning_Results/"+MODEL))
-
-	f = open(P.experiment_name+"/Machine_Learning_Results/"+MODEL+"/"+help_name+"_"+MODEL+"_ML_Results.txt", "w")
-	f.write(help_name+":") #write the first line
+	if P.MODEL not in os.listdir(P.experiment_name+"/Machine_Learning_Results"): #Making a folder for the machinelearning results
+		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Machine_Learning_Results/"+P.MODEL))
 
 	################# Making the model #############################################
 
 	mean_f1 = 0
-
+	######## pREPARING THe train and test data ####################################
 	print(st.CYAN)
-	print("Method = ", METHOD, "\nModel = ", MODEL, "\nDataset = ", P.GENE_SELECTION, st.RST)
+	print("Method = ", P.METHOD, "\nModel = ", P.MODEL, "\nDataset = ", P.GENE_SELECTION, st.RST)
 
 	y = df_RNA_seq['age'].values.copy() #Making y (prediction column)
 
-	if METHOD == "Classification":
+	if P.METHOD == "Classification":
 		for i in range(len(y)): #converting strings to groups
 			if   y[i] == '20-29' or y[i] == '30-39' or y[i] == '40-49': y[i] = "Young"
 			elif y[i] == '50-59'																			: y[i] = "Middle"
 			elif y[i] == '60-69' or y[i] == '70-79'										: y[i] = "Old"
-	elif METHOD == "Regression":
+	elif P.METHOD == "Regression":
 		for i in range(len(y)): #converting strings to integers (groups)
 			if   y[i] == '20-29' or y[i] == '30-39' or y[i] == '40-49': y[i] = 1
 			elif y[i] == '50-59'																			: y[i] = 2
@@ -341,24 +337,27 @@ def machinelearning():
 	X = df_RNA_seq.drop(['age'],axis=1).values #Making X, on which the prediction has to be made
 	X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False) #Splitting into train and test data
 
-	print(P.GENE_SELECTION)
-	print(MODEL) 	
-	print(df_RNA_seq)
+	#print(P.GENE_SELECTION)
+	#print(P.MODEL) 	
+	#print(len(X), " x ", len(X[0]))
+	#print(len(y_test))
+	#input("volgende dataset?")
 
-	input("veder?")
 	#-------------------------------------------------------------------------------
-	print("<-> Starting modeling process for {}...".format(MODEL))
+	print("<-> Starting modeling process for {}...".format(P.MODEL))
 
-	if METHOD == "Regression":
-		if MODEL == "Support Vector Machine":	clf = svm.SVR()
-		elif MODEL == "RandomForest":					clf = RandomForestRegressor(n_estimators=15, max_depth=50, random_state=None) #, criterion='MSE', splitter='best')
+	if P.METHOD == "Regression":
+		if P.MODEL == "Support Vector Machine":	clf = svm.SVR()
+		elif P.MODEL == "RandomForest":					clf = RandomForestRegressor(n_estimators=15, max_depth=50, random_state=None) #, criterion='MSE', splitter='best')
 																					#clf = BaggingRegressor(rf, n_estimators=45, max_samples=0.1, random_state=25)
-		elif MODEL == "DecisionTree":					clf = DecisionTreeRegressor(random_state=None, max_depth=15, criterion='gini')
+		elif P.MODEL == "DecisionTree":					clf = DecisionTreeRegressor(random_state=None, max_depth=15) #, criterion='squared_error')
 
-	elif METHOD == "Classification":
-		if MODEL == "Support Vector Machine":	clf = svm.SVC()
-		elif MODEL == "RandomForest":					clf = RandomForestClassifier(n_estimators=15, max_depth=50, random_state=None) #, criterion='MSE', splitter='best')
-		elif MODEL == "DecisionTree":					clf = DecisionTreeClassifier(criterion='entropy', max_depth=15, random_state=None)
+	elif P.METHOD == "Classification":
+		if P.MODEL == "Support Vector Machine":	clf = svm.SVC()
+		elif P.MODEL == "RandomForest":					clf = RandomForestClassifier(n_estimators=15, max_depth=50, random_state=None) #, criterion='MSE', splitter='best')
+		elif P.MODEL == "DecisionTree":					clf = DecisionTreeClassifier(criterion='entropy', max_depth=15, random_state=None)
+	
+	#print(y_train)
 
 	clf.fit(X_train, y_train)
 	y_pred = clf.predict(X_test) #make the prediction on the test data
@@ -370,12 +369,12 @@ def machinelearning():
 
 
 	#Evalueation of the preduction quality
-	if METHOD =="Regression":
+	if P.METHOD =="Regression":
 		for i in range(len(y_pred)):
 			y_pred[i] = round(y_pred[i], 0)
 
 	#RMSE = math.sqrt(np.square(np.subtract(y_test,y_pred)).mean())
-	#print("\n\033[33m\033[1m<-> Model = ", MODEL, "\n<-> RMSE:", round(RMSE, 4), '\a \033[0m')
+	#print("\n\033[33m\033[1m<-> P.Model = ", P.MODEL, "\n<-> RMSE:", round(RMSE, 4), '\a \033[0m')
 
 	#Count the number of right and wrong guesses
 	right = 0
@@ -390,90 +389,96 @@ def machinelearning():
 	#---------------------------------------------------------------------------
 
 	#Writing LaTeX table
-	f.write("\n\n"+"\subsection*{}\n".format("{"+METHOD+"}"))
-	f.write("\subsubsection*{}\n".format("{"+MODEL+"}"))
+	if P.WriteLaTeXTableforML:
+		f = open(P.experiment_name+"/Machine_Learning_Results/"+P.MODEL+"/"+help_name+"_"+P.MODEL+"_ML_Results.txt", "w")
+		f.write(help_name+":") #write the first line
+	
+		f.write("\n\n"+"\subsection*{}\n".format("{"+P.METHOD+"}"))
+		f.write("\subsubsection*{}\n".format("{"+P.MODEL+"}"))
 
-	write_latex_line(["Dataset","AgeGroups", "Accuracy", "Precision", "Recall", "F1", "Occ.Pred", "Occ.real", "Correct"], True)
+		write_latex_line(["Dataset","AgeGroups", "Accuracy", "Precision", "Recall", "F1", "Occ.Pred", "Occ.real", "Correct"], True, f)
 
-	if METHOD == "Classification": ages = ["Young", "Middle", "Old"]
-	if METHOD == "Regression": ages = [1,2,3]
+		#ages = ["Young", "Middle", "Old"]
+		if P.METHOD == "Classification": ages = ["Young", "Middle", "Old"]
+		if P.METHOD == "Regression": ages = [1,2,3]
 
-	group_mean_f1 = 0
-	for group in ages:
-		correct = 0 #Calculating Number of people correctly classified as <group>
-		group_predicted = 0 #Total number of people in agegroup <group> that are predicted
-		group_real = 0 #Total number of people in agegroup <group> that are really in the data
-		for i in range(len(y_test)):
-			correct += (y_test[i] == group and y_pred[i] == group) #counting the correct prediciotns of this specfic agegroup
-			group_predicted += (y_pred[i] == group) #counting nr of times this agegroup was predicted (correct or false)
-			group_real += (y_test[i] == group) #coutning nr of times this agegroup should have been predicted
+		group_mean_f1 = 0
+		for group in ages:
+			correct = 0 #Calculating Number of people correctly classified as <group>
+			group_predicted = 0 #Total number of people in agegroup <group> that are predicted
+			group_real = 0 #Total number of people in agegroup <group> that are really in the data
+			for i in range(len(y_test)):
+				correct += (y_test[i] == group and y_pred[i] == group) #counting the correct prediciotns of this specfic agegroup
+				group_predicted += (y_pred[i] == group) #counting nr of times this agegroup was predicted (correct or false)
+				group_real += (y_test[i] == group) #coutning nr of times this agegroup should have been predicted
 
 
-		if group_predicted == 0: Precision = "not pred."
-		else: Precision = correct/group_predicted #Calculating Precision
-		if group_real == 0: Recall = "not occur."
-		else: Recall = correct/group_real #Calculating Recall
-		if (Precision != 0 or Recall != 0) and isinstance(Precision,(int,float)) and isinstance(Recall,(int,float)):
-			F1 = (2*Precision*Recall)/(Precision+Recall) #F1 = sklearn.metrics.f1_score(y_test, y_pred, pos_label=group)
-			group_mean_f1 += F1
-		else:
-			F1 = "Not poss."
-			group_mean_f1 += 0
-		
-		print("\033[1m\033[34m<-> {}:".format(group))
-		print("\033[33m\033[1m  -> Precision:\t",Precision,'\033[0m')
-		print("\033[33m\033[1m  -> Recall:\t",Recall,'\033[0m')
-		print("\033[33m\033[1m  -> F1:\t",F1,'\033[0m\n')
-		print("\033[33m\033[1m  -> Database occurance:\t",group_real,'\033[0m')
-		print("\033[33m\033[1m  -> Occurance predicted:\t",group_predicted,'\033[0m')
-		print("\033[33m\033[1m  -> Correct predicted:\t",correct,'\033[0m\n')
-		
-		GenelistnameIsLong = False
-		if len(help_name.split("_")[0].split("-")) > 2:
-			GenelistnameIsLong = True
-		word = " "
-		if group in ["Young", 1]: #If young group
-			word = help_name.split("_")[0].capitalize()
-			if GenelistnameIsLong: word = "-".join(word.split("-")[0:2])
-			if P.use_middle_age: write_latex_line([word , group, " ", Precision, Recall, F1, group_predicted, group_real, correct], False)
-			else: write_latex_line([help_name.split("_")[0], group, Accuracy, Precision, Recall, F1, group_predicted, group_real, correct], False)
-		elif group in ["Middle", 2]: #If middle group
-			if (GenelistnameIsLong): word = "-".join(help_name.split("_")[0].split("-")[2:])
-			if P.use_middle_age: write_latex_line([word, group, Accuracy, Precision, Recall, F1, group_predicted, group_real, correct], False)
-			#else: write_latex_line([word, " ", Accuracy, " ", " ", " ", " ", " ", " "], False)
-		else: 
-			word = help_name.split("_")[1] #Group is old
-			write_latex_line([word, group, " ", Precision, Recall, F1, group_predicted, group_real, correct], False)
+			if group_predicted == 0: Precision = "not pred."
+			else: Precision = correct/group_predicted #Calculating Precision
+			if group_real == 0: Recall = "not occur."
+			else: Recall = correct/group_real #Calculating Recall
+			if (Precision != 0 or Recall != 0) and isinstance(Precision,(int,float)) and isinstance(Recall,(int,float)):
+				F1 = (2*Precision*Recall)/(Precision+Recall) #F1 = sklearn.metrics.f1_score(y_test, y_pred, pos_label=group)
+				group_mean_f1 += F1
+			else:
+				F1 = "Not poss."
+				group_mean_f1 += 0
 			
+			print("\033[1m\033[34m<-> {}:".format(group))
+			print("\033[33m\033[1m  -> Precision:\t",Precision,'\033[0m')
+			print("\033[33m\033[1m  -> Recall:\t",Recall,'\033[0m')
+			print("\033[33m\033[1m  -> F1:\t",F1,'\033[0m\n')
+			print("\033[33m\033[1m  -> Database occurance:\t",group_real,'\033[0m')
+			print("\033[33m\033[1m  -> Occurance predicted:\t",group_predicted,'\033[0m')
+			print("\033[33m\033[1m  -> Correct predicted:\t",correct,'\033[0m\n')
+			
+			GenelistnameIsLong = False
+			if len(help_name.split("_")[0].split("-")) > 2:
+				GenelistnameIsLong = True
+			word = " "
+			if group in ["Young", 1]: #If young group
+				word = help_name.split("_")[0].capitalize()
+				if GenelistnameIsLong: word = "-".join(word.split("-")[0:2])
+				if P.use_middle_age: write_latex_line([word , group, " ", Precision, Recall, F1, group_predicted, group_real, correct], False, f)
+				else: write_latex_line([help_name.split("_")[0], group, Accuracy, Precision, Recall, F1, group_predicted, group_real, correct], False, f)
+			elif group in ["Middle", 2]: #If middle group
+				if (GenelistnameIsLong): word = "-".join(help_name.split("_")[0].split("-")[2:])
+				if P.use_middle_age: write_latex_line([word, group, Accuracy, Precision, Recall, F1, group_predicted, group_real, correct], False, f)
+				#else: write_latex_line([word, " ", Accuracy, " ", " ", " ", " ", " ", " "], False)
+			else: #Group is old
+				word = help_name.split("_")[1] 
+				write_latex_line([word, group, " ", Precision, Recall, F1, group_predicted, group_real, correct], False, f)
+				
 
-	f.write("\t\t\hline\n")
-	f.write("\t\end{}".format("{tabular}\n"))
-	f.write("\t\caption{}".format("{Evaluation of "+METHOD+" by "+MODEL+" using the "+help_name.replace("_","-")+" dataset}\n"))
-	f.write("\t\label{}".format("{tab:"+METHOD+MODEL+help_name+"}\n"))
-	f.write("\end{}".format("{table}"))
+		f.write("\t\t\hline\n")
+		f.write("\t\end{}".format("{tabular}\n"))
+		f.write("\t\caption{}".format("{Evaluation of "+P.METHOD+" by "+P.MODEL+" using the "+help_name.replace("_","-")+" dataset}\n"))
+		f.write("\t\label{}".format("{tab:"+P.METHOD+P.MODEL+help_name+"}\n"))
+		f.write("\end{}".format("{table}"))
 
-	if P.use_middle_age: numgroups = 3
-	else: numgroups = 2
-	group_mean_f1 /= numgroups
-	mean_f1 += group_mean_f1
-	#print("group_mean_f1:	",group_mean_f1)
-	#print("mean_f1:	", mean_f1)
+		if P.use_middle_age: numgroups = 3
+		else: numgroups = 2
+		group_mean_f1 /= numgroups
+		mean_f1 += group_mean_f1
+		#print("group_mean_f1:	",group_mean_f1)
+		#print("mean_f1:	", mean_f1)
 
-	print(st.CYAN)
-	print("Average F1 (over all ",numgroups," age groups):	", mean_f1, st.RST )
-	#-------------------------------------------------------------------------------
+		print(st.CYAN)
+		print("Average F1 (over all ",numgroups," age groups):	", mean_f1, st.RST )
+		f.close()
+		#-------------------------------------------------------------------------------
 
-	f.close() #WEGHALEN
+		
 
 
 	################################################################################
 	########### EXTRACTING LIST OF MOST IMPORTANT GENES ############################
-	if MODEL != "Support Vector Machine":
+	if P.MODEL != "Support Vector Machine":
 		importances = clf.feature_importances_ #creating a list with importance values for all the genes
 
 
 		####### PLOTTING THE GENE IMPORTANCE FOR RANDOM FORREST #####################---
-		if MODEL == "RandomForest":
+		if P.MODEL == "RandomForest":
 			std = np.std([tree.feature_importances_ for tree in clf.estimators_], axis=0).tolist()
 			std.sort(reverse=True)
 			std2 = std[:50] #The 50 most imporatant genes
@@ -482,6 +487,7 @@ def machinelearning():
 			forest_importances2 = forest_importances[:50] #The 50 most important genes
 
 			#Making a plot that shows the gene importance of the many decision trees together with random forest
+			"""
 			fig, ax = plt.subplots(figsize=(14,8))
 			forest_importances2.plot.bar(yerr=std2, ax=ax)
 			ax.set_title("Feature importances using MDI")
@@ -490,6 +496,7 @@ def machinelearning():
 			plt.rcParams["figure.figsize"] = (10,6)
 			plt.savefig(P.experiment_name+'/'+P.GENE_SELECTION+'_FeatureImportances.pdf')
 			#plt.show()
+			"""
 
 		###########################################################################-----
 
@@ -500,8 +507,9 @@ def machinelearning():
 			feature_dict[feat] = importance #filling a diccccccccccccccccccccccccccccccccccccctionary with genes as keys and their importance as values
 
 		feature_dict = dict(sorted(feature_dict.items(), key=lambda item: item[1], reverse=True)) #Sorting the genes from important to not important
-		best_features = list(islice(feature_dict.items(), 10)) #take the best 80 genes
+		best_features = list(islice(feature_dict.items(), 50)) #take the best 80 genes
 
+		#Printing the list of most important genes
 		telly = 0
 		for i in best_features: #printing the best features
 			telly += 1
@@ -509,30 +517,30 @@ def machinelearning():
 			else:	print(telly,'. ',i[0], ':		', i[1])
 
 
-	"""
+
 	################ LINKING MOST IMPORANT GENES TO PATHWAYS #######################
-	isabelle = {}
-	for gek in best_features:
-		for i in temppathways: #loop over all pathwyays
-			for tomke in temppathways[i]: #loop over all genes in a pathway
-				if tomke == gek[0]:
-					if i in isabelle: #hoog count op
-						isabelle[i] += 1
-					else:
-						isabelle[i] = 1
+	#isabelle = {}
+	#for gek in best_features:
+	#	for i in temppathways: #loop over all pathwyays
+	#		for tomke in temppathways[i]: #loop over all genes in a pathway
+	#			if tomke == gek[0]:
+	#				if i in isabelle: #hoog count op
+	#					isabelle[i] += 1
+	#				else:
+	#					isabelle[i] = 1
+	#
+	#
+	#for i in isabelle:
+	#	isabelle[i] /= len(temppathways[i])
+	#	isabelle[i] = round(isabelle[i], 3)
+	#isabelle = dict(sorted(isabelle.items(), key=lambda item: item[1], reverse=True))
+	#isabelle2 = list(islice(isabelle, 30))
+	#print("&&&&&&&&&&&&&&&&&&&&&&&")
+	#for k in isabelle2:
+	#	print(isabelle[k],'\t', k)
+	#print("&&&&&&&&&&&&&&&&&&&&&&&")
 
-
-	for i in isabelle:
-		isabelle[i] /= len(temppathways[i])
-		isabelle[i] = round(isabelle[i], 3)
-	isabelle = dict(sorted(isabelle.items(), key=lambda item: item[1], reverse=True))
-	isabelle2 = list(islice(isabelle, 30))
-	print("&&&&&&&&&&&&&&&&&&&&&&&")
-	for k in isabelle2:
-		print(isabelle[k],'\t', k)
-	print("&&&&&&&&&&&&&&&&&&&&&&&")
-
-	exit(0)
+	#exit(0)
 	#################################################################################
 	############ PLOTTING THE FEATURE IMPORTANCE ####################################
 
@@ -540,11 +548,11 @@ def machinelearning():
 	plt.bar([x for x in range(len(importances))], importances)
 	#plt.bar([x for x in range(len(feature_dict))], feature_dict)
 	plt.show()
-	exit()
-	"""
+	exit("NOUNOU")
+	
 
 	######################## PLOTTING THE DECISION TREE ############################
-	if MODEL == "DecisionTree":
+	if P.MODEL == "DecisionTree":
 		fn = list(df_RNA_seq)
 		del fn[0]
 		cn = ["Young", "Middle", "Old"]
@@ -563,10 +571,10 @@ def machinelearning():
 	#plt.show()
 
 	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	"""
-	f.close
+
+
 	print('\a')
-	"""
+
 
 
 

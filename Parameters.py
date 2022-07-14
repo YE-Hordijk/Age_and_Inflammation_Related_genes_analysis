@@ -12,5 +12,6 @@ class P:
 	OLD = "60-79"
 	random_baseline = False
 	removing_outliers = False #True
-	PredictionModel = "RandomForest"#"DecisionTree"#"RandomForest" #"DecisionTree" #"Support Vector Machine"
-	PredictionMethod = "Classification" #"Regression"
+	MODEL = "RandomForest"#"DecisionTree"#"RandomForest" #"DecisionTree" #"Support Vector Machine"
+	METHOD = "Classification" #"Regression"
+	WriteLaTeXTableforML = True

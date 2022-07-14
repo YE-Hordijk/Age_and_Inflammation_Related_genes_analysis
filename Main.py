@@ -91,12 +91,7 @@ countsfilename, metafilename = calculate_filenames(P.use_middle_age, P.select_on
 # 2)-------------------------------------------------------------------------------
 setup_experiment(P.experiment_name)
 
-appel = {"banaan": None, "cinas": None}
-kast = {"stoel": None, "cinas": None}
-#ding = appel+kast
-ding = dict(appel, **kast)
-print(ding)
-print(len(ding))
+
 
 # 3)-------------------------------------------------------------------------------
 #Sending the parameters to extern script so that all scripts can use these parameters
@@ -119,7 +114,7 @@ for g in ["senescence", "searchwords","cell-age-signatures", "genes-from-papers"
 	"""
 	#***CREATING A GENELIST****
 	if (P.select_on_genes):
-		print(st.GREEN, "\n*********** CREATE GENELIST **********", st.RST)
+		print(st.GREEN, "\n*********** CREATE GENELIST **********", sgt.RST)
 		import Create_genelist as CG
 		genedict = CG.create_genelist()
 		#subprocess.call ("/usr/bin/python3 Create_genelist.py "+arguments(P.update_files, P.GENE_SELECTION, shell=True)
@@ -138,13 +133,17 @@ for g in ["senescence", "searchwords","cell-age-signatures", "genes-from-papers"
 	import Machinelearning as MS
 	MS.machinelearning()
 	"""
+
 	for i in ["DecisionTree", "RandomForest", "Support Vector Machine"]: #XXX
 		#update_parameter("PredictionModel = "+i) #XXX
-		P.PredictionModel = i
+		P.MODEL = i
 
 		#****Machinelearning****
 		print(st.GREEN, "\n*********** MACHINE LEARNING **********", st.RST)
-		subprocess.call ("/usr/bin/python3 Machinelearning.py "+arguments(), shell=True)
+		print(st.GREEN, "\b**", g, "\n**",i,st.RST)
+		#subprocess.call ("/usr/bin/python3 Machinelearning.py "+arguments(), shell=True)
+		import Machinelearning as Ms
+		Ms.machinelearning()
 		print("terug van Machine Learning 😃️")
 
 """

@@ -1,0 +1,52 @@
+#Add LaTeX tables
+
+from Parameters import P
+import os
+tel = 0
+nrfiles = 0
+if "Machine_Learning_Results" in os.listdir(P.experiment_name): 
+	for folder in os.listdir(P.experiment_name+"/Machine_Learning_Results"):
+		if folder[0] == "#": continue
+		tel = 0
+		print(folder)
+		c = open(P.experiment_name+"/Machine_Learning_Results/"+folder+"/"+folder+"concatenated.txt", "w")
+		
+		#moving all to the last position
+		listoffiles = os.listdir(P.experiment_name+"/Machine_Learning_Results/"+folder)
+		thisfile = allfile =""
+		for k in listoffiles:
+			if k == folder+"concatenated.txt": thisfile = k
+			if k[0:3] == "all": allfile = k
+		listoffiles.remove(thisfile)
+		listoffiles.remove(allfile)
+		listoffiles.sort(reverse = True)
+		listoffiles.append(allfile)
+		nrfiles = len(listoffiles) #NUMBER OF FILES IN THIS FOLDER
+		#print(folder, "\n", listoffiles)
+		input("volgende model?")
+		
+		for File in listoffiles:
+			f = open(P.experiment_name+"/Machine_Learning_Results/"+folder+"/"+File, "r")
+			subtel = 0
+			tel += 1
+			for i in f: 
+				subtel += 1
+				if tel == 1: #if the first file
+					if subtel >= 3 and subtel <= 13:
+						c.write(i)
+
+				elif tel == nrfiles: #the last filename
+					if subtel == 15: #caption
+						c.write("\t\caption{Evaluation of Classification by "+folder+" using different datasets.}\n")
+					elif subtel == 16: #label
+						c.write("\t\label{tab:Classification"+folder+"No-MiddleAge}\n")
+					elif subtel >= 11: 
+						c.write(i)
+
+				else: #a middle file
+					if subtel >= 11 and subtel <= 13:
+						c.write(i)
+
+			f.close()
+		c.close()
+	exit()
