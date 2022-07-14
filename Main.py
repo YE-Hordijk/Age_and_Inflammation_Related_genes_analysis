@@ -91,6 +91,13 @@ countsfilename, metafilename = calculate_filenames(P.use_middle_age, P.select_on
 # 2)-------------------------------------------------------------------------------
 setup_experiment(P.experiment_name)
 
+appel = {"banaan": None, "cinas": None}
+kast = {"stoel": None, "cinas": None}
+#ding = appel+kast
+ding = dict(appel, **kast)
+print(ding)
+print(len(ding))
+
 # 3)-------------------------------------------------------------------------------
 #Sending the parameters to extern script so that all scripts can use these parameters
 #for attr in vars(S):
@@ -98,14 +105,18 @@ setup_experiment(P.experiment_name)
 #		str(attr+" = "+str(vars(S)[attr]))
 #		update_parameter(str(attr+" = "+str(vars(S)[attr])))
 
+#import test as tt
+#tt.TEST("appel")
+#tt.TEST("peer")
+
 
 
 for g in ["senescence", "searchwords","cell-age-signatures", "genes-from-papers", "all"]: #XXX
 	P.GENE_SELECTION = g
 	print(g, "-- ", P.GENE_SELECTION)
-	input("apen?")
+	#input("apen?")
 	
-
+	"""
 	#***CREATING A GENELIST****
 	if (P.select_on_genes):
 		print(st.GREEN, "\n*********** CREATE GENELIST **********", st.RST)
@@ -118,30 +129,24 @@ for g in ["senescence", "searchwords","cell-age-signatures", "genes-from-papers"
 	print(st.GREEN, "\n*********** PREPROCESSING DATA FOR R **********", st.RST)
 	#subprocess.call ("/usr/bin/python3 Preprocessing.py "+arguments(P.update_files, P.GENE_SELECTION), shell=True)
 	import Preprocessing as Pr
-	#Pr.Preprocessing()
-	input("krokodillen?")
-exit()
-#****USING R******
-countsfilename, metafilename = calculate_filenames(P.use_middle_age, True, g) #XXX
+	Pr.preprocessing()
 
-print(st.GREEN, "\n*********** NORMALIZING AND VISUALIZING WITH R **********", st.RST)
-#Arguments: 1) countfile, 2) metadate, 3) project name
-subprocess.call ("/usr/bin/Rscript --vanilla Normalize_and_visualize.R "+arguments(countsfilename, metafilename, P.experiment_name), shell=True) ##Needs 3 argumets
+	#****USING R******
+	countsfilename, metafilename = calculate_filenames(P.use_middle_age, True, g) #XXX
+	print(st.GREEN, "\n*********** NORMALIZING AND VISUALIZING WITH R **********", st.RST)
+	#subprocess.call ("/usr/bin/Rscript --vanilla Normalize_and_visualize.R "+arguments(countsfilename, metafilename, P.experiment_name), shell=True) #Arguments: 1)countfile, 2)metadate, 3)project name
+	import Machinelearning as MS
+	MS.machinelearning()
+	"""
+	for i in ["DecisionTree", "RandomForest", "Support Vector Machine"]: #XXX
+		#update_parameter("PredictionModel = "+i) #XXX
+		P.PredictionModel = i
 
+		#****Machinelearning****
+		print(st.GREEN, "\n*********** MACHINE LEARNING **********", st.RST)
+		subprocess.call ("/usr/bin/python3 Machinelearning.py "+arguments(), shell=True)
+		print("terug van Machine Learning 😃️")
 
-for i in ["DecisionTree", "RandomForest", "Support Vector Machine"]: #XXX
-	update_parameter("PredictionModel = "+i) #XXX
-"""
-update_parameter("PredictionModel = Support Vector Machine") #XXX
-for g in ["all", "senescence", "searchwords","cell-age-signatures", "genes-from-papers"]: #XXX
-	update_parameter("GENE_SELECTION = "+g) #XXX
-
-	#****Machinelearning****
-	print(st.GREEN, "\n*********** MACHINE LEARNING **********", st.RST)
-	subprocess.call ("/usr/bin/python3 Machinelearning.py "+arguments(), shell=True)
-	print("terug van Machine Learning 😃️")
-
-"""
 """
 
 

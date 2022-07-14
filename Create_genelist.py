@@ -17,25 +17,14 @@ print("*Starting script Create_genelist.py")
 #print(sys.argv[1])
 #print(sys.argv[2])
 #print sys.argv[1] 
-#print sys.argv[2]
 
-#update_files = sys.argv[1]
-#GENE_SELECTION = sys.argv[2]
-#inflam_synonyms = {'senescence','inflam', 'infection', ' cytokines', 'cytokine rush', 'immune response' , 'antibody'} #immume' 'senescence' 
 class CG:
 	cellAge = pd.DataFrame()
 	cellSignatures = pd.DataFrame()
 
 
-#update_files = P.update_files
-#GENE_SELECTION = P.GENE_SELECTION
-#inflam_synonyms = P.inflam_synonyms
 
 
-
-print("Geneselection = ", P.GENE_SELECTION)
-if P.GENE_SELECTION == "searchwords": print("Searchwords: ", P.inflam_synonyms)
-input ("checking if the right geneselection")
 #*******************************************************************************
 #MOST IMPORTANT GENES-LISTS COPIED FORM PAPERS
 Asso_Inflam_Age = ['FCGR1A','GRAMD1C','PNP','CD274','DPEP2','TSTA3','KREMEN1',
