@@ -105,7 +105,7 @@ setup_experiment(P.experiment_name)
 #tt.TEST("peer")
 
 
-
+baseline_been = False
 for g in ["senescence", "searchwords","cell-age-signatures", "genes-from-papers", "all"]: #XXX
 	P.GENE_SELECTION = g
 	print(g, "-- ", P.GENE_SELECTION)
@@ -132,7 +132,7 @@ for g in ["senescence", "searchwords","cell-age-signatures", "genes-from-papers"
 	#subprocess.call ("/usr/bin/Rscript --vanilla Normalize_and_visualize.R "+arguments(countsfilename, metafilename, P.experiment_name), shell=True) #Arguments: 1)countfile, 2)metadate, 3)project name
 	import Machinelearning as MS
 	MS.machinelearning()
-	"""
+	
 
 	for i in ["DecisionTree", "RandomForest", "Support Vector Machine"]: #XXX
 		#update_parameter("PredictionModel = "+i) #XXX
@@ -145,13 +145,14 @@ for g in ["senescence", "searchwords","cell-age-signatures", "genes-from-papers"
 		import Machinelearning as Ms
 		Ms.machinelearning()
 		print("terug van Machine Learning 😃️")
-
-"""
+	"""
 
 
 #****Extracting important genes from PCfiles and finding outliers
 print(st.GREEN, "\n*********** ExtractingPCs **********", st.RST)
-subprocess.call ("/usr/bin/python3 ExtractingPCs.py "+arguments(), shell=True)
+import ExtractingPCs as PCs
+PCs.extractingpcs()
+#subprocess.call ("/usr/bin/python3 ExtractingPCs.py "+arguments(), shell=True)
 
 
 #****DO R again
@@ -163,5 +164,5 @@ subprocess.call ("/usr/bin/python3 ExtractingPCs.py "+arguments(), shell=True)
 #**** PRODUCE Gene list_x
 #TODO
 
-"""
+
 

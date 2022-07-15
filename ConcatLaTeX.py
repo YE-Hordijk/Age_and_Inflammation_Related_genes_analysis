@@ -11,16 +11,19 @@ if "Machine_Learning_Results" in os.listdir(P.experiment_name):
 		print(folder)
 		c = open(P.experiment_name+"/Machine_Learning_Results/"+folder+"/"+folder+"concatenated.txt", "w")
 		
-		#moving all to the last position
+		#moving "all" to the last position
 		listoffiles = os.listdir(P.experiment_name+"/Machine_Learning_Results/"+folder)
-		thisfile = allfile =""
+		thisfile = allfile = random = ""
 		for k in listoffiles:
 			if k == folder+"concatenated.txt": thisfile = k
 			if k[0:3] == "all": allfile = k
+			if k[0:6] == "Random": random = k
 		listoffiles.remove(thisfile)
 		listoffiles.remove(allfile)
+		listoffiles.remove(random)
 		listoffiles.sort(reverse = True)
 		listoffiles.append(allfile)
+		listoffiles.append(random)
 		nrfiles = len(listoffiles) #NUMBER OF FILES IN THIS FOLDER
 		#print(folder, "\n", listoffiles)
 		input("volgende model?")

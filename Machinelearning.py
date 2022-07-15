@@ -33,13 +33,7 @@ from sklearn.datasets import make_classification
 import sklearn
 
 
-#ACCESSING PARAMETER SETTINGS
-
-
 #Setting global vriables
-RNACountsFileName = "RNAseqfile_Tissue="+P.tissue+".csv"
-pathwaygenes = {}
-random_baseline = P.random_baseline
 removing_outliers = P.removing_outliers
 help_name = ""
 df_subjects = pd.DataFrame([])
@@ -50,46 +44,49 @@ def set_vars():
 	global help_name
 	global df_subjects
 	global df_RNA_seq
+	global help_name
 	help_name = ""
 	if P.select_on_genes: help_name = P.GENE_SELECTION #variable for nameing files and folders
 	else: help_name = "NoGeneSelection"
 	if P.use_middle_age:	help_name += "_With-MiddleAge"
 	else: 								help_name += "_No-MiddleAge"
 	
-	RNACountsFileName = "RNAseqfile_Tissue="+P.tissue+".csv"
-	pathwaygenes = {}
-	random_baseline = P.random_baseline
 	removing_outliers = P.removing_outliers
 	df_subjects = pd.DataFrame([])
 	df_RNA_seq = pd.DataFrame([])
 
 
-
 #*******************************************************************************
 #******************************* Functions *************************************
+#*******************************************************************************
+#This function was copied from https://stackoverflow.com/questions/41592661/determining-the-most-contributing-features-for-svm-classifier-in-sklearn
+def f_importances(coef, names):
+	imp = coef
+	imp,names = zip(*sorted(zip(imp,names)))
+	from matplotlib.pyplot import figure
+	figure(figsize=(6, 9), dpi=80)
+	plt.barh(range(len(names)), imp, align='center')
+	plt.yticks(range(len(names)), names, fontsize=8)
+	plt.savefig(P.experiment_name+'/Important_genes/'+P.GENE_SELECTION+"["+P.MODEL+"]"+'_FeatureImportances.pdf')
+	#plt.show()
+
 #*******************************************************************************
 def NameDescription_linking(df):
 	temp = {}
 	for key, value in df.iterrows():
 		temp[value[0]] = value[1]
-	
 	f = open("NameDescription.txt", 'w')
 	for key in temp:
 		f.writelines(str(key+"\t"+temp[key]+'\n'))
 	f.close()
-
 	return temp
-
 #*******************************************************************************
-
 #function that decides if this column contains a sample of interest and thus must be read
 def read_this_sample(index):
 	if index in dict_samples or index == "Name" or index == "Description":
 		return True
 	return False
-
 #*******************************************************************************
-
 #function that only reads and stores the columns of interest in a pandas dataframe
 def strip_data_file(filename, lambda_function, header, separator):
 	print("\nReading", filename ,"...")
@@ -99,9 +96,7 @@ def strip_data_file(filename, lambda_function, header, separator):
 		data = pd.read_csv(filename, header=header, usecols=(lambda x: lambda_function(x)), sep=separator) #'\t'
 	print('Reading complete')
 	return data
-
 #*******************************************************************************
-
 # This funcion is to link the Description to the Name column in the outputed normalized file from R
 def integrate_normalized_data(Normalized_and_selected_file_name): 
 	#df_normalized_data = GF.readfile("Genes_from_Papers/With MiddleAge/Normalized_genes_from_papers.txt", "\t", 0, "dataframe")
@@ -122,7 +117,6 @@ def integrate_normalized_data(Normalized_and_selected_file_name):
 	df_normalized_data = df_normalized_data[['Name', 'Description']+cols] #First "Name" then "Description" then the other columns
 	
 	return df_normalized_data
-
 #*******************************************************************************
 def log_adjustment(data):
 	ones = pd.DataFrame(int(1), index=data.index, columns=data.columns) #creating dataframe of right size filled with ones
@@ -131,7 +125,6 @@ def log_adjustment(data):
 	data = np.log2(data)
 	return data
 #*******************************************************************************
-
 #This function adds information about a suject to the dataframe
 def make_subject_row(info): #Make the row with subject data connected to each sample
 	temp_subjects = df_subjects[info.upper()].to_dict()
@@ -186,6 +179,7 @@ def machinelearning():
 	set_vars()
 	global df_subjects
 	global df_RNA_seq
+	global help_name
 	
 	#Reading SAMPLES dictionary and only selecting samples from a specific tissue
 	df_samples = strip_data_file("Source/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt", 0, 0, '\t')
@@ -205,7 +199,7 @@ def machinelearning():
 
 
 	#_________________________Creating a random baseline____________________________
-	if random_baseline: #fill the matrix with random numbers for machine learning baseline
+	if P.random_baseline: #fill the matrix with random numbers for machine learning baseline
 		x = df_RNA_seq.iloc[0:, 2:].shape[0] # x = number of rows 
 		y = df_RNA_seq.iloc[0:, 2:].shape[1] # y = number of columns
 		df_RNA_seq.iloc[0:,2:]  = pd.DataFrame(np.random.randint(1,28,size=(x, y))) #creating random dataframe with same size
@@ -347,13 +341,13 @@ def machinelearning():
 	print("<-> Starting modeling process for {}...".format(P.MODEL))
 
 	if P.METHOD == "Regression":
-		if P.MODEL == "Support Vector Machine":	clf = svm.SVR()
+		if P.MODEL == "Support Vector Machine":	clf = svm.SVR(kernel="linear")
 		elif P.MODEL == "RandomForest":					clf = RandomForestRegressor(n_estimators=15, max_depth=50, random_state=None) #, criterion='MSE', splitter='best')
 																					#clf = BaggingRegressor(rf, n_estimators=45, max_samples=0.1, random_state=25)
 		elif P.MODEL == "DecisionTree":					clf = DecisionTreeRegressor(random_state=None, max_depth=15) #, criterion='squared_error')
 
 	elif P.METHOD == "Classification":
-		if P.MODEL == "Support Vector Machine":	clf = svm.SVC()
+		if P.MODEL == "Support Vector Machine":	clf = svm.SVC(kernel='linear')
 		elif P.MODEL == "RandomForest":					clf = RandomForestClassifier(n_estimators=15, max_depth=50, random_state=None) #, criterion='MSE', splitter='best')
 		elif P.MODEL == "DecisionTree":					clf = DecisionTreeClassifier(criterion='entropy', max_depth=15, random_state=None)
 	
@@ -384,20 +378,23 @@ def machinelearning():
 		if y_test[i] == y_pred[i]: right += 1
 		else: wrong += 1
 	Accuracy = round(((right/(right+wrong))*100), 1)
-	print("\033[33m\033[1m<-> Accuracy:", Accuracy, '\a \033[0m')
+	print("\033[33m\033[1m<-> Accuracy:", Accuracy, ' \033[0m')
 
 	#---------------------------------------------------------------------------
 
 	#Writing LaTeX table
 	if P.WriteLaTeXTableforML:
+		if P.random_baseline: help_name= help_name.replace(help_name.split("_")[0], "RandomBaseline")
+		
+		
+		#input(help_name)
 		f = open(P.experiment_name+"/Machine_Learning_Results/"+P.MODEL+"/"+help_name+"_"+P.MODEL+"_ML_Results.txt", "w")
 		f.write(help_name+":") #write the first line
-	
 		f.write("\n\n"+"\subsection*{}\n".format("{"+P.METHOD+"}"))
 		f.write("\subsubsection*{}\n".format("{"+P.MODEL+"}"))
 
 		write_latex_line(["Dataset","AgeGroups", "Accuracy", "Precision", "Recall", "F1", "Occ.Pred", "Occ.real", "Correct"], True, f)
-
+		
 		#ages = ["Young", "Middle", "Old"]
 		if P.METHOD == "Classification": ages = ["Young", "Middle", "Old"]
 		if P.METHOD == "Regression": ages = [1,2,3]
@@ -473,51 +470,95 @@ def machinelearning():
 
 	################################################################################
 	########### EXTRACTING LIST OF MOST IMPORTANT GENES ############################
-	if P.MODEL != "Support Vector Machine":
-		importances = clf.feature_importances_ #creating a list with importance values for all the genes
 
+	if P.MODEL != "Support Vector Machine": importances = clf.feature_importances_ #creating a list with importance values for all the genes
+	else: importances = clf.coef_[0]
+	####### PLOTTING THE GENE IMPORTANCE FOR RANDOM FORREST #####################---
+	if P.MODEL == "RandomForest":
+		std = np.std([tree.feature_importances_ for tree in clf.estimators_], axis=0).tolist()
+		std.sort(reverse=True)
+		std2 = std[:50] #The 50 most imporatant genes
+		forest_importances = pd.Series(importances, index=df_RNA_seq.iloc[0:,1:].columns)
+		forest_importances = forest_importances.sort_values(ascending=False) #df.sort_values(by=['col1'])
+		forest_importances2 = forest_importances[:50] #The 50 most important genes
 
-		####### PLOTTING THE GENE IMPORTANCE FOR RANDOM FORREST #####################---
-		if P.MODEL == "RandomForest":
-			std = np.std([tree.feature_importances_ for tree in clf.estimators_], axis=0).tolist()
-			std.sort(reverse=True)
-			std2 = std[:50] #The 50 most imporatant genes
-			forest_importances = pd.Series(importances, index=df_RNA_seq.iloc[0:,1:].columns)
-			forest_importances = forest_importances.sort_values(ascending=False) #df.sort_values(by=['col1'])
-			forest_importances2 = forest_importances[:50] #The 50 most important genes
+		#Making a plot that shows the gene importance of the many decision trees together with random forest
+		"""
+		fig, ax = plt.subplots(figsize=(14,8))
+		forest_importances2.plot.bar(yerr=std2, ax=ax)
+		ax.set_title("Feature importances using MDI")
+		ax.set_ylabel("Mean decrease in impurity")
+		fig.tight_layout()
+		plt.rcParams["figure.figsize"] = (10,6)
+		plt.savefig(P.experiment_name+'/'+P.GENE_SELECTION+'_FeatureImportances.pdf')
+		#plt.show()
+		"""
 
-			#Making a plot that shows the gene importance of the many decision trees together with random forest
-			"""
-			fig, ax = plt.subplots(figsize=(14,8))
-			forest_importances2.plot.bar(yerr=std2, ax=ax)
-			ax.set_title("Feature importances using MDI")
-			ax.set_ylabel("Mean decrease in impurity")
-			fig.tight_layout()
-			plt.rcParams["figure.figsize"] = (10,6)
-			plt.savefig(P.experiment_name+'/'+P.GENE_SELECTION+'_FeatureImportances.pdf')
-			#plt.show()
-			"""
+	###########################################################################-----
 
-		###########################################################################-----
+	#@@@@@@@@@@@@@@@@@@
+	
+	#_____________________Selecting only the X best features______________________
+	feature_dict = {}
+	for feat, importance in zip(df_RNA_seq.iloc[0:,2:].columns, importances): #linking the genes and their importances together
+		feature_dict[feat] = importance #filling a dictionary with genes as keys and their importance as values
 
-		#@@@@@@@@@@@@@@@@@@
+	feature_dict = dict(sorted(feature_dict.items(), key=lambda item: item[1], reverse=True)) #Sorting the genes from important to not important
+	best_features = list(islice(feature_dict.items(), 50)) #take the best 80 genes
+	
+	#____________________Writing the genelist_____________________________________
+	if "Important_genes" not in os.listdir('./'+P.experiment_name):
+		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Important_genes"))
+	if P.GENE_SELECTION not in os.listdir('./'+P.experiment_name+"/Important_genes"):
+		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Important_genes/"+P.GENE_SELECTION))
+		
+	f = open("./"+P.experiment_name+"/Important_genes/"+P.GENE_SELECTION+"/ImportantGenes["+P.MODEL+"]["+P.GENE_SELECTION+"]", "w+")
+	for i in best_features:
+		f.write(i[0]+" "+str(i[1])+"\n")
+	f.close
+	
+	#_____________________Plotting the Feature importance_________________________
+	f_importances([x[1] for x in best_features], [x[0] for x in best_features]) #function for making a graph if gene importance, first argument is the importances, second arg is the featurenames
+	
+	#best_feat_list = [x[1] for x in best_features]
+	#best_gene_list = [x[0] for x in best_features] 
+	#print(best_gene_list)
+	
+	#print(best_feat_list)
+	#exit()
+	#best_feat_list = list(best_features.values())
 
-		feature_dict = {}
-		for feat, importance in zip(df_RNA_seq.iloc[0:,2:].columns, importances): #linking the genes and their importances together
-			feature_dict[feat] = importance #filling a diccccccccccccccccccccccccccccccccccccctionary with genes as keys and their importance as values
+	"""
+	plt.bar([x for x in best_gene_list], best_feat_list, width=1.0)
+	#plt.bar([x for x in range(len(feature_dict))], feature_dict)
+	plt.show()
+	exit("NOUNOU")
+	"""
 
-		feature_dict = dict(sorted(feature_dict.items(), key=lambda item: item[1], reverse=True)) #Sorting the genes from important to not important
-		best_features = list(islice(feature_dict.items(), 50)) #take the best 80 genes
+	"""
+	######################## PLOTTING THE DECISION TREE ############################
+	if P.MODEL == "DecisionTree":
+		fn = list(df_RNA_seq)
+		del fn[0]
+		cn = ["Young", "Middle", "Old"]
 
-		#Printing the list of most important genes
-		telly = 0
-		for i in best_features: #printing the best features
-			telly += 1
-			if (len(i[0])>6): print(telly,'. ',i[0], ':	', i[1])
-			else:	print(telly,'. ',i[0], ':		', i[1])
+		fig, axes = plt.subplots(nrows = 1,ncols = 1, dpi=500, figsize=(30,10))#,figsize = (30,28))
+		tree.plot_tree(clf,
+									feature_names = fn, 
+									class_names=cn,
+									#filled = True,
+									fontsize=3
+									)#;
 
+		fig.savefig(P.GENE_SELECTION+' DecisionTree.png')
+	#plt.figure(dpi=800) #,figsize=(10,10))  # set plot size (denoted in inches)
+	#tree.plot_tree(clf, fontsize=2, filled=True, feature_names = fn)
+	#plt.show()
 
+	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	"""
 
+	print('\a')
 	################ LINKING MOST IMPORANT GENES TO PATHWAYS #######################
 	#isabelle = {}
 	#for gek in best_features:
@@ -541,39 +582,6 @@ def machinelearning():
 	#print("&&&&&&&&&&&&&&&&&&&&&&&")
 
 	#exit(0)
-	#################################################################################
-	############ PLOTTING THE FEATURE IMPORTANCE ####################################
-
-	# plot feature importance
-	plt.bar([x for x in range(len(importances))], importances)
-	#plt.bar([x for x in range(len(feature_dict))], feature_dict)
-	plt.show()
-	exit("NOUNOU")
-	
-
-	######################## PLOTTING THE DECISION TREE ############################
-	if P.MODEL == "DecisionTree":
-		fn = list(df_RNA_seq)
-		del fn[0]
-		cn = ["Young", "Middle", "Old"]
-
-		fig, axes = plt.subplots(nrows = 1,ncols = 1, dpi=500, figsize=(30,10))#,figsize = (30,28))
-		tree.plot_tree(clf,
-									feature_names = fn, 
-									class_names=cn,
-									#filled = True,
-									fontsize=3
-									)#;
-
-		fig.savefig(P.GENE_SELECTION+' DecisionTree.png')
-	#plt.figure(dpi=800) #,figsize=(10,10))  # set plot size (denoted in inches)
-	#tree.plot_tree(clf, fontsize=2, filled=True, feature_names = fn)
-	#plt.show()
-
-	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-
-	print('\a')
 
 
 
