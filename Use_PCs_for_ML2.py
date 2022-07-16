@@ -205,17 +205,17 @@ def use_pcs_for_ml2():
 			(k, v) = line.split("\t")
 			if k != "": subjectinfo[k] = v[:-1]
 
-	df.insert(0, 'Agegroup', [subjectinfo[x] for x in subjectinfo.keys()]) #Adding the agegroup to the dataframe
+	df.insert(0, 'Agegroup', [subjectinfo[x] for x in subjectinfo.keys()]) #Adding the agegroup column to the dataframe
 	df.sort_values('Agegroup', axis='rows', inplace=True, ascending=False)
 	df = df.iloc[:, 0:2] #only keeping PC1 to work with
 	
 	print(df)
 	banaan = {}
 	banaan["appel"] = {}
-	banaan["appel"] = {"peer": 1}
-	banaan["appel"] = {"citroen": 2}
+	banaan["appel"]["peer"]=1
+	banaan["appel"] ["citroen"]=2
 	print(banaan["appel"])
-	exit()
+
 	
 	AgeRightWrong = {}
 	#young_correct = {}
@@ -226,39 +226,21 @@ def use_pcs_for_ml2():
 		#print(subject)
 		AgeRightWrong[subject] = {}
 		if df["Agegroup"][subject] == "Young (20-49)": 
-			AgeRightWrong[subject] = {"Agegroup": "Young (20-49)"}
-			if df["PC1"][subject] < 0: AgeRightWrong[subject] = {"inowngroup": True}#correctgroup = "right"
-			else: AgeRightWrong[subject] = {"inowngroup": False} #correctgroup = "wrong"
+			AgeRightWrong[subject]["Agegroup"] = "Young (20-49)"
+			if df["PC1"][subject] < 0: AgeRightWrong[subject]["inowngroup"]=True#correctgroup = "right"
+			else: AgeRightWrong[subject]["inowngroup"]=False#correctgroup = "wrong"
 
 		if df["Agegroup"][subject] == "Old (60-79)": 
-			AgeRightWrong[subject] = {"Agegroup": "Old (60-79)"}
-			if df["PC1"][subject] > 0: AgeRightWrong[subject] = {"inowngroup": True} #correctgroup = "right"
-			else: AgeRightWrong[subject] = {"inowngroup": False} #correctgroup = "wrong"
+			AgeRightWrong[subject]["Agegroup"]="Old (60-79)"
+			if df["PC1"][subject] > 0: AgeRightWrong[subject]["inowngroup"]=True #correctgroup = "right"
+			else: AgeRightWrong[subject]["inowngroup"]=False #correctgroup = "wrong"
 		#AgeRightWrong[subject] = correctgroup
 
+	#alleen voor testen⬇️
+	#for i in AgeRightWrong:
+	#	print(i, AgeRightWrong[i])
+	#	input()
 
-	for i in AgeRightWrong:
-		print(i, AgeRightWrong[i])
-		input()
-
-
-
-
-
-	exit()
-	exit()
-	
-	#Reading a metafile to dictionary so that we have info[age, sex, DTHHRDY] about the subjects
-	subjectinfo = {}
-	with open(P.experiment_name+"/Files_for_R/"+help_name+"_METADATA.txt") as f:
-		for line in f:
-			(k, v) = line.split("\t")
-			if k != "": subjectinfo[k] = v[:-1]
-
-	df.insert(0, 'Agegroup', [subjectinfo[x] for x in subjectinfo.keys()]) #Adding the agegroup to the dataframe
-	df.sort_values('Agegroup', axis='rows', inplace=True, ascending=False)
-	df = df.iloc[:, 0:2] #only keeping PC1 to work with
-	print(df)
 	
 	#Reading SAMPLES dictionary and only selecting samples from a specific tissue
 	df_samples = strip_data_file("Source/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt", 0, 0, '\t')
@@ -266,16 +248,15 @@ def use_pcs_for_ml2():
 	dict_samples = {lst_samples[i] for i in range(0, len(lst_samples), 1)} #list to dictionary
 
 	#Readig the subject information 
-	df_subjects = GF.readfile("Source/GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt", '\t', 0, "dataframe")
-	df_subjects.columns = ['SUBJID','SEX','AGE','DTHHRDY'] #MISSCHIEN WEGHALEN, LIJKT OVERBODIG
-	df_subjects = pd.DataFrame(df_subjects) #MISSCHIEN WEGHALEN, LIJKT OVERBODIG
-	df_subjects = df_subjects.set_index('SUBJID') #Setting subjectID as index-column
-	df_subjects.sort_values(by=['AGE','SEX'], inplace=True) #sort first by Age and then by Sex
+	#df_subjects = GF.readfile("Source/GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt", '\t', 0, "dataframe")
+	#df_subjects.columns = ['SUBJID','SEX','AGE','DTHHRDY'] #MISSCHIEN WEGHALEN, LIJKT OVERBODIG
+	#df_subjects = pd.DataFrame(df_subjects) #MISSCHIEN WEGHALEN, LIJKT OVERBODIG
+	#df_subjects = df_subjects.set_index('SUBJID') #Setting subjectID as index-column
+	#df_subjects.sort_values(by=['AGE','SEX'], inplace=True) #sort first by Age and then by Sex
 
 
 	#_______Reading the normalized files_________________________
 	df_RNA_seq = integrate_normalized_data(P.experiment_name+"/Files_from_R/"+help_name+"_NORMALIZED.txt")
-
 
 	#_________________________Creating a random baseline____________________________
 	if P.random_baseline: #fill the matrix with random numbers for machine learning baseline
@@ -286,6 +267,7 @@ def use_pcs_for_ml2():
 
 
 	#________Adding new rows with subject information_______________________________
+	"""
 	print(df_RNA_seq)
 	#Adding new rows with subject information
 	new_row = make_subject_row('sex')
@@ -297,15 +279,72 @@ def use_pcs_for_ml2():
 
 	df_RNA_seq = df_RNA_seq.set_index('Name')
 	print(df_RNA_seq)
+	"""
+	
+	
+	print(df)
+	print(df_RNA_seq)
+	
+	#_Finding significanly different expressionlevels between normal &outliers____
+	
+	#1. Add row Agegroup using the dictionary
+	AgeRightWrong["Name"]={"Agegroup":"Agegroup", "inowngroup":"Inowngroup"}
+	#AgeRightWrong["Description"]={"Agegroup":"-", "inowngroup":"-"}
+	df_RNA_seq = df_RNA_seq.drop(columns="Description")
+	df_RNA_seq.loc[0] = [AgeRightWrong[x]["Agegroup"] for x in df_RNA_seq.columns]
+	df_RNA_seq = df_RNA_seq.sort_index().reset_index(drop=True)
 
+	#2.Add row "inowngroup (True/False)"
+	df_RNA_seq.loc[1] = [AgeRightWrong[x]["inowngroup"] for x in df_RNA_seq.columns]
+	df_RNA_seq = df_RNA_seq.sort_index().reset_index(drop=True)
+	
+	print(df_RNA_seq)
 
+	#3. TODO sort on "inowngroup" row 
+	df_RNA_seq.set_index('Name', inplace=True) #Setting the Name column as index
+	df_RNA_seq.sort_values(by='Inowngroup', axis='columns', inplace=True, ascending=False)
+	
+	#4. TODO sort on this rows
+	df_RNA_seq.sort_values(by='Agegroup', axis='columns', inplace=True, ascending=False, kind='heapsort')
+	
+	for i in AgeRightWrong:
+		#print()
+		if AgeRightWrong[i]["Agegroup"] == "Old (60-79)" and AgeRightWrong[i]["inowngroup"] == False:
+			print(i)
+		
+	
+	#5. TODO split the dataframe in 1: YoungAgeGroup and 2: OldAgeGroup
+	YoungAgeGroup = pd.DataFrame([])
+	OldAgeGroup = pd.DataFrame([])
+	
+	
+	
+	exit()
+	
+	#6. TODO for eacht dataframe add the columns "sum" for inowngroup = True and False
+	
+	#7. TODO calculate the sums
+	
+	#8. TODO remove the other expression columns
+	
+	#9. TODO for each dataframe add the column "difference"
+	
+	#10. TODO for each dataframe calculate the difference between the sum expressionlevels and save in "difference"
+	
+	#11. TODO sort on difference
+	
+	#12. TODO look at the data and create a barplot with threshhold linear
+	
+	#13.TODO use the threshold line to make a list of genes that are down or upregulated in the two groups
+	
+	
+	
+	exit()
 
-
-
-
-
-
-	#############This code "cleans up" the data (optional ##########################
+	##############################################################################
+	######################## MACHINE LEARNING ####################################
+	##############################################################################
+	#############This code "cleans up" the data (optional ########################
 	if removing_outliers:
 		young_middlepoint = []
 		old_middlepoint = []
