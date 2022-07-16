@@ -307,18 +307,21 @@ def use_pcs_for_ml2():
 	#4. TODO sort on this rows
 	df_RNA_seq.sort_values(by='Agegroup', axis='columns', inplace=True, ascending=False, kind='heapsort')
 	
-	for i in AgeRightWrong:
+	#for i in AgeRightWrong:
 		#print()
-		if AgeRightWrong[i]["Agegroup"] == "Old (60-79)" and AgeRightWrong[i]["inowngroup"] == False:
-			print(i)
+		#if AgeRightWrong[i]["Agegroup"] == "Old (60-79)" and AgeRightWrong[i]["inowngroup"] == False:
+			#print(i)
 		
 	
 	#5. TODO split the dataframe in 1: YoungAgeGroup and 2: OldAgeGroup
 	YoungAgeGroup = pd.DataFrame([])
 	OldAgeGroup = pd.DataFrame([])
 	
-	
-	
+	print(df_RNA_seq)
+	YoungAgeGroup = df_RNA_seq.loc[:, df_RNA_seq.loc['Agegroup'] == 'Young (20-49)']
+	OldAgeGroup = df_RNA_seq.loc[:, df_RNA_seq.loc['Agegroup'] == 'Old (60-79)']
+	print(YoungAgeGroup)
+	print(OldAgeGroup)
 	exit()
 	
 	#6. TODO for eacht dataframe add the columns "sum" for inowngroup = True and False
