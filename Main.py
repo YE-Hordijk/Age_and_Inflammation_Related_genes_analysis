@@ -91,8 +91,6 @@ countsfilename, metafilename = calculate_filenames(P.use_middle_age, P.select_on
 # 2)-------------------------------------------------------------------------------
 setup_experiment(P.experiment_name)
 
-
-
 # 3)-------------------------------------------------------------------------------
 #Sending the parameters to extern script so that all scripts can use these parameters
 #for attr in vars(S):
@@ -104,17 +102,16 @@ setup_experiment(P.experiment_name)
 #tt.TEST("appel")
 #tt.TEST("peer")
 
-
-baseline_been = False
+"""
 for g in ["senescence", "searchwords","cell-age-signatures", "genes-from-papers", "all"]: #XXX
-	P.GENE_SELECTION = g
+	P.GENE_SELECTION = g #Setting the parameter
 	print(g, "-- ", P.GENE_SELECTION)
 	#input("apen?")
 	
-	"""
+	
 	#***CREATING A GENELIST****
 	if (P.select_on_genes):
-		print(st.GREEN, "\n*********** CREATE GENELIST **********", sgt.RST)
+		print(st.GREEN, "\n*********** CREATE GENELIST **********", st.RST)
 		import Create_genelist as CG
 		genedict = CG.create_genelist()
 		#subprocess.call ("/usr/bin/python3 Create_genelist.py "+arguments(P.update_files, P.GENE_SELECTION, shell=True)
@@ -127,12 +124,11 @@ for g in ["senescence", "searchwords","cell-age-signatures", "genes-from-papers"
 	Pr.preprocessing()
 
 	#****USING R******
-	countsfilename, metafilename = calculate_filenames(P.use_middle_age, True, g) #XXX
+	#countsfilename, metafilename = calculate_filenames(P.use_middle_age, True, g) #XXX
 	print(st.GREEN, "\n*********** NORMALIZING AND VISUALIZING WITH R **********", st.RST)
-	#subprocess.call ("/usr/bin/Rscript --vanilla Normalize_and_visualize.R "+arguments(countsfilename, metafilename, P.experiment_name), shell=True) #Arguments: 1)countfile, 2)metadate, 3)project name
-	import Machinelearning as MS
-	MS.machinelearning()
-	
+	subprocess.call ("/usr/bin/Rscript --vanilla Normalize_and_visualize.R "+arguments(countsfilename, metafilename, P.experiment_name), shell=True) #Arguments: 1)countfile, 2)metadate, 3)project name
+
+
 
 	for i in ["DecisionTree", "RandomForest", "Support Vector Machine"]: #XXX
 		#update_parameter("PredictionModel = "+i) #XXX
@@ -145,13 +141,13 @@ for g in ["senescence", "searchwords","cell-age-signatures", "genes-from-papers"
 		import Machinelearning as Ms
 		Ms.machinelearning()
 		print("terug van Machine Learning 😃️")
-	"""
+"""
 
 
 #****Extracting important genes from PCfiles and finding outliers
-print(st.GREEN, "\n*********** ExtractingPCs **********", st.RST)
-import ExtractingPCs as PCs
-PCs.extractingpcs()
+print(st.GREEN, "\n*********** Use PCs for MachineLearning2 **********", st.RST)
+import Use_PCs_for_ML2 as ML2
+ML2.use_pcs_for_ml2()
 #subprocess.call ("/usr/bin/python3 ExtractingPCs.py "+arguments(), shell=True)
 
 

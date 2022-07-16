@@ -124,6 +124,11 @@ ggsave(PCAplotName)
 pcs <- prcomp(t(norm.data)) 
 df <- as.data.frame(pcs$x) #Here you have your data
 
+#summary(pcs)
+#PCAAnalysis$x
+#newdat<-pcs$x[,1:2]
+#newdat
+
 
 newFileName = paste(substr(genecounts, 0,nchar(genecounts) - 16), "PCs.txt", sep="")
 NEWFILENAME <- paste("Files_from_R/",newFileName, sep="")
@@ -160,6 +165,7 @@ write.table(df,
 
 
 #__________________________Making the heatmap___________________________________
+head(row.names(countTable))
 
 select <- order(rowMeans(counts(count.data.set.object,normalized=TRUE)), decreasing=TRUE)[1:20]
 df <- as.data.frame(colData(count.data.set.object)[,c("age")])
@@ -167,31 +173,43 @@ df <- as.data.frame(colData(count.data.set.object)[,c("age")])
 
 #colnames(mat) <- str_sub(colnames(count.data.set.object))
 rownames(df) <- colnames(count.data.set.object)
-#head(rownames)
+colnames(df) <- "Agegroups"
+
 
 #making an array
 cdsd = assay(count.data.set.object)
 ntd <- normTransform(count.data.set.object, f=log2, pc=1)
 banaan = assay(ntd)
+rownames(banaan) <- row.names(countTable)
 
 
 #getwd()
 cat("Creating and saving heatmap...")
-newFileName = paste(substr(genecounts, 0,nchar(genecounts) - 16), "Heatmap.png", sep="")
+newFileName = paste(substr(genecounts, 0,nchar(genecounts) - 16), "Heatmap.pdf", sep="")
 w = HEATMAP = pheatmap(banaan,
                    cluster_rows=TRUE, 
-                   show_rownames=FALSE, 
+                   show_rownames=FALSE, #TRUE, 
                    show_colnames=FALSE,
                    show_row_dend = FALSE,
                    cluster_cols=TRUE, 
                    annotation_col=df,
                    clustering_method = "complete",
                    clustering_distance_cols = "euclidean",
-                   file = newFileName
+                   file = newFileName,
+                   #fontsize_row = 1.4,
+                   #cutree_rows = 20
+                   #hight = 5000,
+                   #width = 10
 )
+#for getting cluseters
+#cl = cutree(w$tree_row,20)
+#ann = data.frame(cl)
+##rownames(ann) = rownames(banaan)
+#ann
 
-#IF YOU WANT A WIDER PLOT, USE THE CODE UNDERNEATH
-#png(file="bananen.png", width=800)
+
+#IF YOU WANT A WIDER PLOT, USE THE CODE UNDERNEATH (https://stackoverflow.com/questions/65332430/pull-out-genes-observations-from-cutree-rows-groups-in-pheatmap)
+#png(file="bananenXX.png", res=300, width=100, height=100)
 #HEATMAP
 #invisible(dev.off())
 cat("COMPLETED\n")
