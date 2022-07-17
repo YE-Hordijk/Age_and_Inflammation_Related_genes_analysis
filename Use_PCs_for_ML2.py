@@ -168,7 +168,36 @@ def write_latex_line(w, bold, f):
 			else:			f.write("\n")
 		else: f.write(" & ")
 
+#*******************************************************************************
+def barplot_expressiondifference(Genes, ExpressionDifference, Agegroup, Threshold):
+	plt.rcParams["figure.figsize"] = [10, 8]
+	plt.rcParams["figure.autolayout"] = True
+	plt.bar(Genes, ExpressionDifference)
+	plt.title('Expression difference between normal '+Agegroup+' and outlier '+Agegroup+'\n (Negative values mean the normal group is downregulated compared to the ourlier group)')
+	plt.xlabel('Genes in dataset \''+P.GENE_SELECTION+"\'")
+	plt.ylabel('Expression difference')
+	
+	#plt.xticks(rotation=90, fontsize=2)#ticks=None, labels=None)
+	plt.tick_params( #removing the xticks (https://stackoverflow.com/questions/12998430/remove-xticks-in-a-matplotlib-plot)
+		axis='x',          # changes apply to the x-axis
+		which='both',      # both major and minor ticks are affected
+		bottom=False,      # ticks along the bottom edge are off
+		top=False,         # ticks along the top edge are off
+		labelbottom=False) # labels along the bottom edge are off
+	plt.xticks(ticks=None, labels=None)
+	plt.axhline(y=Threshold, color='green')
+	plt.axhline(y=-Threshold, color='green')
+	plt.axhline(y=0, color='k')
 
+	ticklist = list(range(math.floor(min(ExpressionDifference)), math.ceil(max(ExpressionDifference))))
+	for i in ticklist: 
+		if i > 0 and i == round(Threshold, 1): ticklist.remove(i)
+		elif i < 0 and i == round((-1*Threshold), 1): ticklist.remove(i)
+	plt.yticks(ticklist + [Threshold, (-1*Threshold)])
+	plt.savefig(P.experiment_name+"/Compare_outliers/"+P.GENE_SELECTION+"_"+Agegroup+".png")
+	#plt.show()
+	plt.clf()
+	
 ################################################################################
 #******************************************************************************#
 #******************************************************************************#
@@ -285,62 +314,159 @@ def use_pcs_for_ml2():
 	print(df)
 	print(df_RNA_seq)
 	
-	#_Finding significanly different expressionlevels between normal &outliers____
+
 	
+	df_RNA_seq_copy = df_RNA_seq
+	
+	
+	#______________Finding expressiondifference between normal &outliers__________
+
 	#1. Add row Agegroup using the dictionary
 	AgeRightWrong["Name"]={"Agegroup":"Agegroup", "inowngroup":"Inowngroup"}
 	#AgeRightWrong["Description"]={"Agegroup":"-", "inowngroup":"-"}
-	df_RNA_seq = df_RNA_seq.drop(columns="Description")
-	df_RNA_seq.loc[0] = [AgeRightWrong[x]["Agegroup"] for x in df_RNA_seq.columns]
-	df_RNA_seq = df_RNA_seq.sort_index().reset_index(drop=True)
+	df_RNA_seq_copy = df_RNA_seq_copy.drop(columns="Description")
+	df_RNA_seq_copy.loc[-0.5] = [AgeRightWrong[x]["Agegroup"] for x in df_RNA_seq_copy.columns]
+
 
 	#2.Add row "inowngroup (True/False)"
-	df_RNA_seq.loc[1] = [AgeRightWrong[x]["inowngroup"] for x in df_RNA_seq.columns]
-	df_RNA_seq = df_RNA_seq.sort_index().reset_index(drop=True)
-	
-	print(df_RNA_seq)
+	df_RNA_seq_copy.loc[-0.2] = [AgeRightWrong[x]["inowngroup"] for x in df_RNA_seq_copy.columns]
+	df_RNA_seq_copy = df_RNA_seq_copy.sort_index().reset_index(drop=True)
+
 
 	#3. TODO sort on "inowngroup" row 
-	df_RNA_seq.set_index('Name', inplace=True) #Setting the Name column as index
-	df_RNA_seq.sort_values(by='Inowngroup', axis='columns', inplace=True, ascending=False)
+	df_RNA_seq_copy.set_index('Name', inplace=True) #Setting the Name column as index
+	"""
+	df_RNA_seq_copy.sort_values(by='Inowngroup', axis='columns', inplace=True, ascending=False)
 	
 	#4. TODO sort on this rows
-	df_RNA_seq.sort_values(by='Agegroup', axis='columns', inplace=True, ascending=False, kind='heapsort')
+	df_RNA_seq_copy.sort_values(by='Agegroup', axis='columns', inplace=True, ascending=False, kind='heapsort')
 	
 	#for i in AgeRightWrong:
 		#print()
 		#if AgeRightWrong[i]["Agegroup"] == "Old (60-79)" and AgeRightWrong[i]["inowngroup"] == False:
 			#print(i)
-		
+	"""
 	
-	#5. TODO split the dataframe in 1: YoungAgeGroup and 2: OldAgeGroup
+	
+	#5. Split the dataframe in 1: YoungAgeGroup and 2: OldAgeGroup
 	YoungAgeGroup = pd.DataFrame([])
 	OldAgeGroup = pd.DataFrame([])
+	YoungAgeGroup = df_RNA_seq_copy.loc[:, df_RNA_seq_copy.loc['Agegroup'] == 'Young (20-49)']
+	OldAgeGroup = df_RNA_seq_copy.loc[:, df_RNA_seq_copy.loc['Agegroup'] == 'Old (60-79)']
 	
-	print(df_RNA_seq)
-	YoungAgeGroup = df_RNA_seq.loc[:, df_RNA_seq.loc['Agegroup'] == 'Young (20-49)']
-	OldAgeGroup = df_RNA_seq.loc[:, df_RNA_seq.loc['Agegroup'] == 'Old (60-79)']
 	print(YoungAgeGroup)
 	print(OldAgeGroup)
-	exit()
+
 	
-	#6. TODO for eacht dataframe add the columns "sum" for inowngroup = True and False
+	#6. For each dataframe add the columns "sum" for inowngroup = True and False
+	
+	pd.options.mode.chained_assignment = None  # default='warn'
+	"""
+	YoungAgeGroup["SumNormal"] = 0
+	YoungAgeGroup["SumInWrongGroup"] = 0
+	OldAgeGroup["SumNormal"] = 0
+	OldAgeGroup["SumInWrongGroup"] = 0
+	"""
+	
 	
 	#7. TODO calculate the sums
 	
-	#8. TODO remove the other expression columns
 	
-	#9. TODO for each dataframe add the column "difference"
+	#Calculating the sums
+
+	YoungAgeGroup['SumNormal'] = YoungAgeGroup.iloc[2:, :].loc[:, (YoungAgeGroup.loc['Inowngroup'] == True)].sum(axis=1)
+	YoungAgeGroup['SumInWrongGroup'] = YoungAgeGroup.iloc[2:, :].loc[:, (YoungAgeGroup.loc['Inowngroup'] == False)].sum(axis=1)
 	
-	#10. TODO for each dataframe calculate the difference between the sum expressionlevels and save in "difference"
+	OldAgeGroup['SumNormal'] = OldAgeGroup.iloc[2:, :].loc[:, (OldAgeGroup.loc['Inowngroup'] == True)].sum(axis=1)
+	OldAgeGroup['SumInWrongGroup'] = OldAgeGroup.iloc[2:, :].loc[:, (OldAgeGroup.loc['Inowngroup'] == False)].sum(axis=1)
+	
+	
+
+	
+	print("Number of Young samples that are in the correct agegroup: ",YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == True)].shape[1])
+	print("Number of Young samples that are in the wrong agegroup: ",YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == False)].shape[1])
+	print("Number of Old samples that are in the correct agegroup: ",OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == True)].shape[1])
+	print("Number of Old samples that are in the wrong agegroup: ",OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == False)].shape[1])
+	
+	#Calculating the mean of the sums
+	YoungAgeGroup['MeanNormal'] = YoungAgeGroup["SumNormal"].iloc[2:]/YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == True)].shape[1]
+	YoungAgeGroup['MeanInWrongGroup'] = YoungAgeGroup["SumInWrongGroup"].iloc[2:]/YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == False)].shape[1]
+
+	OldAgeGroup['MeanNormal'] = OldAgeGroup["SumNormal"].iloc[2:]/OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == True)].shape[1]
+	OldAgeGroup['MeanInWrongGroup'] = OldAgeGroup["SumInWrongGroup"].iloc[2:]/OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == False)].shape[1]
+
+	
+	print(OldAgeGroup)
+	pd.options.mode.chained_assignment = 'warn'  # default='warn'
+
+	"""
+	df = pd.DataFrame(np.random.randn(5,5), columns=list('ABCDE'))
+	#df["SumNormal"] = 0
+	df["Name"] = ["Agegroup", "Inowngroup", "gert", "katara", "sokka"]
+	df.set_index('Name', inplace=True) #Setting the Name column as index
+	print(df)
+	print(df.loc['Inowngroup'])
+	df.loc['Agegroup'] = ["Young", "Young", "Young", "Young","Young"]
+	df.loc['Inowngroup'] = [False, True, False, False, True]
+	#print(df["A"])
+	print(df.loc['Inowngroup'] > 1)
+	simp = df.loc['Inowngroup'] > 1
+	#exit()
+	
+	#df['SumNormal'] = df.loc[df['A'] > 0,['A','B']].sum(axis=1)
+	#df['SumNormal'] = df.loc[df.loc['Inowngroup'] > 1].sum(axis=1)
+	df['SumNormal'] = df.iloc[2:, :].loc[:, (df.loc['Inowngroup'] == True)].sum(axis=1)
+	print(df) 
+	exit()
+	"""
+
+
+	#8. Remove the other expression columns
+	YoungAgeGroup = YoungAgeGroup.loc[:, ['MeanNormal', 'MeanInWrongGroup']]
+	OldAgeGroup = OldAgeGroup.loc[:, ['MeanNormal', 'MeanInWrongGroup']]
+	
+	#9. For each dataframe add the column "difference"
+	YoungAgeGroup["Difference"] = YoungAgeGroup.loc[:, 'MeanNormal'] - YoungAgeGroup.loc[:, 'MeanInWrongGroup']
+	OldAgeGroup["Difference"] = OldAgeGroup.loc[:, 'MeanNormal'] - OldAgeGroup.loc[:, 'MeanInWrongGroup']
+	
+	#10. Add the genedescription again
+	YoungAgeGroup.insert(0, 'Description', ["-", "-"] + list(df_RNA_seq['Description'])) #Adding the agegroup column to the dataframe
+	OldAgeGroup.insert(0, 'Description', ["-", "-"] + list(df_RNA_seq['Description'])) #Adding the agegroup column to the dataframe
+	
 	
 	#11. TODO sort on difference
+	YoungAgeGroup.iloc[2:, :] = YoungAgeGroup.iloc[2:, :].sort_values('Difference', ascending=False, key=abs)
+	OldAgeGroup.iloc[2:, :] = OldAgeGroup.iloc[2:, :].sort_values('Difference', ascending=False, key=abs)
+	#OldAgeGroup.iloc[2:, :] = OldAgeGroup.iloc[2:, :]['Difference'].abs().sort_values(ascending=False)
 	
-	#12. TODO look at the data and create a barplot with threshhold linear
 	
 	#13.TODO use the threshold line to make a list of genes that are down or upregulated in the two groups
+	print(YoungAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]])
+	YoungThreshold = YoungAgeGroup.iloc[(P.NrFoundRelevantGenes+1), 3]
+	OldThreshold = OldAgeGroup.iloc[(P.NrFoundRelevantGenes+1), 3]
+	
+
+	
+	# TODO writin gmost important genes to filename
+	if "Compare_outliers" not in os.listdir(P.experiment_name): #Making a folder for the machinelearning results
+		os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers"))
+
+	if "Outlier_determining_genes" not in os.listdir(P.experiment_name+"/Compare_outliers"): #Making a folder for the machinelearning results
+		os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_determining_genes"))
 	
 	
+	#12. Creating a barplot with threshold line
+	# Barplot for YoungAgeGroup	
+	Genes = list(YoungAgeGroup.iloc[2:, 0]) #Selecting the ' Description' column with the gene names
+	ExpressionDifference = list(YoungAgeGroup.iloc[2:, 3])
+	barplot_expressiondifference(Genes, ExpressionDifference, "Young", YoungThreshold)
+	
+	# Barplot for Old
+	Genes = list(OldAgeGroup.iloc[2:, 0]) #Selecting the ' Description' column with the gene names
+	ExpressionDifference = list(OldAgeGroup.iloc[2:, 3])
+	barplot_expressiondifference(Genes, ExpressionDifference, "Old", OldThreshold)
+
+
 	
 	exit()
 
@@ -598,10 +724,10 @@ def use_pcs_for_ml2():
 	if P.MODEL == "RandomForest":
 		std = np.std([tree.feature_importances_ for tree in clf.estimators_], axis=0).tolist()
 		std.sort(reverse=True)
-		std2 = std[:50] #The 50 most imporatant genes
+		std2 = std[:P.NrFoundRelevantGenes] #The 50 most imporatant genes
 		forest_importances = pd.Series(importances, index=df_RNA_seq.iloc[0:,1:].columns)
 		forest_importances = forest_importances.sort_values(ascending=False) #df.sort_values(by=['col1'])
-		forest_importances2 = forest_importances[:50] #The 50 most important genes
+		forest_importances2 = forest_importances[:P.NrFoundRelevantGenes] #The 50 most important genes
 
 		#Making a plot that shows the gene importance of the many decision trees together with random forest
 		"""
@@ -625,7 +751,7 @@ def use_pcs_for_ml2():
 		feature_dict[feat] = importance #filling a dictionary with genes as keys and their importance as values
 
 	feature_dict = dict(sorted(feature_dict.items(), key=lambda item: item[1], reverse=True)) #Sorting the genes from important to not important
-	best_features = list(islice(feature_dict.items(), 50)) #take the best 80 genes
+	best_features = list(islice(feature_dict.items(), P.NrFoundRelevantGenes)) #take the best Nr genes
 	
 	#____________________Writing the genelist_____________________________________
 	if "Important_genes" not in os.listdir('./'+P.experiment_name):

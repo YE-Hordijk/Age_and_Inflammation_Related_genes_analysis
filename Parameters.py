@@ -16,4 +16,5 @@ class P:
 	MODEL = "RandomForest"#"DecisionTree"#"RandomForest" #"DecisionTree" #"Support Vector Machine"
 	METHOD = "Classification" #"Regression"
 	WriteLaTeXTableforML = True
+	NrFoundRelevantGenes = 50
 
