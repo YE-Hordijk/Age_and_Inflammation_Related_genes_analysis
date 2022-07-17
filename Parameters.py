@@ -13,7 +13,7 @@ class P:
 	#For machinelearning
 	random_baseline = False
 	removing_outliers = False #True
-	MODEL = "RandomForest"#"DecisionTree"#"RandomForest" #"DecisionTree" #"Support Vector Machine"
+	MODEL = "DecisionTree" #"RandomForest"#"DecisionTree"#"RandomForest" #"DecisionTree" #"Support Vector Machine"
 	METHOD = "Classification" #"Regression"
 	WriteLaTeXTableforML = True
 	NrFoundRelevantGenes = 50

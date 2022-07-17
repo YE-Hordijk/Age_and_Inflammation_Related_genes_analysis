@@ -12,6 +12,7 @@ from Parameters import P
 #*******************************************************************************
 #******************************** FUNCTIONS ************************************
 #*******************************************************************************
+"""
 def update_parameter(par):
 	#Giving a string quotationmarks
 	if not (par.split(" = ")[1] in ["False", "True"]) and not isinstance(par.split(" = ")[1], int) and not par.split(" = ")[1].startswith(("{", "[")):
@@ -30,6 +31,7 @@ def update_parameter(par):
 		f.write(par+"\n")
 	f.truncate()
 	f.close
+"""
 #*******************************************************************************
 def arguments(*Args):
 	temp = ""

@@ -316,145 +316,83 @@ def use_pcs_for_ml2():
 	
 
 	
-	df_RNA_seq_copy = df_RNA_seq
+	df_RNA_seq_copy = df_RNA_seq.copy()
 	
 	
 	#______________Finding expressiondifference between normal &outliers__________
 
 	#1. Add row Agegroup using the dictionary
 	AgeRightWrong["Name"]={"Agegroup":"Agegroup", "inowngroup":"Inowngroup"}
-	#AgeRightWrong["Description"]={"Agegroup":"-", "inowngroup":"-"}
 	df_RNA_seq_copy = df_RNA_seq_copy.drop(columns="Description")
 	df_RNA_seq_copy.loc[-0.5] = [AgeRightWrong[x]["Agegroup"] for x in df_RNA_seq_copy.columns]
-
-
+	
 	#2.Add row "inowngroup (True/False)"
 	df_RNA_seq_copy.loc[-0.2] = [AgeRightWrong[x]["inowngroup"] for x in df_RNA_seq_copy.columns]
 	df_RNA_seq_copy = df_RNA_seq_copy.sort_index().reset_index(drop=True)
-
-
-	#3. TODO sort on "inowngroup" row 
 	df_RNA_seq_copy.set_index('Name', inplace=True) #Setting the Name column as index
-	"""
-	df_RNA_seq_copy.sort_values(by='Inowngroup', axis='columns', inplace=True, ascending=False)
-	
-	#4. TODO sort on this rows
-	df_RNA_seq_copy.sort_values(by='Agegroup', axis='columns', inplace=True, ascending=False, kind='heapsort')
-	
-	#for i in AgeRightWrong:
-		#print()
-		#if AgeRightWrong[i]["Agegroup"] == "Old (60-79)" and AgeRightWrong[i]["inowngroup"] == False:
-			#print(i)
-	"""
-	
-	
-	#5. Split the dataframe in 1: YoungAgeGroup and 2: OldAgeGroup
-	YoungAgeGroup = pd.DataFrame([])
-	OldAgeGroup = pd.DataFrame([])
-	YoungAgeGroup = df_RNA_seq_copy.loc[:, df_RNA_seq_copy.loc['Agegroup'] == 'Young (20-49)']
-	OldAgeGroup = df_RNA_seq_copy.loc[:, df_RNA_seq_copy.loc['Agegroup'] == 'Old (60-79)']
-	
-	print(YoungAgeGroup)
-	print(OldAgeGroup)
 
-	
-	#6. For each dataframe add the columns "sum" for inowngroup = True and False
-	
-	pd.options.mode.chained_assignment = None  # default='warn'
-	"""
-	YoungAgeGroup["SumNormal"] = 0
-	YoungAgeGroup["SumInWrongGroup"] = 0
-	OldAgeGroup["SumNormal"] = 0
-	OldAgeGroup["SumInWrongGroup"] = 0
-	"""
-	
-	
-	#7. TODO calculate the sums
-	
-	
-	#Calculating the sums
+	#3. Split the dataframe in 1: YoungAgeGroup and 2: OldAgeGroup
+	#YoungAgeGroup = pd.DataFrame([])
+	#OldAgeGroup = pd.DataFrame([])
+	YoungAgeGroup = df_RNA_seq_copy.loc[:, df_RNA_seq_copy.loc['Agegroup'] == 'Young (20-49)'].copy()
+	OldAgeGroup = df_RNA_seq_copy.loc[:, df_RNA_seq_copy.loc['Agegroup'] == 'Old (60-79)'].copy()
 
+	#making a copy that can later be used for machinelearning
+	copyYoungAgeGroup = YoungAgeGroup.copy()
+	copyOldAgeGroup = OldAgeGroup.copy()
+	
+
+	#4. Calculating the sums
+	#pd.options.mode.chained_assignment = None  # default='warn' #TURNING OFF WANRINGS
 	YoungAgeGroup['SumNormal'] = YoungAgeGroup.iloc[2:, :].loc[:, (YoungAgeGroup.loc['Inowngroup'] == True)].sum(axis=1)
 	YoungAgeGroup['SumInWrongGroup'] = YoungAgeGroup.iloc[2:, :].loc[:, (YoungAgeGroup.loc['Inowngroup'] == False)].sum(axis=1)
-	
 	OldAgeGroup['SumNormal'] = OldAgeGroup.iloc[2:, :].loc[:, (OldAgeGroup.loc['Inowngroup'] == True)].sum(axis=1)
 	OldAgeGroup['SumInWrongGroup'] = OldAgeGroup.iloc[2:, :].loc[:, (OldAgeGroup.loc['Inowngroup'] == False)].sum(axis=1)
-	
-	
 
-	
 	print("Number of Young samples that are in the correct agegroup: ",YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == True)].shape[1])
 	print("Number of Young samples that are in the wrong agegroup: ",YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == False)].shape[1])
 	print("Number of Old samples that are in the correct agegroup: ",OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == True)].shape[1])
 	print("Number of Old samples that are in the wrong agegroup: ",OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == False)].shape[1])
 	
-	#Calculating the mean of the sums
+	#5. Calculating the mean of the sums
 	YoungAgeGroup['MeanNormal'] = YoungAgeGroup["SumNormal"].iloc[2:]/YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == True)].shape[1]
 	YoungAgeGroup['MeanInWrongGroup'] = YoungAgeGroup["SumInWrongGroup"].iloc[2:]/YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == False)].shape[1]
-
 	OldAgeGroup['MeanNormal'] = OldAgeGroup["SumNormal"].iloc[2:]/OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == True)].shape[1]
 	OldAgeGroup['MeanInWrongGroup'] = OldAgeGroup["SumInWrongGroup"].iloc[2:]/OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == False)].shape[1]
-
 	
-	print(OldAgeGroup)
-	pd.options.mode.chained_assignment = 'warn'  # default='warn'
 
-	"""
-	df = pd.DataFrame(np.random.randn(5,5), columns=list('ABCDE'))
-	#df["SumNormal"] = 0
-	df["Name"] = ["Agegroup", "Inowngroup", "gert", "katara", "sokka"]
-	df.set_index('Name', inplace=True) #Setting the Name column as index
-	print(df)
-	print(df.loc['Inowngroup'])
-	df.loc['Agegroup'] = ["Young", "Young", "Young", "Young","Young"]
-	df.loc['Inowngroup'] = [False, True, False, False, True]
-	#print(df["A"])
-	print(df.loc['Inowngroup'] > 1)
-	simp = df.loc['Inowngroup'] > 1
-	#exit()
-	
-	#df['SumNormal'] = df.loc[df['A'] > 0,['A','B']].sum(axis=1)
-	#df['SumNormal'] = df.loc[df.loc['Inowngroup'] > 1].sum(axis=1)
-	df['SumNormal'] = df.iloc[2:, :].loc[:, (df.loc['Inowngroup'] == True)].sum(axis=1)
-	print(df) 
-	exit()
-	"""
+	pd.options.mode.chained_assignment = 'warn'  # default='warn' #TURNING ON WARNINGS
 
-
-	#8. Remove the other expression columns
+	#6. Remove the other expression columns
 	YoungAgeGroup = YoungAgeGroup.loc[:, ['MeanNormal', 'MeanInWrongGroup']]
 	OldAgeGroup = OldAgeGroup.loc[:, ['MeanNormal', 'MeanInWrongGroup']]
-	
-	#9. For each dataframe add the column "difference"
+
+	#7. For each dataframe add the column "difference"
 	YoungAgeGroup["Difference"] = YoungAgeGroup.loc[:, 'MeanNormal'] - YoungAgeGroup.loc[:, 'MeanInWrongGroup']
 	OldAgeGroup["Difference"] = OldAgeGroup.loc[:, 'MeanNormal'] - OldAgeGroup.loc[:, 'MeanInWrongGroup']
-	
-	#10. Add the genedescription again
+
+	#8. Add the gene description again
 	YoungAgeGroup.insert(0, 'Description', ["-", "-"] + list(df_RNA_seq['Description'])) #Adding the agegroup column to the dataframe
 	OldAgeGroup.insert(0, 'Description', ["-", "-"] + list(df_RNA_seq['Description'])) #Adding the agegroup column to the dataframe
-	
-	
-	#11. TODO sort on difference
+
+	#9. Sort on difference
 	YoungAgeGroup.iloc[2:, :] = YoungAgeGroup.iloc[2:, :].sort_values('Difference', ascending=False, key=abs)
 	OldAgeGroup.iloc[2:, :] = OldAgeGroup.iloc[2:, :].sort_values('Difference', ascending=False, key=abs)
 	#OldAgeGroup.iloc[2:, :] = OldAgeGroup.iloc[2:, :]['Difference'].abs().sort_values(ascending=False)
-	
-	
-	#13.TODO use the threshold line to make a list of genes that are down or upregulated in the two groups
-	print(YoungAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]])
+
+	#10. uUe the threshold line to make a list of genes that are down or upregulated in the two groups
+	#print(YoungAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]])
 	YoungThreshold = YoungAgeGroup.iloc[(P.NrFoundRelevantGenes+1), 3]
 	OldThreshold = OldAgeGroup.iloc[(P.NrFoundRelevantGenes+1), 3]
-	
 
-	
-	# TODO writin gmost important genes to filename
+	# 11. Writing most important genes to filename
 	if "Compare_outliers" not in os.listdir(P.experiment_name): #Making a folder for the machinelearning results
 		os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers"))
-
 	if "Outlier_determining_genes" not in os.listdir(P.experiment_name+"/Compare_outliers"): #Making a folder for the machinelearning results
 		os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_determining_genes"))
-	
-	
+	YoungAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), 0].to_csv(P.experiment_name+"/Compare_outliers/Outlier_determining_genes/Young_"+P.GENE_SELECTION+"_Outlier_determining_genes.txt", index=False, header=False)
+	OldAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), 0].to_csv(P.experiment_name+"/Compare_outliers/Outlier_determining_genes/Old_"+P.GENE_SELECTION+"_Outlier_determining_genes.txt", index=False, header=False)
+
 	#12. Creating a barplot with threshold line
 	# Barplot for YoungAgeGroup	
 	Genes = list(YoungAgeGroup.iloc[2:, 0]) #Selecting the ' Description' column with the gene names
@@ -467,254 +405,227 @@ def use_pcs_for_ml2():
 	barplot_expressiondifference(Genes, ExpressionDifference, "Old", OldThreshold)
 
 
-	
-	exit()
 
 	##############################################################################
 	######################## MACHINE LEARNING ####################################
 	##############################################################################
-	#############This code "cleans up" the data (optional ########################
-	if removing_outliers:
-		young_middlepoint = []
-		old_middlepoint = []
-		young_num = 0
-		old_num = 0
-
-
-		#TODO 2) Calculating euclidian middle for "young" and "old"
-		for i in df_RNA_seq.iloc[0:, 1:]: #looping over dataframe without the column "Descriptions"
-			expr_List = df_RNA_seq[i].values[3:].tolist() #Making a list with of expressionlevels of all the genes for one sample
-			if df_RNA_seq[i]['Subject age'] < "50-59": #this subject is young
-				young_num += 1 #counting the number of young samples
-				if (len(young_middlepoint) == 0): young_middlepoint = expr_List #first time
-				else: young_middlepoint = np.add(young_middlepoint, expr_List) #add expression levels to the "young-list"
-			elif df_RNA_seq[i]['Subject age'] > "50-59": #this subject is old
-				old_num += 1 #counting the number of old samples
-				if (len(old_middlepoint) == 0): old_middlepoint = expr_List #first time
-				else: old_middlepoint = np.add(old_middlepoint, expr_List) #add expression levels to the "old-list"
-
-		young_middlepoint = [counts / young_num for counts in young_middlepoint] #deviding all expressionlevels by number of counts creating the mean for every gene
-		old_middlepoint = [counts / old_num for counts in old_middlepoint] ##deviding all expressionlevels by number of counts creating the mean for every gene
-
-		#print(young_middlepoint[:7], "...")
-		#print(old_middlepoint[:7], "...")
-		#for i in range(len(young_middlepoint)):
-		#	if ((young_middlepoint[i] - old_middlepoint[i]) > 1):
-		#		print(young_middlepoint[i], " ", old_middlepoint[i])
-
-		# 3) looping over instances and compare to which middle they are closer, if closer to the wrong middle remove them
-		dist_to_young = 0
-		dist_to_old = 0
-		temp_new_data = {}
-		temp_new_data['Description'] = df_RNA_seq['Description']
-		outliers = {}
-		outliers["Description"] = df_RNA_seq["Description"]
-
-
-		for i in df_RNA_seq.iloc[0:, 1:]: #looping over dataframe without the column "Descriptions"
-			expr_List = df_RNA_seq[i].values[3:].tolist() #Making a list with of expressionlevels of all the genes for one sample
-			dist_to_young = np.linalg.norm(np.array(expr_List)-np.array(young_middlepoint)) # calculate dist_to_young
-			dist_to_old = np.linalg.norm(np.array(expr_List)-np.array(old_middlepoint)) #calculate dist_to_old
-			if (df_RNA_seq[i]['Subject age'] < "50-59") and not (dist_to_young > dist_to_old): #this subject is young and does not lie closer to old-middle
-				temp_new_data[i] = df_RNA_seq[i] 		#i is not een outlier, so copy to temp_new_data
-			elif df_RNA_seq[i]['Subject age'] > "50-59" and not (dist_to_young < dist_to_old): #this subject is old and does not lie closer to young-middle
-				temp_new_data[i] = df_RNA_seq[i] #i is not een outlier, so copy to temp_new_data
-			else: #dit is wel een outlier
-				outliers[i] = df_RNA_seq[i] #wordt opgeslagen in een outlier bestand
-				
-		df_RNA_seq = pd.DataFrame.from_dict(temp_new_data) #, orient='index')
-		df_outliers = pd.DataFrame.from_dict(outliers) #, orient='index')
-
-		#Result
-		print(P.GENE_SELECTION)
-		print("clean data\n", df_RNA_seq)
-		print("outliers\n", df_outliers)
-
-
-	################## Transformationa and setting indexes #########################
-	df_RNA_seq = df_RNA_seq.set_index('Description') #setting the "Desription" column (genenames) as index
-	df_RNA_seq = df_RNA_seq.transpose() #transposing the dataframe so that the test-subjects can be used as instances
-
-
-	for i in ['DTHHRDY','sex']:
-		df_RNA_seq = df_RNA_seq.drop([i], axis=1) #remove the row "DTHHRDY" and "sex"
-	df_RNA_seq = df_RNA_seq.fillna(0) #missing values become zero
-
-	#print(df_RNA_seq.iloc[0:,1:])
-	df_RNA_seq.iloc[0:,1:] = log_adjustment(df_RNA_seq.iloc[0:,1:])
-	#print(df_RNA_seq.iloc[0:,1:])
-
-
-
-	############## Make folder for machinelearning results #######################
-	if "Machine_Learning_Results" not in os.listdir(P.experiment_name): #Making a folder for the machinelearning results
-		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Machine_Learning_Results"))
-
-	if P.MODEL not in os.listdir(P.experiment_name+"/Machine_Learning_Results"): #Making a folder for the machinelearning results
-		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Machine_Learning_Results/"+P.MODEL))
-
-	################# Making the model #############################################
-
-	mean_f1 = 0
-	######## pREPARING THe train and test data ####################################
-	print(st.CYAN)
-	print("Method = ", P.METHOD, "\nModel = ", P.MODEL, "\nDataset = ", P.GENE_SELECTION, st.RST)
-
-	y = df_RNA_seq['age'].values.copy() #Making y (prediction column)
-
-	if P.METHOD == "Classification":
-		for i in range(len(y)): #converting strings to groups
-			if   y[i] == '20-29' or y[i] == '30-39' or y[i] == '40-49': y[i] = "Young"
-			elif y[i] == '50-59'																			: y[i] = "Middle"
-			elif y[i] == '60-69' or y[i] == '70-79'										: y[i] = "Old"
-	elif P.METHOD == "Regression":
-		for i in range(len(y)): #converting strings to integers (groups)
-			if   y[i] == '20-29' or y[i] == '30-39' or y[i] == '40-49': y[i] = 1
-			elif y[i] == '50-59'																			: y[i] = 2
-			elif y[i] == '60-69' or y[i] == '70-79'										: y[i] = 3
-
-	print(st.YELLOW, st.BOLD,"Number of examples", len(y), "(nr of people)", st.RST)
-
-	X = df_RNA_seq.drop(['age'],axis=1).values #Making X, on which the prediction has to be made
-	X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False) #Splitting into train and test data
-
-	#print(P.GENE_SELECTION)
-	#print(P.MODEL) 	
-	#print(len(X), " x ", len(X[0]))
-	#print(len(y_test))
-	#input("volgende dataset?")
-
-	#-------------------------------------------------------------------------------
-	print("<-> Starting modeling process for {}...".format(P.MODEL))
-
-	if P.METHOD == "Regression":
-		if P.MODEL == "Support Vector Machine":	clf = svm.SVR(kernel="linear")
-		elif P.MODEL == "RandomForest":					clf = RandomForestRegressor(n_estimators=15, max_depth=50, random_state=None) #, criterion='MSE', splitter='best')
-																					#clf = BaggingRegressor(rf, n_estimators=45, max_samples=0.1, random_state=25)
-		elif P.MODEL == "DecisionTree":					clf = DecisionTreeRegressor(random_state=None, max_depth=15) #, criterion='squared_error')
-
-	elif P.METHOD == "Classification":
-		if P.MODEL == "Support Vector Machine":	clf = svm.SVC(kernel='linear')
-		elif P.MODEL == "RandomForest":					clf = RandomForestClassifier(n_estimators=15, max_depth=50, random_state=None) #, criterion='MSE', splitter='best')
-		elif P.MODEL == "DecisionTree":					clf = DecisionTreeClassifier(criterion='entropy', max_depth=15, random_state=None)
+	print("(((((((((((((((((((())))))))))))))))))))")
 	
-	#print(y_train)
+	#_____________ Make folder for machinelearning results _______________________
+	if "Outlier_ML_Results" not in os.listdir(P.experiment_name+"/Compare_outliers"): #Making a folder for the machinelearning results
+		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Compare_outliers/Outlier_ML_Results"))
+	
+	#______________Adding the description column__________________________________
+	copyYoungAgeGroup['Description'] = ["-", "-"]+df_RNA_seq['Description'].tolist()
+	copyOldAgeGroup['Description'] = ["-", "-"]+df_RNA_seq['Description'].tolist()
+	for ThisAgeGroup in ["Young", "Old"]:
+		if ThisAgeGroup == "Young": dfAgeGroup = copyYoungAgeGroup
+		elif ThisAgeGroup == "Old": dfAgeGroup = copyOldAgeGroup
+		#print(dfAgeGroup.name)
 
-	clf.fit(X_train, y_train)
-	y_pred = clf.predict(X_test) #make the prediction on the test data
+		print(dfAgeGroup)
+		################## Transformationa and setting indexes #########################
+		dfAgeGroup = dfAgeGroup.set_index('Description') #setting the "Desription" column (genenames) as index
+		dfAgeGroup = dfAgeGroup.transpose() #transposing the dataframe so that the test-subjects can be used as instances
+		dfAgeGroup = dfAgeGroup.iloc[0:, 1:]# .drop('AgeGroup')
+		dfAgeGroup.rename(columns = {'-' : 'Inowngroup'}, inplace = True)
 
-	print("Modeling done.")
-	#-------------------------------------------------------------------------------
-	################### EVALUATION OF THE MACHINELEARNING ##########################
-	#-------------------------------------------------------------------------------
-
-
-	#Evalueation of the preduction quality
-	if P.METHOD =="Regression":
-		for i in range(len(y_pred)):
-			y_pred[i] = round(y_pred[i], 0)
-
-	#RMSE = math.sqrt(np.square(np.subtract(y_test,y_pred)).mean())
-	#print("\n\033[33m\033[1m<-> P.Model = ", P.MODEL, "\n<-> RMSE:", round(RMSE, 4), '\a \033[0m')
-
-	#Count the number of right and wrong guesses
-	right = 0
-	wrong = 0
-	for i in range(len(y_test)):
-		#print(y_test[i], "--", y_pred[i])
-		if y_test[i] == y_pred[i]: right += 1
-		else: wrong += 1
-	Accuracy = round(((right/(right+wrong))*100), 1)
-	print("\033[33m\033[1m<-> Accuracy:", Accuracy, ' \033[0m')
-
-	#---------------------------------------------------------------------------
-
-	#Writing LaTeX table
-	if P.WriteLaTeXTableforML:
-		if P.random_baseline: help_name= help_name.replace(help_name.split("_")[0], "RandomBaseline")
+		dfAgeGroup = dfAgeGroup.fillna(0) #missing values become zero
 		
+		#print(df_RNA_seq.iloc[0:,1:])
 		
-		#input(help_name)
-		f = open(P.experiment_name+"/Machine_Learning_Results/"+P.MODEL+"/"+help_name+"_"+P.MODEL+"_ML_Results.txt", "w")
-		f.write(help_name+":") #write the first line
-		f.write("\n\n"+"\subsection*{}\n".format("{"+P.METHOD+"}"))
-		f.write("\subsubsection*{}\n".format("{"+P.MODEL+"}"))
-
-		write_latex_line(["Dataset","AgeGroups", "Accuracy", "Precision", "Recall", "F1", "Occ.Pred", "Occ.real", "Correct"], True, f)
+		#df_RNA_seq.iloc[0:,1:] = log_adjustment(df_RNA_seq.iloc[0:,1:])
 		
-		#ages = ["Young", "Middle", "Old"]
-		if P.METHOD == "Classification": ages = ["Young", "Middle", "Old"]
-		if P.METHOD == "Regression": ages = [1,2,3]
-
-		group_mean_f1 = 0
-		for group in ages:
-			correct = 0 #Calculating Number of people correctly classified as <group>
-			group_predicted = 0 #Total number of people in agegroup <group> that are predicted
-			group_real = 0 #Total number of people in agegroup <group> that are really in the data
-			for i in range(len(y_test)):
-				correct += (y_test[i] == group and y_pred[i] == group) #counting the correct prediciotns of this specfic agegroup
-				group_predicted += (y_pred[i] == group) #counting nr of times this agegroup was predicted (correct or false)
-				group_real += (y_test[i] == group) #coutning nr of times this agegroup should have been predicted
+		#print(df_RNA_seq.iloc[0:,1:])
 
 
-			if group_predicted == 0: Precision = "not pred."
-			else: Precision = correct/group_predicted #Calculating Precision
-			if group_real == 0: Recall = "not occur."
-			else: Recall = correct/group_real #Calculating Recall
-			if (Precision != 0 or Recall != 0) and isinstance(Precision,(int,float)) and isinstance(Recall,(int,float)):
-				F1 = (2*Precision*Recall)/(Precision+Recall) #F1 = sklearn.metrics.f1_score(y_test, y_pred, pos_label=group)
-				group_mean_f1 += F1
-			else:
-				F1 = "Not poss."
-				group_mean_f1 += 0
-			
-			print("\033[1m\033[34m<-> {}:".format(group))
-			print("\033[33m\033[1m  -> Precision:\t",Precision,'\033[0m')
-			print("\033[33m\033[1m  -> Recall:\t",Recall,'\033[0m')
-			print("\033[33m\033[1m  -> F1:\t",F1,'\033[0m\n')
-			print("\033[33m\033[1m  -> Database occurance:\t",group_real,'\033[0m')
-			print("\033[33m\033[1m  -> Occurance predicted:\t",group_predicted,'\033[0m')
-			print("\033[33m\033[1m  -> Correct predicted:\t",correct,'\033[0m\n')
-			
-			GenelistnameIsLong = False
-			if len(help_name.split("_")[0].split("-")) > 2:
-				GenelistnameIsLong = True
-			word = " "
-			if group in ["Young", 1]: #If young group
-				word = help_name.split("_")[0].capitalize()
-				if GenelistnameIsLong: word = "-".join(word.split("-")[0:2])
-				if P.use_middle_age: write_latex_line([word , group, " ", Precision, Recall, F1, group_predicted, group_real, correct], False, f)
-				else: write_latex_line([help_name.split("_")[0], group, Accuracy, Precision, Recall, F1, group_predicted, group_real, correct], False, f)
-			elif group in ["Middle", 2]: #If middle group
-				if (GenelistnameIsLong): word = "-".join(help_name.split("_")[0].split("-")[2:])
-				if P.use_middle_age: write_latex_line([word, group, Accuracy, Precision, Recall, F1, group_predicted, group_real, correct], False, f)
-				#else: write_latex_line([word, " ", Accuracy, " ", " ", " ", " ", " ", " "], False)
-			else: #Group is old
-				word = help_name.split("_")[1] 
-				write_latex_line([word, group, " ", Precision, Recall, F1, group_predicted, group_real, correct], False, f)
-				
+		#_____________Making file to write to_________________________________________
+		if P.MODEL not in os.listdir(P.experiment_name+"/Compare_outliers/Outlier_ML_Results"): #Making a folder for the machinelearning results
+			os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_ML_Results/"+P.MODEL))
 
-		f.write("\t\t\hline\n")
-		f.write("\t\end{}".format("{tabular}\n"))
-		f.write("\t\caption{}".format("{Evaluation of "+P.METHOD+" by "+P.MODEL+" using the "+help_name.replace("_","-")+" dataset}\n"))
-		f.write("\t\label{}".format("{tab:"+P.METHOD+P.MODEL+help_name+"}\n"))
-		f.write("\end{}".format("{table}"))
+		################# Making the model #############################################
 
-		if P.use_middle_age: numgroups = 3
-		else: numgroups = 2
-		group_mean_f1 /= numgroups
-		mean_f1 += group_mean_f1
-		#print("group_mean_f1:	",group_mean_f1)
-		#print("mean_f1:	", mean_f1)
-
+		mean_f1 = 0
+		######## pREPARING THe train and test data ####################################
 		print(st.CYAN)
-		print("Average F1 (over all ",numgroups," age groups):	", mean_f1, st.RST )
-		f.close()
+		print("Method = ", P.METHOD, "\nModel = ", P.MODEL, "\nDataset = ", P.GENE_SELECTION, st.RST)
+
+		y = dfAgeGroup['Inowngroup'].values.copy() #Making y (prediction column)
+		print(y)
+		ycopy = [None]*len(y)
+		if P.METHOD == "Classification":
+			for i in range(0, len(y)): #converting strings to groups
+				#	print(y[i])
+				if y[i]: 
+					print("Is True")
+					ycopy[i] = "InCorrectGroup"
+				#	print(ycopy[i])
+				elif not y[i]: 
+					print("Is False")
+				#	#y[i] = "InWrongGroup"
+					ycopy[i] = "InWrongGroupGroup"
+				#	print(ycopy[i])
+				#elif y[i] == '60-69' or y[i] == '70-79'										: y[i] = "Old"
+		"""elif P.METHOD == "Regression":
+			for i in range(len(y)): #converting strings to integers (groups)
+				if   y[i] == '20-29' or y[i] == '30-39' or y[i] == '40-49': y[i] = 1
+				elif y[i] == '50-59'																			: y[i] = 2
+				elif y[i] == '60-69' or y[i] == '70-79'										: y[i] = 3
+		"""
+		print(st.YELLOW, st.BOLD,"Number of examples", len(y), "(nr of people)", st.RST)
+	
+		print(ycopy)
+		y = ycopy
+		print(y)
+		
+		X = dfAgeGroup.drop(['Inowngroup'],axis=1).values #Making X, on which the prediction has to be made
+		X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False) #Splitting into train and test data
+	
+		#print(y_test)
+
+		#print(P.GENE_SELECTION)
+		#print(P.MODEL) 	
+		#print(len(X), " x ", len(X[0]))
+		#print(len(y_test))
+		#input("volgende dataset?")
+
+		#-------------------------------------------------------------------------------
+		print("<-> Starting modeling process for {}...".format(P.MODEL))
+
+		if P.METHOD == "Regression":
+			if P.MODEL == "Support Vector Machine":	clf = svm.SVR(kernel="linear")
+			elif P.MODEL == "RandomForest":					clf = RandomForestRegressor(n_estimators=15, max_depth=50, random_state=None) #, criterion='MSE', splitter='best')
+																						#clf = BaggingRegressor(rf, n_estimators=45, max_samples=0.1, random_state=25)
+			elif P.MODEL == "DecisionTree":					clf = DecisionTreeRegressor(random_state=None, max_depth=15) #, criterion='squared_error')
+
+		elif P.METHOD == "Classification":
+			if P.MODEL == "Support Vector Machine":	clf = svm.SVC(kernel='linear')
+			elif P.MODEL == "RandomForest":					clf = RandomForestClassifier(n_estimators=15, max_depth=50, random_state=None) #, criterion='MSE', splitter='best')
+			elif P.MODEL == "DecisionTree":					clf = DecisionTreeClassifier(criterion='entropy', max_depth=15, random_state=None)
+	
+		#print(y_train)
+
+		clf.fit(X_train, y_train)
+		y_pred = clf.predict(X_test) #make the prediction on the test data
+	
+		#print(y_pred)
+		for i in range(0, len(y_pred)):
+			if y_pred[i] != y_test[i]: print(y_pred[i], " - ", y_test[i], " !!!")
+			else: print(y_pred[i], " - ", y_test[i])
+		
+		print("Modeling done.")
+		#-------------------------------------------------------------------------------
+		################### EVALUATION OF THE MACHINELEARNING ##########################
 		#-------------------------------------------------------------------------------
 
-		
+
+		#Evalueation of the preduction quality
+		if P.METHOD =="Regression":
+			for i in range(len(y_pred)):
+				y_pred[i] = round(y_pred[i], 0)
+
+		#RMSE = math.sqrt(np.square(np.subtract(y_test,y_pred)).mean())
+		#print("\n\033[33m\033[1m<-> P.Model = ", P.MODEL, "\n<-> RMSE:", round(RMSE, 4), '\a \033[0m')
+
+		#Count the number of right and wrong guesses
+		right = 0
+		wrong = 0
+		for i in range(len(y_test)):
+			#print(y_test[i], "--", y_pred[i])
+			if y_test[i] == y_pred[i]: right += 1
+			else: wrong += 1
+		Accuracy = round(((right/(right+wrong))*100), 1)
+		print("\033[33m\033[1m<-> Accuracy:", Accuracy, ' \033[0m')
+
+		#---------------------------------------------------------------------------
+
+		#Writing LaTeX table
+		if P.WriteLaTeXTableforML:
+			if P.random_baseline: help_name= help_name.replace(help_name.split("_")[0], "RandomBaseline")
+			
+			
+			#input(help_name)
+			
+			f = open(P.experiment_name+"/Compare_outliers/Outlier_ML_Results/"+P.MODEL+"/"+ThisAgeGroup+"_"+P.GENE_SELECTION+"_"+P.MODEL, "w")
+			f.write(help_name+":") #write the first line
+			f.write("\n\n"+"\subsection*{}\n".format("{"+P.METHOD+"}"))
+			f.write("\subsubsection*{}\n".format("{"+P.MODEL+"}"))
+
+			write_latex_line(["Dataset","AgeGroups", "Accuracy", "Precision", "Recall", "F1", "Occ.Pred", "Occ.real", "Correct"], True, f)
+			
+			#ages = ["Young", "Middle", "Old"]
+			if P.METHOD == "Classification": ages = ["Young", "Middle", "Old"]
+			if P.METHOD == "Regression": ages = [1,2,3]
+
+			group_mean_f1 = 0
+			for group in ages:
+				correct = 0 #Calculating Number of people correctly classified as <group>
+				group_predicted = 0 #Total number of people in agegroup <group> that are predicted
+				group_real = 0 #Total number of people in agegroup <group> that are really in the data
+				for i in range(len(y_test)):
+					correct += (y_test[i] == group and y_pred[i] == group) #counting the correct prediciotns of this specfic agegroup
+					group_predicted += (y_pred[i] == group) #counting nr of times this agegroup was predicted (correct or false)
+					group_real += (y_test[i] == group) #coutning nr of times this agegroup should have been predicted
 
 
+				if group_predicted == 0: Precision = "not pred."
+				else: Precision = correct/group_predicted #Calculating Precision
+				if group_real == 0: Recall = "not occur."
+				else: Recall = correct/group_real #Calculating Recall
+				if (Precision != 0 or Recall != 0) and isinstance(Precision,(int,float)) and isinstance(Recall,(int,float)):
+					F1 = (2*Precision*Recall)/(Precision+Recall) #F1 = sklearn.metrics.f1_score(y_test, y_pred, pos_label=group)
+					group_mean_f1 += F1
+				else:
+					F1 = "Not poss."
+					group_mean_f1 += 0
+				
+				print("\033[1m\033[34m<-> {}:".format(group))
+				print("\033[33m\033[1m  -> Precision:\t",Precision,'\033[0m')
+				print("\033[33m\033[1m  -> Recall:\t",Recall,'\033[0m')
+				print("\033[33m\033[1m  -> F1:\t",F1,'\033[0m\n')
+				print("\033[33m\033[1m  -> Database occurance:\t",group_real,'\033[0m')
+				print("\033[33m\033[1m  -> Occurance predicted:\t",group_predicted,'\033[0m')
+				print("\033[33m\033[1m  -> Correct predicted:\t",correct,'\033[0m\n')
+				
+				GenelistnameIsLong = False
+				if len(help_name.split("_")[0].split("-")) > 2:
+					GenelistnameIsLong = True
+				word = " "
+				if group in ["Young", 1]: #If young group
+					word = help_name.split("_")[0].capitalize()
+					if GenelistnameIsLong: word = "-".join(word.split("-")[0:2])
+					if P.use_middle_age: write_latex_line([word , group, " ", Precision, Recall, F1, group_predicted, group_real, correct], False, f)
+					else: write_latex_line([help_name.split("_")[0], group, Accuracy, Precision, Recall, F1, group_predicted, group_real, correct], False, f)
+				elif group in ["Middle", 2]: #If middle group
+					if (GenelistnameIsLong): word = "-".join(help_name.split("_")[0].split("-")[2:])
+					if P.use_middle_age: write_latex_line([word, group, Accuracy, Precision, Recall, F1, group_predicted, group_real, correct], False, f)
+					#else: write_latex_line([word, " ", Accuracy, " ", " ", " ", " ", " ", " "], False)
+				else: #Group is old
+					word = help_name.split("_")[1] 
+					write_latex_line([word, group, " ", Precision, Recall, F1, group_predicted, group_real, correct], False, f)
+					
+
+			f.write("\t\t\hline\n")
+			f.write("\t\end{}".format("{tabular}\n"))
+			f.write("\t\caption{}".format("{Evaluation of "+P.METHOD+" by "+P.MODEL+" using the "+help_name.replace("_","-")+" dataset}\n"))
+			f.write("\t\label{}".format("{tab:"+P.METHOD+P.MODEL+help_name+"}\n"))
+			f.write("\end{}".format("{table}"))
+
+			if P.use_middle_age: numgroups = 3
+			else: numgroups = 2
+			group_mean_f1 /= numgroups
+			mean_f1 += group_mean_f1
+			#print("group_mean_f1:	",group_mean_f1)
+			#print("mean_f1:	", mean_f1)
+
+			print(st.CYAN)
+			print("Average F1 (over all ",numgroups," age groups):	", mean_f1, st.RST )
+			f.close()
+			#-------------------------------------------------------------------------------
+
+
+
+	exit("JAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPEEEEEEEEEEEEE")
 	################################################################################
 	########### EXTRACTING LIST OF MOST IMPORTANT GENES ############################
 
