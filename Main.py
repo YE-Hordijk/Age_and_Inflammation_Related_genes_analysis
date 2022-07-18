@@ -105,7 +105,7 @@ setup_experiment(P.experiment_name)
 #tt.TEST("peer")
 
 """
-for g in ["senescence", "searchwords","cell-age-signatures", "genes-from-papers", "all"]: #XXX
+for g in ["senescence"]:, "searchwords","cell-age-signatures", "genes-from-papers", "all"]: #XXX
 	P.GENE_SELECTION = g #Setting the parameter
 	print(g, "-- ", P.GENE_SELECTION)
 	#input("apen?")
@@ -130,21 +130,23 @@ for g in ["senescence", "searchwords","cell-age-signatures", "genes-from-papers"
 	print(st.GREEN, "\n*********** NORMALIZING AND VISUALIZING WITH R **********", st.RST)
 	subprocess.call ("/usr/bin/Rscript --vanilla Normalize_and_visualize.R "+arguments(countsfilename, metafilename, P.experiment_name), shell=True) #Arguments: 1)countfile, 2)metadate, 3)project name
 
-
-
-	for i in ["DecisionTree", "RandomForest", "Support Vector Machine"]: #XXX
+	
+	
+	for i in ["DecisionTree"]: #,"RandomForest","Support Vector Machine"]: #XXX
 		#update_parameter("PredictionModel = "+i) #XXX
 		P.MODEL = i
-
+		#print(st.GREEN, "\b**", g, "\n**",i,st.RST)
+		
 		#****Machinelearning****
-		print(st.GREEN, "\n*********** MACHINE LEARNING **********", st.RST)
-		print(st.GREEN, "\b**", g, "\n**",i,st.RST)
-		#subprocess.call ("/usr/bin/python3 Machinelearning.py "+arguments(), shell=True)
-		import Machinelearning as Ms
-		Ms.machinelearning()
-		print("terug van Machine Learning 😃️")
 """
+print(st.GREEN, "\n*********** MACHINE LEARNING **********", st.RST)
+#subprocess.call ("/usr/bin/python3 Machinelearning.py "+arguments(), shell=True)
+import Machinelearning as Ms
+Ms.machinelearning()
+print("terug van Machine Learning 😃️")
 
+
+exit()
 
 #****Extracting important genes from PCfiles and finding outliers
 print(st.GREEN, "\n*********** Use PCs for MachineLearning2 **********", st.RST)

@@ -65,8 +65,11 @@ def f_importances(coef, names):
 	figure(figsize=(6, 9), dpi=80)
 	plt.barh(range(len(names)), imp, align='center')
 	plt.yticks(range(len(names)), names, fontsize=8)
-	plt.savefig(P.experiment_name+'/Important_genes/'+P.GENE_SELECTION+"["+P.MODEL+"]"+'_FeatureImportances.pdf')
-	#plt.show()
+	plt.savefig(P.experiment_name+'/Compare_outliers/Outlier_Important_genes/'+P.GENE_SELECTION+"["+P.MODEL+"]"+'_FeatureImportances.pdf')
+
+	plt.close()
+	plt.show()
+	#exit()
 
 #*******************************************************************************
 def NameDescription_linking(df):
@@ -146,8 +149,7 @@ def write_latex_line(w, bold, f):
 	if w[1] == 1: w[1] = "Young"
 	elif w[1] == 2: w[1] = "Middle"
 	elif w[1] == 3: w[1] = "Old"
-	#print(w)
-	#input("verder?")
+
 	if bold:
 		f.write("\\begin{table}[H]\n")
 		f.write("\t\centering\n\t\small\n")
@@ -173,7 +175,7 @@ def barplot_expressiondifference(Genes, ExpressionDifference, Agegroup, Threshol
 	plt.rcParams["figure.figsize"] = [10, 8]
 	plt.rcParams["figure.autolayout"] = True
 	plt.bar(Genes, ExpressionDifference)
-	plt.title('Expression difference between normal '+Agegroup+' and outlier '+Agegroup+'\n (Negative values mean the normal group is downregulated compared to the ourlier group)')
+	plt.title('Expression difference between normal '+Agegroup+' and outlier '+Agegroup+'\n (Negative values mean the normal group is downregulated compared to the outlier group)')
 	plt.xlabel('Genes in dataset \''+P.GENE_SELECTION+"\'")
 	plt.ylabel('Expression difference')
 	
@@ -197,6 +199,7 @@ def barplot_expressiondifference(Genes, ExpressionDifference, Agegroup, Threshol
 	plt.savefig(P.experiment_name+"/Compare_outliers/"+P.GENE_SELECTION+"_"+Agegroup+".png")
 	#plt.show()
 	plt.clf()
+	plt.close()
 	
 ################################################################################
 #******************************************************************************#
@@ -237,22 +240,10 @@ def use_pcs_for_ml2():
 	df.insert(0, 'Agegroup', [subjectinfo[x] for x in subjectinfo.keys()]) #Adding the agegroup column to the dataframe
 	df.sort_values('Agegroup', axis='rows', inplace=True, ascending=False)
 	df = df.iloc[:, 0:2] #only keeping PC1 to work with
-	
-	print(df)
-	banaan = {}
-	banaan["appel"] = {}
-	banaan["appel"]["peer"]=1
-	banaan["appel"] ["citroen"]=2
-	print(banaan["appel"])
 
-	
 	AgeRightWrong = {}
-	#young_correct = {}
-	#young_wrong = {}
-	#old_correct = {}
-	#old_wrong = {}
+
 	for subject, row in df.iterrows():
-		#print(subject)
 		AgeRightWrong[subject] = {}
 		if df["Agegroup"][subject] == "Young (20-49)": 
 			AgeRightWrong[subject]["Agegroup"] = "Young (20-49)"
@@ -265,24 +256,10 @@ def use_pcs_for_ml2():
 			else: AgeRightWrong[subject]["inowngroup"]=False #correctgroup = "wrong"
 		#AgeRightWrong[subject] = correctgroup
 
-	#alleen voor testen⬇️
-	#for i in AgeRightWrong:
-	#	print(i, AgeRightWrong[i])
-	#	input()
-
-	
 	#Reading SAMPLES dictionary and only selecting samples from a specific tissue
 	df_samples = strip_data_file("Source/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt", 0, 0, '\t')
 	lst_samples = df_samples['SAMPID'].tolist() #sample IDs from dataframe to list
 	dict_samples = {lst_samples[i] for i in range(0, len(lst_samples), 1)} #list to dictionary
-
-	#Readig the subject information 
-	#df_subjects = GF.readfile("Source/GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt", '\t', 0, "dataframe")
-	#df_subjects.columns = ['SUBJID','SEX','AGE','DTHHRDY'] #MISSCHIEN WEGHALEN, LIJKT OVERBODIG
-	#df_subjects = pd.DataFrame(df_subjects) #MISSCHIEN WEGHALEN, LIJKT OVERBODIG
-	#df_subjects = df_subjects.set_index('SUBJID') #Setting subjectID as index-column
-	#df_subjects.sort_values(by=['AGE','SEX'], inplace=True) #sort first by Age and then by Sex
-
 
 	#_______Reading the normalized files_________________________
 	df_RNA_seq = integrate_normalized_data(P.experiment_name+"/Files_from_R/"+help_name+"_NORMALIZED.txt")
@@ -296,29 +273,9 @@ def use_pcs_for_ml2():
 
 
 	#________Adding new rows with subject information_______________________________
-	"""
-	print(df_RNA_seq)
-	#Adding new rows with subject information
-	new_row = make_subject_row('sex')
-	df_RNA_seq = add_new_row(new_row)
-	new_row = make_subject_row('DTHHRDY')
-	df_RNA_seq = add_new_row(new_row)
-	new_row = make_subject_row('age')
-	df_RNA_seq = add_new_row(new_row)
-
-	df_RNA_seq = df_RNA_seq.set_index('Name')
-	print(df_RNA_seq)
-	"""
-	
-	
-	print(df)
-	print(df_RNA_seq)
-	
-
-	
 	df_RNA_seq_copy = df_RNA_seq.copy()
-	
-	
+
+
 	#______________Finding expressiondifference between normal &outliers__________
 
 	#1. Add row Agegroup using the dictionary
@@ -332,15 +289,12 @@ def use_pcs_for_ml2():
 	df_RNA_seq_copy.set_index('Name', inplace=True) #Setting the Name column as index
 
 	#3. Split the dataframe in 1: YoungAgeGroup and 2: OldAgeGroup
-	#YoungAgeGroup = pd.DataFrame([])
-	#OldAgeGroup = pd.DataFrame([])
 	YoungAgeGroup = df_RNA_seq_copy.loc[:, df_RNA_seq_copy.loc['Agegroup'] == 'Young (20-49)'].copy()
 	OldAgeGroup = df_RNA_seq_copy.loc[:, df_RNA_seq_copy.loc['Agegroup'] == 'Old (60-79)'].copy()
 
 	#making a copy that can later be used for machinelearning
 	copyYoungAgeGroup = YoungAgeGroup.copy()
 	copyOldAgeGroup = OldAgeGroup.copy()
-	
 
 	#4. Calculating the sums
 	#pd.options.mode.chained_assignment = None  # default='warn' #TURNING OFF WANRINGS
@@ -348,7 +302,6 @@ def use_pcs_for_ml2():
 	YoungAgeGroup['SumInWrongGroup'] = YoungAgeGroup.iloc[2:, :].loc[:, (YoungAgeGroup.loc['Inowngroup'] == False)].sum(axis=1)
 	OldAgeGroup['SumNormal'] = OldAgeGroup.iloc[2:, :].loc[:, (OldAgeGroup.loc['Inowngroup'] == True)].sum(axis=1)
 	OldAgeGroup['SumInWrongGroup'] = OldAgeGroup.iloc[2:, :].loc[:, (OldAgeGroup.loc['Inowngroup'] == False)].sum(axis=1)
-
 	print("Number of Young samples that are in the correct agegroup: ",YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == True)].shape[1])
 	print("Number of Young samples that are in the wrong agegroup: ",YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == False)].shape[1])
 	print("Number of Old samples that are in the correct agegroup: ",OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == True)].shape[1])
@@ -359,9 +312,6 @@ def use_pcs_for_ml2():
 	YoungAgeGroup['MeanInWrongGroup'] = YoungAgeGroup["SumInWrongGroup"].iloc[2:]/YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == False)].shape[1]
 	OldAgeGroup['MeanNormal'] = OldAgeGroup["SumNormal"].iloc[2:]/OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == True)].shape[1]
 	OldAgeGroup['MeanInWrongGroup'] = OldAgeGroup["SumInWrongGroup"].iloc[2:]/OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == False)].shape[1]
-	
-
-	pd.options.mode.chained_assignment = 'warn'  # default='warn' #TURNING ON WARNINGS
 
 	#6. Remove the other expression columns
 	YoungAgeGroup = YoungAgeGroup.loc[:, ['MeanNormal', 'MeanInWrongGroup']]
@@ -378,10 +328,9 @@ def use_pcs_for_ml2():
 	#9. Sort on difference
 	YoungAgeGroup.iloc[2:, :] = YoungAgeGroup.iloc[2:, :].sort_values('Difference', ascending=False, key=abs)
 	OldAgeGroup.iloc[2:, :] = OldAgeGroup.iloc[2:, :].sort_values('Difference', ascending=False, key=abs)
-	#OldAgeGroup.iloc[2:, :] = OldAgeGroup.iloc[2:, :]['Difference'].abs().sort_values(ascending=False)
 
 	#10. uUe the threshold line to make a list of genes that are down or upregulated in the two groups
-	#print(YoungAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]])
+	#print(YoungAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]]) #printing the relevant genes
 	YoungThreshold = YoungAgeGroup.iloc[(P.NrFoundRelevantGenes+1), 3]
 	OldThreshold = OldAgeGroup.iloc[(P.NrFoundRelevantGenes+1), 3]
 
@@ -390,15 +339,14 @@ def use_pcs_for_ml2():
 		os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers"))
 	if "Outlier_determining_genes" not in os.listdir(P.experiment_name+"/Compare_outliers"): #Making a folder for the machinelearning results
 		os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_determining_genes"))
-	YoungAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), 0].to_csv(P.experiment_name+"/Compare_outliers/Outlier_determining_genes/Young_"+P.GENE_SELECTION+"_Outlier_determining_genes.txt", index=False, header=False)
-	OldAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), 0].to_csv(P.experiment_name+"/Compare_outliers/Outlier_determining_genes/Old_"+P.GENE_SELECTION+"_Outlier_determining_genes.txt", index=False, header=False)
+	YoungAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]].to_csv(P.experiment_name+"/Compare_outliers/Outlier_determining_genes/Young_"+P.GENE_SELECTION+"_Outlier_determining_genes.txt", index=False, header=False, sep="\t")
+	OldAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]].to_csv(P.experiment_name+"/Compare_outliers/Outlier_determining_genes/Old_"+P.GENE_SELECTION+"_Outlier_determining_genes.txt", index=False, header=False, sep="\t")
 
 	#12. Creating a barplot with threshold line
 	# Barplot for YoungAgeGroup	
 	Genes = list(YoungAgeGroup.iloc[2:, 0]) #Selecting the ' Description' column with the gene names
 	ExpressionDifference = list(YoungAgeGroup.iloc[2:, 3])
 	barplot_expressiondifference(Genes, ExpressionDifference, "Young", YoungThreshold)
-	
 	# Barplot for Old
 	Genes = list(OldAgeGroup.iloc[2:, 0]) #Selecting the ' Description' column with the gene names
 	ExpressionDifference = list(OldAgeGroup.iloc[2:, 3])
@@ -409,11 +357,10 @@ def use_pcs_for_ml2():
 	##############################################################################
 	######################## MACHINE LEARNING ####################################
 	##############################################################################
-	print("(((((((((((((((((((())))))))))))))))))))")
 	
 	#_____________ Make folder for machinelearning results _______________________
-	if "Outlier_ML_Results" not in os.listdir(P.experiment_name+"/Compare_outliers"): #Making a folder for the machinelearning results
-		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Compare_outliers/Outlier_ML_Results"))
+	if "Outlier_ML_Tables" not in os.listdir(P.experiment_name+"/Compare_outliers"): #Making a folder for the machinelearning results
+		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Compare_outliers/Outlier_ML_Tables"))
 	
 	#______________Adding the description column__________________________________
 	copyYoungAgeGroup['Description'] = ["-", "-"]+df_RNA_seq['Description'].tolist()
@@ -431,41 +378,26 @@ def use_pcs_for_ml2():
 		dfAgeGroup.rename(columns = {'-' : 'Inowngroup'}, inplace = True)
 
 		dfAgeGroup = dfAgeGroup.fillna(0) #missing values become zero
-		
-		#print(df_RNA_seq.iloc[0:,1:])
-		
-		#df_RNA_seq.iloc[0:,1:] = log_adjustment(df_RNA_seq.iloc[0:,1:])
-		
-		#print(df_RNA_seq.iloc[0:,1:])
 
+		#dfAgeGroup.iloc[0:,1:] = log_adjustment(dfAgeGroup.iloc[0:,1:])
 
 		#_____________Making file to write to_________________________________________
-		if P.MODEL not in os.listdir(P.experiment_name+"/Compare_outliers/Outlier_ML_Results"): #Making a folder for the machinelearning results
-			os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_ML_Results/"+P.MODEL))
+		if P.MODEL not in os.listdir(P.experiment_name+"/Compare_outliers/Outlier_ML_Tables"): #Making a folder for the machinelearning results
+			os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_ML_Tables/"+P.MODEL))
 
 		################# Making the model #############################################
 
 		mean_f1 = 0
 		######## pREPARING THe train and test data ####################################
 		print(st.CYAN)
-		print("Method = ", P.METHOD, "\nModel = ", P.MODEL, "\nDataset = ", P.GENE_SELECTION, st.RST)
+		print("Method = ", P.METHOD, "\nModel = ", P.MODEL, "\nDataset = ", P.GENE_SELECTION, "\nGroup = ", ThisAgeGroup, st.RST)
 
 		y = dfAgeGroup['Inowngroup'].values.copy() #Making y (prediction column)
-		print(y)
 		ycopy = [None]*len(y)
 		if P.METHOD == "Classification":
 			for i in range(0, len(y)): #converting strings to groups
-				#	print(y[i])
-				if y[i]: 
-					print("Is True")
-					ycopy[i] = "InCorrectGroup"
-				#	print(ycopy[i])
-				elif not y[i]: 
-					print("Is False")
-				#	#y[i] = "InWrongGroup"
-					ycopy[i] = "InWrongGroupGroup"
-				#	print(ycopy[i])
-				#elif y[i] == '60-69' or y[i] == '70-79'										: y[i] = "Old"
+				if y[i]: ycopy[i] = "InCorrectGroup"
+				elif not y[i]: ycopy[i] = "InWrongGroup"
 		"""elif P.METHOD == "Regression":
 			for i in range(len(y)): #converting strings to integers (groups)
 				if   y[i] == '20-29' or y[i] == '30-39' or y[i] == '40-49': y[i] = 1
@@ -473,21 +405,15 @@ def use_pcs_for_ml2():
 				elif y[i] == '60-69' or y[i] == '70-79'										: y[i] = 3
 		"""
 		print(st.YELLOW, st.BOLD,"Number of examples", len(y), "(nr of people)", st.RST)
-	
-		print(ycopy)
 		y = ycopy
-		print(y)
-		
-		X = dfAgeGroup.drop(['Inowngroup'],axis=1).values #Making X, on which the prediction has to be made
-		X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False) #Splitting into train and test data
-	
-		#print(y_test)
 
-		#print(P.GENE_SELECTION)
-		#print(P.MODEL) 	
-		#print(len(X), " x ", len(X[0]))
-		#print(len(y_test))
-		#input("volgende dataset?")
+		X = dfAgeGroup.drop(['Inowngroup'],axis=1).values #Making X, on which the prediction has to be made
+		X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.7, shuffle=False) #Splitting into train and test data
+		
+		print(len(y_test))
+		print(len(X_test))
+		print(len(X_train))
+		print(len(y_train))
 
 		#-------------------------------------------------------------------------------
 		print("<-> Starting modeling process for {}...".format(P.MODEL))
@@ -497,56 +423,29 @@ def use_pcs_for_ml2():
 			elif P.MODEL == "RandomForest":					clf = RandomForestRegressor(n_estimators=15, max_depth=50, random_state=None) #, criterion='MSE', splitter='best')
 																						#clf = BaggingRegressor(rf, n_estimators=45, max_samples=0.1, random_state=25)
 			elif P.MODEL == "DecisionTree":					clf = DecisionTreeRegressor(random_state=None, max_depth=15) #, criterion='squared_error')
-
 		elif P.METHOD == "Classification":
 			if P.MODEL == "Support Vector Machine":	clf = svm.SVC(kernel='linear')
 			elif P.MODEL == "RandomForest":					clf = RandomForestClassifier(n_estimators=15, max_depth=50, random_state=None) #, criterion='MSE', splitter='best')
 			elif P.MODEL == "DecisionTree":					clf = DecisionTreeClassifier(criterion='entropy', max_depth=15, random_state=None)
-	
-		#print(y_train)
 
 		clf.fit(X_train, y_train)
 		y_pred = clf.predict(X_test) #make the prediction on the test data
-	
-		#print(y_pred)
-		for i in range(0, len(y_pred)):
-			if y_pred[i] != y_test[i]: print(y_pred[i], " - ", y_test[i], " !!!")
-			else: print(y_pred[i], " - ", y_test[i])
-		
+
 		print("Modeling done.")
 		#-------------------------------------------------------------------------------
 		################### EVALUATION OF THE MACHINELEARNING ##########################
 		#-------------------------------------------------------------------------------
-
-
 		#Evalueation of the preduction quality
 		if P.METHOD =="Regression":
 			for i in range(len(y_pred)):
 				y_pred[i] = round(y_pred[i], 0)
 
-		#RMSE = math.sqrt(np.square(np.subtract(y_test,y_pred)).mean())
-		#print("\n\033[33m\033[1m<-> P.Model = ", P.MODEL, "\n<-> RMSE:", round(RMSE, 4), '\a \033[0m')
-
-		#Count the number of right and wrong guesses
-		right = 0
-		wrong = 0
-		for i in range(len(y_test)):
-			#print(y_test[i], "--", y_pred[i])
-			if y_test[i] == y_pred[i]: right += 1
-			else: wrong += 1
-		Accuracy = round(((right/(right+wrong))*100), 1)
-		print("\033[33m\033[1m<-> Accuracy:", Accuracy, ' \033[0m')
-
 		#---------------------------------------------------------------------------
-
 		#Writing LaTeX table
 		if P.WriteLaTeXTableforML:
 			if P.random_baseline: help_name= help_name.replace(help_name.split("_")[0], "RandomBaseline")
-			
-			
-			#input(help_name)
-			
-			f = open(P.experiment_name+"/Compare_outliers/Outlier_ML_Results/"+P.MODEL+"/"+ThisAgeGroup+"_"+P.GENE_SELECTION+"_"+P.MODEL, "w")
+
+			f = open(P.experiment_name+"/Compare_outliers/Outlier_ML_Tables/"+P.MODEL+"/"+ThisAgeGroup+"_"+P.GENE_SELECTION+"_"+P.MODEL, "w")
 			f.write(help_name+":") #write the first line
 			f.write("\n\n"+"\subsection*{}\n".format("{"+P.METHOD+"}"))
 			f.write("\subsubsection*{}\n".format("{"+P.MODEL+"}"))
@@ -554,20 +453,47 @@ def use_pcs_for_ml2():
 			write_latex_line(["Dataset","AgeGroups", "Accuracy", "Precision", "Recall", "F1", "Occ.Pred", "Occ.real", "Correct"], True, f)
 			
 			#ages = ["Young", "Middle", "Old"]
-			if P.METHOD == "Classification": ages = ["Young", "Middle", "Old"]
+			if P.METHOD == "Classification": InOwnGroup = ["InCorrectGroup", "InWrongGroup"]
 			if P.METHOD == "Regression": ages = [1,2,3]
 
-			group_mean_f1 = 0
-			for group in ages:
-				correct = 0 #Calculating Number of people correctly classified as <group>
-				group_predicted = 0 #Total number of people in agegroup <group> that are predicted
-				group_real = 0 #Total number of people in agegroup <group> that are really in the data
-				for i in range(len(y_test)):
-					correct += (y_test[i] == group and y_pred[i] == group) #counting the correct prediciotns of this specfic agegroup
-					group_predicted += (y_pred[i] == group) #counting nr of times this agegroup was predicted (correct or false)
-					group_real += (y_test[i] == group) #coutning nr of times this agegroup should have been predicted
+			y_pred = list(y_pred)
 
+			#_____________________MachineLearning Analysis____________________________
+			Accuracy = sklearn.metrics.accuracy_score(y_test, y_pred, normalize=True, sample_weight=None)
+			print("\033[33m\033[1m<-> Accuracy:", Accuracy, ' \033[0m')
 
+			mean_f1 = 0
+			for group in ["InCorrectGroup","InWrongGroup"]:
+				Precision = sklearn.metrics.precision_score(y_test, y_pred, labels=None, pos_label=group, average='binary', sample_weight=None, zero_division='warn')
+				Recall = sklearn.metrics.recall_score(y_test, y_pred, labels=None, pos_label=group, average='binary', sample_weight=None, zero_division='warn')
+				F1 = sklearn.metrics.f1_score(y_test, y_pred, pos_label=group)
+				Occurence = y_test.count(group)
+				Predicted = y_pred.count(group)
+				CorrectPredicted = sum([1 for i,j in zip(y_test,y_pred) if (i==j and j==group)])
+				mean_f1 += F1
+
+				print("\033[1m\033[34m<-> {}:".format(group))
+				print("\033[33m\033[1m  -> Precision:\t",Precision,'\033[0m')
+				print("\033[33m\033[1m  -> Recall:\t",Recall,'\033[0m')
+				print("\033[33m\033[1m  -> F1:\t",F1,'\033[0m\n')
+				print("\033[33m\033[1m  -> Database occurence:\t",Occurence,'\033[0m')
+				print("\033[33m\033[1m  -> Occurence predicted:\t",Predicted,'\033[0m')
+				print("\033[33m\033[1m  -> Correct predicted:\t",CorrectPredicted,'\033[0m\n')
+
+				GenelistnameIsLong = False
+				if len(help_name.split("_")[0].split("-")) > 2:
+					GenelistnameIsLong = True
+				word = " "
+				if group in ["InCorrectGroup", 1]: #If "InCorrectGroup"
+					word = help_name.split("_")[0].capitalize()
+					if GenelistnameIsLong: word = "-".join(word.split("-")[0:2])
+					write_latex_line([help_name.split("_")[0].capitalize() , group, Accuracy, Precision, Recall, F1, Predicted, Occurence, CorrectPredicted], False, f)
+				else: #Group is InWrongGroup
+					word = help_name.split("_")[1] 
+					write_latex_line([ThisAgeGroup, group, " ", Precision, Recall, F1, Predicted, Occurence, CorrectPredicted], False, f)
+			#####################################
+			"""
+			#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 				if group_predicted == 0: Precision = "not pred."
 				else: Precision = correct/group_predicted #Calculating Precision
 				if group_real == 0: Recall = "not occur."
@@ -578,103 +504,73 @@ def use_pcs_for_ml2():
 				else:
 					F1 = "Not poss."
 					group_mean_f1 += 0
-				
-				print("\033[1m\033[34m<-> {}:".format(group))
-				print("\033[33m\033[1m  -> Precision:\t",Precision,'\033[0m')
-				print("\033[33m\033[1m  -> Recall:\t",Recall,'\033[0m')
-				print("\033[33m\033[1m  -> F1:\t",F1,'\033[0m\n')
-				print("\033[33m\033[1m  -> Database occurance:\t",group_real,'\033[0m')
-				print("\033[33m\033[1m  -> Occurance predicted:\t",group_predicted,'\033[0m')
-				print("\033[33m\033[1m  -> Correct predicted:\t",correct,'\033[0m\n')
-				
-				GenelistnameIsLong = False
-				if len(help_name.split("_")[0].split("-")) > 2:
-					GenelistnameIsLong = True
-				word = " "
-				if group in ["Young", 1]: #If young group
-					word = help_name.split("_")[0].capitalize()
-					if GenelistnameIsLong: word = "-".join(word.split("-")[0:2])
-					if P.use_middle_age: write_latex_line([word , group, " ", Precision, Recall, F1, group_predicted, group_real, correct], False, f)
-					else: write_latex_line([help_name.split("_")[0], group, Accuracy, Precision, Recall, F1, group_predicted, group_real, correct], False, f)
-				elif group in ["Middle", 2]: #If middle group
-					if (GenelistnameIsLong): word = "-".join(help_name.split("_")[0].split("-")[2:])
-					if P.use_middle_age: write_latex_line([word, group, Accuracy, Precision, Recall, F1, group_predicted, group_real, correct], False, f)
-					#else: write_latex_line([word, " ", Accuracy, " ", " ", " ", " ", " ", " "], False)
-				else: #Group is old
-					word = help_name.split("_")[1] 
-					write_latex_line([word, group, " ", Precision, Recall, F1, group_predicted, group_real, correct], False, f)
-					
+			"""
 
 			f.write("\t\t\hline\n")
 			f.write("\t\end{}".format("{tabular}\n"))
-			f.write("\t\caption{}".format("{Evaluation of "+P.METHOD+" by "+P.MODEL+" using the "+help_name.replace("_","-")+" dataset}\n"))
+			f.write("\t\caption{}".format("{Evaluation of "+P.METHOD+" by "+P.MODEL+" using the "+help_name.replace("_","-")+" dataset.}\n"))
 			f.write("\t\label{}".format("{tab:"+P.METHOD+P.MODEL+help_name+"}\n"))
 			f.write("\end{}".format("{table}"))
 
-			if P.use_middle_age: numgroups = 3
-			else: numgroups = 2
-			group_mean_f1 /= numgroups
-			mean_f1 += group_mean_f1
-			#print("group_mean_f1:	",group_mean_f1)
-			#print("mean_f1:	", mean_f1)
 
 			print(st.CYAN)
-			print("Average F1 (over all ",numgroups," age groups):	", mean_f1, st.RST )
+			print("Average F1 (over both groups (outlier or not)):	", mean_f1/2, st.RST )
 			f.close()
 			#-------------------------------------------------------------------------------
 
 
 
-	exit("JAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPEEEEEEEEEEEEE")
-	################################################################################
-	########### EXTRACTING LIST OF MOST IMPORTANT GENES ############################
+		#exit("JAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPEEEEEEEEEEEEE")
+		################################################################################
+		########### EXTRACTING LIST OF MOST IMPORTANT GENES ############################
+		
+		if P.MODEL != "Support Vector Machine": importances = clf.feature_importances_ #creating a list with importance values for all the genes
+		else: importances = clf.coef_[0]
+		
+		####### PLOTTING THE GENE IMPORTANCE FOR RANDOM FORREST #####################---
+		if P.MODEL == "RandomForest":
+			std = np.std([tree.feature_importances_ for tree in clf.estimators_], axis=0).tolist() #calulating the standard deviation
+			std.sort(reverse=True) #sorting the standard deviation
+			std2 = std[:P.NrFoundRelevantGenes] #The X most imporatant genes
 
-	if P.MODEL != "Support Vector Machine": importances = clf.feature_importances_ #creating a list with importance values for all the genes
-	else: importances = clf.coef_[0]
-	####### PLOTTING THE GENE IMPORTANCE FOR RANDOM FORREST #####################---
-	if P.MODEL == "RandomForest":
-		std = np.std([tree.feature_importances_ for tree in clf.estimators_], axis=0).tolist()
-		std.sort(reverse=True)
-		std2 = std[:P.NrFoundRelevantGenes] #The 50 most imporatant genes
-		forest_importances = pd.Series(importances, index=df_RNA_seq.iloc[0:,1:].columns)
-		forest_importances = forest_importances.sort_values(ascending=False) #df.sort_values(by=['col1'])
-		forest_importances2 = forest_importances[:P.NrFoundRelevantGenes] #The 50 most important genes
+			forest_importances = pd.Series(importances, index=dfAgeGroup.iloc[0:,1:].columns) #linking importances to genes
+			forest_importances = forest_importances.sort_values(ascending=False) #df.sort_values(by=['col1'])
+			forest_importances2 = forest_importances[:P.NrFoundRelevantGenes] #The 50 most important genes
 
-		#Making a plot that shows the gene importance of the many decision trees together with random forest
-		"""
-		fig, ax = plt.subplots(figsize=(14,8))
-		forest_importances2.plot.bar(yerr=std2, ax=ax)
-		ax.set_title("Feature importances using MDI")
-		ax.set_ylabel("Mean decrease in impurity")
-		fig.tight_layout()
-		plt.rcParams["figure.figsize"] = (10,6)
-		plt.savefig(P.experiment_name+'/'+P.GENE_SELECTION+'_FeatureImportances.pdf')
-		#plt.show()
-		"""
+			#Making a plot that shows the gene importance of the many decision trees together with random forest with standarddeviation
+			fig, ax = plt.subplots(figsize=(14,8))
+			forest_importances2.plot.bar(yerr=std2, ax=ax)
+			ax.set_title("Feature importances using MDI")
+			ax.set_ylabel("Mean decrease in impurity")
+			fig.tight_layout()
+			plt.rcParams["figure.figsize"] = (10,6)
+			
+			plt.savefig(P.experiment_name+'/Compare_outliers/Outlier_Important_genes/'+P.GENE_SELECTION+'_'+ThisAgeGroup+'_RF_FeatureImportances.pdf')
+			plt.close()
+			#plt.show()
+
 
 	###########################################################################-----
 
-	#@@@@@@@@@@@@@@@@@@
-	
 	#_____________________Selecting only the X best features______________________
 	feature_dict = {}
-	for feat, importance in zip(df_RNA_seq.iloc[0:,2:].columns, importances): #linking the genes and their importances together
+	for feat, importance in zip(dfAgeGroup.iloc[0:,1:].columns, importances): #linking the genes and their importances together
 		feature_dict[feat] = importance #filling a dictionary with genes as keys and their importance as values
 
 	feature_dict = dict(sorted(feature_dict.items(), key=lambda item: item[1], reverse=True)) #Sorting the genes from important to not important
 	best_features = list(islice(feature_dict.items(), P.NrFoundRelevantGenes)) #take the best Nr genes
-	
+
 	#____________________Writing the genelist_____________________________________
-	if "Important_genes" not in os.listdir('./'+P.experiment_name):
-		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Important_genes"))
-	if P.GENE_SELECTION not in os.listdir('./'+P.experiment_name+"/Important_genes"):
-		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Important_genes/"+P.GENE_SELECTION))
-		
-	f = open("./"+P.experiment_name+"/Important_genes/"+P.GENE_SELECTION+"/ImportantGenes["+P.MODEL+"]["+P.GENE_SELECTION+"]", "w+")
+	if "Outlier_Important_genes" not in os.listdir('./'+P.experiment_name+"/Compare_outliers"):
+		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Compare_outliers/Outlier_Important_genes"))
+	if P.GENE_SELECTION not in os.listdir('./'+P.experiment_name+"/Compare_outliers/Outlier_Important_genes"):
+		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.GENE_SELECTION))
+
+	f = open("./"+P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.GENE_SELECTION+"/ImportantGenes_"+ThisAgeGroup"["+P.MODEL+"]["+P.GENE_SELECTION+"].txt", "w+")
 	for i in best_features:
 		f.write(i[0]+" "+str(i[1])+"\n")
 	f.close
-	
+
 	#_____________________Plotting the Feature importance_________________________
 	f_importances([x[1] for x in best_features], [x[0] for x in best_features]) #function for making a graph if gene importance, first argument is the importances, second arg is the featurenames
 	

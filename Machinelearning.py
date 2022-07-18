@@ -66,6 +66,7 @@ def f_importances(coef, names):
 	plt.barh(range(len(names)), imp, align='center')
 	plt.yticks(range(len(names)), names, fontsize=8)
 	plt.savefig(P.experiment_name+'/Important_genes/'+P.GENE_SELECTION+"["+P.MODEL+"]"+'_FeatureImportances.pdf')
+	plt.close()
 	#plt.show()
 
 #*******************************************************************************
@@ -475,34 +476,36 @@ def machinelearning():
 	if P.MODEL == "RandomForest":
 		std = np.std([tree.feature_importances_ for tree in clf.estimators_], axis=0).tolist()
 		std.sort(reverse=True)
-		std2 = std[:50] #The 50 most imporatant genes
+		std2 = std[:P.NrFoundRelevantGenes] #The N most imporatant genes
 		forest_importances = pd.Series(importances, index=df_RNA_seq.iloc[0:,1:].columns)
 		forest_importances = forest_importances.sort_values(ascending=False) #df.sort_values(by=['col1'])
-		forest_importances2 = forest_importances[:50] #The 50 most important genes
+		forest_importances2 = forest_importances[:P.NrFoundRelevantGenes] #The N most important genes
 
 		#Making a plot that shows the gene importance of the many decision trees together with random forest
-		"""
 		fig, ax = plt.subplots(figsize=(14,8))
 		forest_importances2.plot.bar(yerr=std2, ax=ax)
 		ax.set_title("Feature importances using MDI")
-		ax.set_ylabel("Mean decrease in impurity")
+		ax.set_ylabel("Importance with standarddeviation")
+		#XLABEL = str(P.NrFoundRelevantGenes)+"most important genes"
+		ax.set_xlabel(str(P.NrFoundRelevantGenes)+" most important genes")
 		fig.tight_layout()
+		plt.axhline(y=0)
 		plt.rcParams["figure.figsize"] = (10,6)
-		plt.savefig(P.experiment_name+'/'+P.GENE_SELECTION+'_FeatureImportances.pdf')
+		plt.savefig(P.experiment_name+'/'+P.GENE_SELECTION+'.pdf')
+		plt.close()
 		#plt.show()
-		"""
+
 
 	###########################################################################-----
 
-	#@@@@@@@@@@@@@@@@@@
-	
+
 	#_____________________Selecting only the X best features______________________
 	feature_dict = {}
-	for feat, importance in zip(df_RNA_seq.iloc[0:,2:].columns, importances): #linking the genes and their importances together
+	for feat, importance in zip(df_RNA_seq.iloc[0:,1:].columns, importances): #linking the genes and their importances together
 		feature_dict[feat] = importance #filling a dictionary with genes as keys and their importance as values
-
+	
 	feature_dict = dict(sorted(feature_dict.items(), key=lambda item: item[1], reverse=True)) #Sorting the genes from important to not important
-	best_features = list(islice(feature_dict.items(), 50)) #take the best 80 genes
+	best_features = list(islice(feature_dict.items(), P.NrFoundRelevantGenes)) #take the best 80 genes
 	
 	#____________________Writing the genelist_____________________________________
 	if "Important_genes" not in os.listdir('./'+P.experiment_name):
@@ -510,7 +513,7 @@ def machinelearning():
 	if P.GENE_SELECTION not in os.listdir('./'+P.experiment_name+"/Important_genes"):
 		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Important_genes/"+P.GENE_SELECTION))
 		
-	f = open("./"+P.experiment_name+"/Important_genes/"+P.GENE_SELECTION+"/ImportantGenes["+P.MODEL+"]["+P.GENE_SELECTION+"]", "w+")
+	f = open("./"+P.experiment_name+"/Important_genes/"+P.GENE_SELECTION+"/ImportantGenes["+P.MODEL+"]["+P.GENE_SELECTION+"].txt", "w+")
 	for i in best_features:
 		f.write(i[0]+" "+str(i[1])+"\n")
 	f.close
