@@ -205,10 +205,11 @@ def machinelearning():
 		np.random.seed(42)
 		df_RNA_seq.iloc[0:,2:]  = pd.DataFrame(np.random.randint(1,28,size=(x, y))) #creating random dataframe with same size
 		dingda = list(df_RNA_seq.columns)[2:]
-		random.shuffle(dingda)
+		random.Random(42).shuffle(dingda)
 		df_RNA_seq.columns = list(df_RNA_seq.columns)[:2]+dingda #shuffeling the columns 
 		df_RNA_seq = df_RNA_seq.iloc[:300, :300] #making a smaller dataframe for creating the baseline
 		print("Random matrix for baseline: \n", df_RNA_seq)
+
 
 	#________Adding new rows with subject information_______________________________
 	print(df_RNA_seq)
@@ -390,7 +391,7 @@ def machinelearning():
 		if y_test[i] == y_pred[i]: right += 1
 		else: wrong += 1
 	Accuracy = round(((right/(right+wrong))), 2)
-	Accuracy = sklearn.metrics.accuracy_score(y_test, y_pred, normalize=True, sample_weight=None)
+	Accuracy1 = sklearn.metrics.accuracy_score(y_test, y_pred, normalize=True, sample_weight=None)
 	print("\033[33m\033[1m<-> Accuracy:", Accuracy, ' \033[0m')
 
 	#---------------------------------------------------------------------------
@@ -410,9 +411,21 @@ def machinelearning():
 		#ages = ["Young", "Middle", "Old"]
 		if P.METHOD == "Classification": ages = ["Young", "Middle", "Old"]
 		if P.METHOD == "Regression": ages = [1,2,3]
-
+		
 		group_mean_f1 = 0
 		for group in ages:
+			y_pred = list(y_pred)
+			y_test = list(y_test)
+			Occurence = y_test.count(group)
+			Predicted = y_pred.count(group)
+			CorrectPredicted = sum([1 for i,j in zip(y_test,y_pred) if (i==j and j==group)])
+			#print(st.GREEN, "Accuracy1: ", Accuracy1,st.RST)
+			#print(st.GREEN, "Occurence in database: ", Occurence,st.RST)
+			#print(st.GREEN, "Predcited: ", Predicted,st.RST)
+			#print(st.GREEN, "CorrectPredicted: ", CorrectPredicted,st.RST)
+			
+			
+			
 			correct = 0 #Calculating Number of people correctly classified as <group>
 			group_predicted = 0 #Total number of people in agegroup <group> that are predicted
 			group_real = 0 #Total number of people in agegroup <group> that are really in the data
@@ -440,6 +453,7 @@ def machinelearning():
 			print("\033[33m\033[1m  -> Database occurance:\t",group_real,'\033[0m')
 			print("\033[33m\033[1m  -> Occurance predicted:\t",group_predicted,'\033[0m')
 			print("\033[33m\033[1m  -> Correct predicted:\t",correct,'\033[0m\n')
+			#input("Compare")
 			
 			GenelistnameIsLong = False
 			if len(help_name.split("_")[0].split("-")) > 2:

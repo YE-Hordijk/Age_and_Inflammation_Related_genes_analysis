@@ -367,7 +367,6 @@ def use_pcs_for_ml2():
 		dfAgeGroup = dfAgeGroup.transpose() #transposing the dataframe so that the test-subjects can be used as instances
 		dfAgeGroup = dfAgeGroup.iloc[0:, 1:]# .drop('AgeGroup')
 		dfAgeGroup.rename(columns = {'-' : 'Inowngroup'}, inplace = True)
-
 		dfAgeGroup = dfAgeGroup.fillna(0) #missing values become zero
 
 
@@ -375,11 +374,12 @@ def use_pcs_for_ml2():
 		#_____________Making file to write to_________________________________________
 		if P.METHOD not in os.listdir(P.experiment_name+"/Compare_outliers/Outlier_ML_Tables"): #Making a folder for the machinelearning results
 			os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_ML_Tables/"+P.METHOD))
-		if P.MODEL not in os.listdir(P.experiment_name+"/Compare_outliers/Outlier_ML_Tables"): #Making a folder for the machinelearning results
+		if P.MODEL not in os.listdir(P.experiment_name+"/Compare_outliers/Outlier_ML_Tables/"+P.METHOD): #Making a folder for the machinelearning results
 			os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_ML_Tables/"+P.METHOD+"/"+P.MODEL))
 
-		################# Making the model #############################################
 
+
+		################# Making the model #############################################
 		mean_f1 = 0
 		######## pREPARING THe train and test data ####################################
 		print(st.CYAN)
@@ -465,6 +465,9 @@ def use_pcs_for_ml2():
 				Predicted = y_pred.count(group)
 				CorrectPredicted = sum([1 for i,j in zip(y_test,y_pred) if (i==j and j==group)])
 				mean_f1 += F1
+				
+				#print(y_test)
+				#exit()
 
 				print("\033[1m\033[34m<-> {}:".format(group))
 				print("\033[33m\033[1m  -> Precision:\t",Precision,'\033[0m')
@@ -555,14 +558,18 @@ def use_pcs_for_ml2():
 	best_features = list(islice(feature_dict.items(), P.NrFoundRelevantGenes)) #take the best Nr genes
 
 	#____________________Writing the genelist_____________________________________
-	if "Outlier_Important_genes" not in os.listdir('./'+P.experiment_name+"/Compare_outliers"):
-		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Compare_outliers/Outlier_Important_genes"))
-	if P.METHOD not in os.listdir('./'+P.experiment_name+"/Compare_outliers/Outlier_Important_genes"):
-		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD))
-	if P.GENE_SELECTION not in os.listdir('./'+P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD):
-		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD+"/"+P.GENE_SELECTION))
+	if "Outlier_Important_genes" not in os.listdir(P.experiment_name+"/Compare_outliers"):
+		os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_Important_genes"))
+	if P.METHOD not in os.listdir(P.experiment_name+"/Compare_outliers/Outlier_Important_genes"):
+		os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD))
+		
+	if P.GENE_SELECTION not in os.listdir(P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD):
+		os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD+"/"+P.GENE_SELECTION))
+		
+		print("dit moet je zien")
+	else: print("deze file ", P.GENESELECTION, "bestaat in ", P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD)
 
-	f = open("./"+P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD+"/"+P.GENE_SELECTION+"/ImportantGenes_"+ThisAgeGroup"["+P.MODEL+"]["+P.GENE_SELECTION+"].txt", "w+")
+	f = open("./"+P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD+"/"+P.GENE_SELECTION+"/ImportantGenes_"+ThisAgeGroup+"["+P.MODEL+"]["+P.GENE_SELECTION+"].txt", "w+")
 	for i in best_features:
 		f.write(i[0]+" "+str(i[1])+"\n")
 	f.close
