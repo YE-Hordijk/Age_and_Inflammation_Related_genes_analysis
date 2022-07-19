@@ -4,15 +4,21 @@ from Parameters import P
 import os
 tel = 0
 nrfiles = 0
-if "Machine_Learning_Results" in os.listdir(P.experiment_name): 
-	for folder in os.listdir(P.experiment_name+"/Machine_Learning_Results"):
+m = input("Classification[1] or Regression[2]?")
+
+method = ""
+if (m == "1"): method = "Classification"
+elif (m == "2"): method = "Regression"
+
+if "Machine_Learning_Results" in os.listdir(P.experiment_name) and method in os.listdir(P.experiment_name+"/Machine_Learning_Results"): 
+	for folder in os.listdir(P.experiment_name+"/Machine_Learning_Results/"+method):
 		if folder[0] == "#": continue
 		tel = 0
 		print(folder)
-		c = open(P.experiment_name+"/Machine_Learning_Results/"+folder+"/"+folder+"concatenated.txt", "w")
+		c = open(P.experiment_name+"/Machine_Learning_Results/"+method+"/"+folder+"/"+folder+"concatenated.txt", "w")
 		
 		#moving "all" to the last position
-		listoffiles = os.listdir(P.experiment_name+"/Machine_Learning_Results/"+folder)
+		listoffiles = os.listdir(P.experiment_name+"/Machine_Learning_Results/"+method+"/"+folder)
 		thisfile = allfile = random = ""
 		for k in listoffiles:
 			if k == folder+"concatenated.txt": thisfile = k
@@ -29,7 +35,7 @@ if "Machine_Learning_Results" in os.listdir(P.experiment_name):
 		input("volgende model?")
 		
 		for File in listoffiles:
-			f = open(P.experiment_name+"/Machine_Learning_Results/"+folder+"/"+File, "r")
+			f = open(P.experiment_name+"/Machine_Learning_Results/"+method+"/"+folder+"/"+File, "r")
 			subtel = 0
 			tel += 1
 			for i in f: 
@@ -38,11 +44,11 @@ if "Machine_Learning_Results" in os.listdir(P.experiment_name):
 					if subtel >= 3 and subtel <= 13:
 						c.write(i)
 
-				elif tel == nrfiles: #the last filename
+				elif tel == nrfiles: #the last file
 					if subtel == 15: #caption
-						c.write("\t\caption{Evaluation of Classification by "+folder+" using different datasets.}\n")
+						c.write("\t\caption{Evaluation of "+method+" by "+folder+" using different datasets.}\n")
 					elif subtel == 16: #label
-						c.write("\t\label{tab:Classification"+folder+"No-MiddleAge}\n")
+						c.write("\t\label{tab:"+method+folder+"No-MiddleAge}\n")
 					elif subtel >= 11: 
 						c.write(i)
 

@@ -104,13 +104,13 @@ setup_experiment(P.experiment_name)
 #tt.TEST("appel")
 #tt.TEST("peer")
 
-"""
-for g in ["senescence"]:, "searchwords","cell-age-signatures", "genes-from-papers", "all"]: #XXX
+if P.random_baseline: datasets = ["senescence"]
+else: datasets = ["senescence", "searchwords","cell-age-signatures", "genes-from-papers", "all"]
+for g in datasets: #XXX
 	P.GENE_SELECTION = g #Setting the parameter
-	print(g, "-- ", P.GENE_SELECTION)
-	#input("apen?")
+	print("Dataset: ", g)
 	
-	
+	"""
 	#***CREATING A GENELIST****
 	if (P.select_on_genes):
 		print(st.GREEN, "\n*********** CREATE GENELIST **********", st.RST)
@@ -130,21 +130,24 @@ for g in ["senescence"]:, "searchwords","cell-age-signatures", "genes-from-paper
 	print(st.GREEN, "\n*********** NORMALIZING AND VISUALIZING WITH R **********", st.RST)
 	subprocess.call ("/usr/bin/Rscript --vanilla Normalize_and_visualize.R "+arguments(countsfilename, metafilename, P.experiment_name), shell=True) #Arguments: 1)countfile, 2)metadate, 3)project name
 
+	"""
 	
-	
-	for i in ["DecisionTree"]: #,"RandomForest","Support Vector Machine"]: #XXX
+	for i in ["DecisionTree","RandomForest","Support Vector Machine"]: #XXX
 		#update_parameter("PredictionModel = "+i) #XXX
 		P.MODEL = i
 		#print(st.GREEN, "\b**", g, "\n**",i,st.RST)
 		
 		#****Machinelearning****
-"""
-print(st.GREEN, "\n*********** MACHINE LEARNING **********", st.RST)
-#subprocess.call ("/usr/bin/python3 Machinelearning.py "+arguments(), shell=True)
-import Machinelearning as Ms
-Ms.machinelearning()
-print("terug van Machine Learning 😃️")
 
+		print(st.GREEN, "\n*********** MACHINE LEARNING **********", st.RST)
+		#subprocess.call ("/usr/bin/python3 Machinelearning.py "+arguments(), shell=True)
+		import Machinelearning as Ms
+		Ms.machinelearning()
+		print("terug van Machine Learning 😃️")
+
+print("changed: for all the geneselections, for all machinelerning methods: the evaluation tables, the genelists, the RF graphs, the genelist importance graphs. ")
+while True:
+	print('\a\b\b', end='')
 
 exit()
 

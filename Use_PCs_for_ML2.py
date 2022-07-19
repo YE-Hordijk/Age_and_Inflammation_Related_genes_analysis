@@ -65,8 +65,7 @@ def f_importances(coef, names):
 	figure(figsize=(6, 9), dpi=80)
 	plt.barh(range(len(names)), imp, align='center')
 	plt.yticks(range(len(names)), names, fontsize=8)
-	plt.savefig(P.experiment_name+'/Compare_outliers/Outlier_Important_genes/'+P.GENE_SELECTION+"["+P.MODEL+"]"+'_FeatureImportances.pdf')
-
+	plt.savefig(P.experiment_name+'/Compare_outliers/Outlier_Important_genes/'+P.METHOD+"/"+P.GENE_SELECTION+"["+P.MODEL+"]"+'_FeatureImportances.pdf')
 	plt.close()
 	plt.show()
 	#exit()
@@ -118,13 +117,6 @@ def integrate_normalized_data(Normalized_and_selected_file_name):
 	df_normalized_data = df_normalized_data[['Name', 'Description']+cols] #First "Name" then "Description" then the other columns
 	
 	return df_normalized_data
-#*******************************************************************************
-def log_adjustment(data):
-	ones = pd.DataFrame(int(1), index=data.index, columns=data.columns) #creating dataframe of right size filled with ones
-	#dataa2 = pd.DataFrame(dataa+ones)
-	data = pd.DataFrame(ones.add(data, fill_value=0))
-	data = np.log2(data)
-	return data
 #*******************************************************************************
 #This function adds information about a suject to the dataframe
 def make_subject_row(info): #Make the row with subject data connected to each sample
@@ -198,7 +190,6 @@ def barplot_expressiondifference(Genes, ExpressionDifference, Agegroup, Threshol
 	plt.yticks(ticklist + [Threshold, (-1*Threshold)])
 	plt.savefig(P.experiment_name+"/Compare_outliers/"+P.GENE_SELECTION+"_"+Agegroup+".png")
 	#plt.show()
-	plt.clf()
 	plt.close()
 	
 ################################################################################
@@ -379,11 +370,13 @@ def use_pcs_for_ml2():
 
 		dfAgeGroup = dfAgeGroup.fillna(0) #missing values become zero
 
-		#dfAgeGroup.iloc[0:,1:] = log_adjustment(dfAgeGroup.iloc[0:,1:])
+
 
 		#_____________Making file to write to_________________________________________
+		if P.METHOD not in os.listdir(P.experiment_name+"/Compare_outliers/Outlier_ML_Tables"): #Making a folder for the machinelearning results
+			os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_ML_Tables/"+P.METHOD))
 		if P.MODEL not in os.listdir(P.experiment_name+"/Compare_outliers/Outlier_ML_Tables"): #Making a folder for the machinelearning results
-			os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_ML_Tables/"+P.MODEL))
+			os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_ML_Tables/"+P.METHOD+"/"+P.MODEL))
 
 		################# Making the model #############################################
 
@@ -408,7 +401,8 @@ def use_pcs_for_ml2():
 		y = ycopy
 
 		X = dfAgeGroup.drop(['Inowngroup'],axis=1).values #Making X, on which the prediction has to be made
-		X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.7, shuffle=False) #Splitting into train and test data
+		#X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.7, shuffle=False) #Splitting into train and test data
+		X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.7, shuffle=True, random_state=1) #Splitting into train and test data
 		
 		print(len(y_test))
 		print(len(X_test))
@@ -442,10 +436,10 @@ def use_pcs_for_ml2():
 
 		#---------------------------------------------------------------------------
 		#Writing LaTeX table
+		if P.random_baseline: help_name= help_name.replace(help_name.split("_")[0], "RandomBaseline")
 		if P.WriteLaTeXTableforML:
-			if P.random_baseline: help_name= help_name.replace(help_name.split("_")[0], "RandomBaseline")
 
-			f = open(P.experiment_name+"/Compare_outliers/Outlier_ML_Tables/"+P.MODEL+"/"+ThisAgeGroup+"_"+P.GENE_SELECTION+"_"+P.MODEL, "w")
+			f = open(P.experiment_name+"/Compare_outliers/Outlier_ML_Tables/"+P.METHOD+"/"+P.MODEL+"/"+ThisAgeGroup+"_"+P.GENE_SELECTION+"_"+P.MODEL, "w")
 			f.write(help_name+":") #write the first line
 			f.write("\n\n"+"\subsection*{}\n".format("{"+P.METHOD+"}"))
 			f.write("\subsubsection*{}\n".format("{"+P.MODEL+"}"))
@@ -519,11 +513,10 @@ def use_pcs_for_ml2():
 			#-------------------------------------------------------------------------------
 
 
-
+		if P.random_baseline: return("Stopfunction after writing model performance table because this is only a baseline")
 		#exit("JAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPEEEEEEEEEEEEE")
 		################################################################################
 		########### EXTRACTING LIST OF MOST IMPORTANT GENES ############################
-		
 		if P.MODEL != "Support Vector Machine": importances = clf.feature_importances_ #creating a list with importance values for all the genes
 		else: importances = clf.coef_[0]
 		
@@ -554,6 +547,7 @@ def use_pcs_for_ml2():
 
 	#_____________________Selecting only the X best features______________________
 	feature_dict = {}
+	if (len(importances) != len(dfAgeGroup.iloc[0:,1:].columns)): exit("Length importances and dataframe columns is not equal and cannot be linked together")
 	for feat, importance in zip(dfAgeGroup.iloc[0:,1:].columns, importances): #linking the genes and their importances together
 		feature_dict[feat] = importance #filling a dictionary with genes as keys and their importance as values
 
@@ -563,10 +557,12 @@ def use_pcs_for_ml2():
 	#____________________Writing the genelist_____________________________________
 	if "Outlier_Important_genes" not in os.listdir('./'+P.experiment_name+"/Compare_outliers"):
 		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Compare_outliers/Outlier_Important_genes"))
-	if P.GENE_SELECTION not in os.listdir('./'+P.experiment_name+"/Compare_outliers/Outlier_Important_genes"):
-		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.GENE_SELECTION))
+	if P.METHOD not in os.listdir('./'+P.experiment_name+"/Compare_outliers/Outlier_Important_genes"):
+		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD))
+	if P.GENE_SELECTION not in os.listdir('./'+P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD):
+		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD+"/"+P.GENE_SELECTION))
 
-	f = open("./"+P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.GENE_SELECTION+"/ImportantGenes_"+ThisAgeGroup"["+P.MODEL+"]["+P.GENE_SELECTION+"].txt", "w+")
+	f = open("./"+P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD+"/"+P.GENE_SELECTION+"/ImportantGenes_"+ThisAgeGroup"["+P.MODEL+"]["+P.GENE_SELECTION+"].txt", "w+")
 	for i in best_features:
 		f.write(i[0]+" "+str(i[1])+"\n")
 	f.close

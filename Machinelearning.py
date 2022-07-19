@@ -17,6 +17,7 @@ from itertools import islice #for selecting dictionary items
 import matplotlib
 from matplotlib import pyplot as plt
 from collections import OrderedDict
+import random
 #import sys
 
 #For machinelearning
@@ -65,7 +66,7 @@ def f_importances(coef, names):
 	figure(figsize=(6, 9), dpi=80)
 	plt.barh(range(len(names)), imp, align='center')
 	plt.yticks(range(len(names)), names, fontsize=8)
-	plt.savefig(P.experiment_name+'/Important_genes/'+P.GENE_SELECTION+"["+P.MODEL+"]"+'_FeatureImportances.pdf')
+	plt.savefig(P.experiment_name+'/Important_genes/'+P.METHOD+"/"+P.GENE_SELECTION+"["+P.MODEL+"]"+'_FeatureImportances.pdf')
 	plt.close()
 	#plt.show()
 
@@ -201,9 +202,13 @@ def machinelearning():
 	if P.random_baseline: #fill the matrix with random numbers for machine learning baseline
 		x = df_RNA_seq.iloc[0:, 2:].shape[0] # x = number of rows 
 		y = df_RNA_seq.iloc[0:, 2:].shape[1] # y = number of columns
+		np.random.seed(42)
 		df_RNA_seq.iloc[0:,2:]  = pd.DataFrame(np.random.randint(1,28,size=(x, y))) #creating random dataframe with same size
-		print("Random matrix for baseline: ", df_RNA_seq)
-
+		dingda = list(df_RNA_seq.columns)[2:]
+		random.shuffle(dingda)
+		df_RNA_seq.columns = list(df_RNA_seq.columns)[:2]+dingda #shuffeling the columns 
+		df_RNA_seq = df_RNA_seq.iloc[:300, :300] #making a smaller dataframe for creating the baseline
+		print("Random matrix for baseline: \n", df_RNA_seq)
 
 	#________Adding new rows with subject information_______________________________
 	print(df_RNA_seq)
@@ -293,7 +298,7 @@ def machinelearning():
 	df_RNA_seq = df_RNA_seq.fillna(0) #missing values become zero
 
 	#print(df_RNA_seq.iloc[0:,1:])
-	df_RNA_seq.iloc[0:,1:] = log_adjustment(df_RNA_seq.iloc[0:,1:])
+	#df_RNA_seq.iloc[0:,1:] = log_adjustment(df_RNA_seq.iloc[0:,1:])
 	#print(df_RNA_seq.iloc[0:,1:])
 
 
@@ -301,9 +306,12 @@ def machinelearning():
 	############## Make folder for machinelearning results #######################
 	if "Machine_Learning_Results" not in os.listdir(P.experiment_name): #Making a folder for the machinelearning results
 		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Machine_Learning_Results"))
+	if P.METHOD not in os.listdir(P.experiment_name+"/Machine_Learning_Results"): #Making a folder for the machinelearning results
+		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Machine_Learning_Results/"+P.METHOD))
+	if P.MODEL not in os.listdir(P.experiment_name+"/Machine_Learning_Results/"+P.METHOD): #Making a folder for the machinelearning results
+		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Machine_Learning_Results/"+P.METHOD+"/"+P.MODEL))
 
-	if P.MODEL not in os.listdir(P.experiment_name+"/Machine_Learning_Results"): #Making a folder for the machinelearning results
-		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Machine_Learning_Results/"+P.MODEL))
+
 
 	################# Making the model #############################################
 
@@ -326,10 +334,15 @@ def machinelearning():
 			elif y[i] == '60-69' or y[i] == '70-79'										: y[i] = 3
 
 	print(st.YELLOW, st.BOLD,"Number of examples", len(y), "(nr of people)", st.RST)
-
+	
+	#print(df_RNA_seq.iloc[6:, :])
+	#exit()
 	X = df_RNA_seq.drop(['age'],axis=1).values #Making X, on which the prediction has to be made
-	X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False) #Splitting into train and test data
+	X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True, random_state=1) #Splitting into train and test data
+	#X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False, random_state=None) #Splitting into train and test data
+	
 
+	
 	#print(P.GENE_SELECTION)
 	#print(P.MODEL) 	
 	#print(len(X), " x ", len(X[0]))
@@ -341,14 +354,14 @@ def machinelearning():
 
 	if P.METHOD == "Regression":
 		if P.MODEL == "Support Vector Machine":	clf = svm.SVR(kernel="linear")
-		elif P.MODEL == "RandomForest":					clf = RandomForestRegressor(n_estimators=15, max_depth=50, random_state=None) #, criterion='MSE', splitter='best')
+		elif P.MODEL == "RandomForest":					clf = RandomForestRegressor(n_estimators=15, max_depth=50, random_state=None, criterion='mse') #, criterion='MSE', splitter='best')
 																					#clf = BaggingRegressor(rf, n_estimators=45, max_samples=0.1, random_state=25)
-		elif P.MODEL == "DecisionTree":					clf = DecisionTreeRegressor(random_state=None, max_depth=15) #, criterion='squared_error')
+		elif P.MODEL == "DecisionTree":					clf = DecisionTreeRegressor(criterion='mse', random_state=None, max_depth=15) #, criterion='squared_error')
 
 	elif P.METHOD == "Classification":
 		if P.MODEL == "Support Vector Machine":	clf = svm.SVC(kernel='linear')
-		elif P.MODEL == "RandomForest":					clf = RandomForestClassifier(n_estimators=15, max_depth=50, random_state=None) #, criterion='MSE', splitter='best')
-		elif P.MODEL == "DecisionTree":					clf = DecisionTreeClassifier(criterion='entropy', max_depth=15, random_state=None)
+		elif P.MODEL == "RandomForest":					clf = RandomForestClassifier(n_estimators=15, max_depth=50, random_state=None, criterion='gini') #, criterion='MSE', splitter='best')
+		elif P.MODEL == "DecisionTree":					clf = DecisionTreeClassifier(criterion='gini', max_depth=15, random_state=None)
 	
 	#print(y_train)
 
@@ -376,18 +389,18 @@ def machinelearning():
 		#print(y_test[i], "--", y_pred[i])
 		if y_test[i] == y_pred[i]: right += 1
 		else: wrong += 1
-	Accuracy = round(((right/(right+wrong))*100), 1)
+	Accuracy = round(((right/(right+wrong))), 2)
+	Accuracy = sklearn.metrics.accuracy_score(y_test, y_pred, normalize=True, sample_weight=None)
 	print("\033[33m\033[1m<-> Accuracy:", Accuracy, ' \033[0m')
 
 	#---------------------------------------------------------------------------
+	if P.random_baseline: help_name= help_name.replace(help_name.split("_")[0], "RandomBaseline")
 
 	#Writing LaTeX table
 	if P.WriteLaTeXTableforML:
-		if P.random_baseline: help_name= help_name.replace(help_name.split("_")[0], "RandomBaseline")
-		
-		
+
 		#input(help_name)
-		f = open(P.experiment_name+"/Machine_Learning_Results/"+P.MODEL+"/"+help_name+"_"+P.MODEL+"_ML_Results.txt", "w")
+		f = open(P.experiment_name+"/Machine_Learning_Results/"+P.METHOD+"/"+P.MODEL+"/"+help_name+"_"+P.MODEL+"_ML_Results.txt", "w")
 		f.write(help_name+":") #write the first line
 		f.write("\n\n"+"\subsection*{}\n".format("{"+P.METHOD+"}"))
 		f.write("\subsubsection*{}\n".format("{"+P.MODEL+"}"))
@@ -466,7 +479,7 @@ def machinelearning():
 
 		
 
-
+	if P.random_baseline: return("Stopfunction after writing model performance table because this is only a baseline")
 	################################################################################
 	########### EXTRACTING LIST OF MOST IMPORTANT GENES ############################
 
@@ -474,7 +487,7 @@ def machinelearning():
 	else: importances = clf.coef_[0]
 	####### PLOTTING THE GENE IMPORTANCE FOR RANDOM FORREST #####################---
 	if P.MODEL == "RandomForest":
-		std = np.std([tree.feature_importances_ for tree in clf.estimators_], axis=0).tolist()
+		std = np.std([tree.feature_importances_ for tree in clf.estimators_], axis=0).tolist() #getting the standard deviations over all the trees
 		std.sort(reverse=True)
 		std2 = std[:P.NrFoundRelevantGenes] #The N most imporatant genes
 		forest_importances = pd.Series(importances, index=df_RNA_seq.iloc[0:,1:].columns)
@@ -491,16 +504,16 @@ def machinelearning():
 		fig.tight_layout()
 		plt.axhline(y=0)
 		plt.rcParams["figure.figsize"] = (10,6)
-		plt.savefig(P.experiment_name+'/'+P.GENE_SELECTION+'.pdf')
+		if P.random_baseline: plt.savefig(P.experiment_name+'/Important_genes/'+P.METHOD+'/Randombaseline.pdf')
+		else: plt.savefig(P.experiment_name+'/Important_genes/'+P.METHOD+"/"+P.GENE_SELECTION+'.pdf')
 		plt.close()
 		#plt.show()
 
 
 	###########################################################################-----
-
-
 	#_____________________Selecting only the X best features______________________
 	feature_dict = {}
+	if (len(importances) != len(df_RNA_seq.iloc[0:,1:].columns)): exit("Length importances and dataframe columns is not equal and cannot be linked together")
 	for feat, importance in zip(df_RNA_seq.iloc[0:,1:].columns, importances): #linking the genes and their importances together
 		feature_dict[feat] = importance #filling a dictionary with genes as keys and their importance as values
 	
@@ -510,10 +523,12 @@ def machinelearning():
 	#____________________Writing the genelist_____________________________________
 	if "Important_genes" not in os.listdir('./'+P.experiment_name):
 		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Important_genes"))
-	if P.GENE_SELECTION not in os.listdir('./'+P.experiment_name+"/Important_genes"):
-		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Important_genes/"+P.GENE_SELECTION))
-		
-	f = open("./"+P.experiment_name+"/Important_genes/"+P.GENE_SELECTION+"/ImportantGenes["+P.MODEL+"]["+P.GENE_SELECTION+"].txt", "w+")
+	if P.METHOD not in os.listdir('./'+P.experiment_name+"/Important_genes"):
+		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Important_genes/"+P.METHOD))
+	if P.GENE_SELECTION not in os.listdir('./'+P.experiment_name+"/Important_genes/"+P.METHOD):
+		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Important_genes/"+P.METHOD+"/"+P.GENE_SELECTION))
+	
+	if not P.random_baseline: f = open("./"+P.experiment_name+"/Important_genes/"+P.METHOD+"/"+P.GENE_SELECTION+"/ImportantGenes["+P.MODEL+"]["+P.GENE_SELECTION+"].txt", "w+")
 	for i in best_features:
 		f.write(i[0]+" "+str(i[1])+"\n")
 	f.close
@@ -560,6 +575,7 @@ def machinelearning():
 	"""
 
 	print('\a')
+	return('Oke')
 	################ LINKING MOST IMPORANT GENES TO PATHWAYS #######################
 	#isabelle = {}
 	#for gek in best_features:
