@@ -11,7 +11,7 @@ class P:
 	MIDDLE = "50-59"
 	OLD = "60-79"
 	#For machinelearning
-	random_baseline = True #False
+	random_baseline = False
 	removing_outliers = False #True
 	MODEL = "RandomForest" #"DecisionTree" #"Support Vector Machine"
 	METHOD = "Classification" #"Regression"

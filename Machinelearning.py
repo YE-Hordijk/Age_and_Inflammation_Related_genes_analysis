@@ -374,14 +374,14 @@ def machinelearning():
 	################### EVALUATION OF THE MACHINELEARNING ##########################
 	#-------------------------------------------------------------------------------
 
-
 	#Evalueation of the preduction quality
 	if P.METHOD =="Regression":
-		for i in range(len(y_pred)):
-			y_pred[i] = round(y_pred[i], 0)
-
-	#RMSE = math.sqrt(np.square(np.subtract(y_test,y_pred)).mean())
-	#print("\n\033[33m\033[1m<-> P.Model = ", P.MODEL, "\n<-> RMSE:", round(RMSE, 4), '\a \033[0m')
+		y_pred = [round(x, 0) for x in y_pred] #round to the closest whole number
+		y_pred = [int(x) for x in y_pred] #cast to an integer
+	
+	if P.random_baseline:
+		RMSE = math.sqrt(np.square(np.subtract(y_test,y_pred)).mean())
+		print("\n\033[33m\033[1m<-> P.Model = ", P.MODEL, "\n<-> RMSE:", round(RMSE, 4), '\a \033[0m')
 
 	#Count the number of right and wrong guesses
 	right = 0
@@ -391,7 +391,14 @@ def machinelearning():
 		if y_test[i] == y_pred[i]: right += 1
 		else: wrong += 1
 	Accuracy = round(((right/(right+wrong))), 2)
-	Accuracy1 = sklearn.metrics.accuracy_score(y_test, y_pred, normalize=True, sample_weight=None)
+	
+	#print(y_test)
+	#print(y_pred)
+	#for i in range(0, len(y_test)):
+	#	print(y_test[i], " - ", y_pred[i])
+	
+	
+	#Accuracy1 = sklearn.metrics.accuracy_score(y_test, y_pred, normalize=True, sample_weight=None)
 	print("\033[33m\033[1m<-> Accuracy:", Accuracy, ' \033[0m')
 
 	#---------------------------------------------------------------------------
@@ -419,10 +426,12 @@ def machinelearning():
 			Occurence = y_test.count(group)
 			Predicted = y_pred.count(group)
 			CorrectPredicted = sum([1 for i,j in zip(y_test,y_pred) if (i==j and j==group)])
+			PRECISION = sklearn.metrics.precision_score(y_test, y_pred, labels=None, pos_label=group, average="binary", sample_weight=None, zero_division='warn')
 			#print(st.GREEN, "Accuracy1: ", Accuracy1,st.RST)
 			#print(st.GREEN, "Occurence in database: ", Occurence,st.RST)
 			#print(st.GREEN, "Predcited: ", Predicted,st.RST)
 			#print(st.GREEN, "CorrectPredicted: ", CorrectPredicted,st.RST)
+			print(st.GREEN, "PRECISION: ", PRECISION, st.RST)
 			
 			
 			
@@ -453,6 +462,8 @@ def machinelearning():
 			print("\033[33m\033[1m  -> Database occurance:\t",group_real,'\033[0m')
 			print("\033[33m\033[1m  -> Occurance predicted:\t",group_predicted,'\033[0m')
 			print("\033[33m\033[1m  -> Correct predicted:\t",correct,'\033[0m\n')
+			
+			exit()
 			#input("Compare")
 			
 			GenelistnameIsLong = False
@@ -493,7 +504,7 @@ def machinelearning():
 
 		
 
-	if P.random_baseline: return("Stopfunction after writing model performance table because this is only a baseline")
+	if P.random_baseline: return("Stoping function after writing model performance table because this is only a baseline")
 	################################################################################
 	########### EXTRACTING LIST OF MOST IMPORTANT GENES ############################
 

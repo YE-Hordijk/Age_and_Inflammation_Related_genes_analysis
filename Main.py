@@ -138,7 +138,7 @@ for g in datasets: #XXX
 		#print(st.GREEN, "\b**", g, "\n**",i,st.RST)
 		
 		#****Machinelearning****
-		
+		"""
 		print(st.GREEN, "\n*********** MACHINE LEARNING **********", st.RST)
 		#subprocess.call ("/usr/bin/python3 Machinelearning.py "+arguments(), shell=True)
 		import Machinelearning as Ms
@@ -151,10 +151,11 @@ for g in datasets: #XXX
 		import Use_PCs_for_ML2 as ML2
 		ML2.use_pcs_for_ml2()
 		#subprocess.call ("/usr/bin/python3 ExtractingPCs.py "+arguments(), shell=True)
-		"""
+		
 print("changed: for all the geneselections, for all machinelerning methods: the evaluation tables, the genelists, the RF graphs, the genelist importance graphs. ")
-while True:
-	print('\a\b\b', end='')
+
+#while True:
+#	print('\a\b\b', end='')
 
 #****DO R again
 #TODO
