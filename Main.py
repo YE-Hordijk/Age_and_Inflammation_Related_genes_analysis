@@ -150,7 +150,7 @@ for g in datasets: #XXX
 		print(st.GREEN, "\n*********** Use PCs for MachineLearning2 **********", st.RST)
 		import Use_PCs_for_ML2 as ML2
 		ML2.use_pcs_for_ml2()
-		#subprocess.call ("/usr/bin/python3 ExtractingPCs.py "+arguments(), shell=True)
+		#subprocess.call ("/usr/bin/python3 Use_PCs_for_ML2.py "+arguments(), shell=True)
 
 #while True:
 #	print('\a\b\b', end='')
