@@ -149,9 +149,6 @@ def create_genelist():
 
 
 
-#print"*Closing script Create_genelist.py")
-
-
 
 
 
