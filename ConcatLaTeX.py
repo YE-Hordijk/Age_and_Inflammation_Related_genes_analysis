@@ -48,9 +48,10 @@ def prepare_info_CO(listoffiles):
 
 from Parameters import P
 import os
-regels = {"NoMiddleAge": [3,11,13,15,16],
-					"WithMiddleAge": [3,11,14,16,17]
+regels = {"NoMiddleAge": [3,11,13,15,16,7],
+					"WithMiddleAge": [3,11,14,16,17,7]
 					}
+color = 2
 tel = 0
 nrfiles = 0
 regel = "NoMiddleAge"
@@ -59,7 +60,7 @@ z = input("TotalGeneDataset[1] or Compare_outliers[2]?")
 if z == 1:
 	l = input("No Middleage[1] or With Middleage[2]")
 	if l == "2": regel = "WithMiddleAge" 
-
+else: color = input("Use colors? Yes[1], No[2]")
 
 if (m == "1"): method = "Classification"
 elif (m == "2"): method = "Regression"
@@ -107,10 +108,11 @@ else:
 			for i in f: #looping over the readfile
 				subtel += 1
 				
-				if subtel >= regels[regel][1] and subtel < regels[regel][2]:
+				if color=="1" and subtel >= regels[regel][1] and subtel < regels[regel][2]:
 					if colorflip==0: c.write("\t\t\\rowcolor{green!80!yellow!50}\n")
 					else: c.write("\t\t\\rowcolor{green!40!yellow!40}\n")
-				
+					
+					
 				if tel == 1: #if the first file
 					if subtel >= regels[regel][0] and subtel <= regels[regel][2]:
 						c.write(i)
