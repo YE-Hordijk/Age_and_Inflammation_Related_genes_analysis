@@ -1,18 +1,27 @@
 #Add LaTeX tables
 
+from Parameters import P
+import os
+thisfile = ""
+
 #*******************************************************************************
 def prepare_info_TGS(listoffiles):
+	global thisfile
 	thisfile = allfile = random = ""
 	for k in listoffiles:
-		if k == folder+"concatenated.txt": thisfile = k
+		if k == folder+"concatenated.tex": thisfile = k
 		if k[0:3] == "all": allfile = k
 		if k[0:7] == "RandomB": random = k
-	listoffiles.remove(thisfile)
+	if thisfile in listoffiles: listoffiles.remove(thisfile)
 	listoffiles.remove(allfile)
-	listoffiles.remove(random)
+	if random not in listoffiles: 
+		cont = input("You forgot your baseline. Continue without? Yes[1]/No[2]")
+		if cont == "2": exit()
+	else: listoffiles.remove(random)
 	listoffiles.sort(reverse = True)
 	listoffiles.append(allfile)
-	listoffiles.append(random)
+
+	if random != "": listoffiles.append(random)
 	nrfiles = len(listoffiles) #NUMBER OF FILES IN THIS FOLDER
 	#print(folder, "\n", listoffiles)
 	return listoffiles, nrfiles
@@ -46,8 +55,7 @@ def prepare_info_CO(listoffiles):
 #*******************************************************************************
 
 
-from Parameters import P
-import os
+
 regels = {"NoMiddleAge": [3,11,13,15,16,7],
 					"WithMiddleAge": [3,11,14,16,17,7]
 					}
@@ -83,7 +91,6 @@ else:
 		#moving "all" to the last position
 		listoffiles = os.listdir(path+"/"+method+"/"+folder)
 		
-		
 		if z=="1": listoffiles, nrfiles = prepare_info_TGS(listoffiles)
 		elif z=="2": listoffiles, nrfiles = prepare_info_CO(listoffiles)
 		#else: exit("verkeerde waarde ingevoerd bij 2e vraag")
@@ -93,6 +100,7 @@ else:
 
 		input("volgende model?")
 		colorflip = 0
+		
 		for File in listoffiles:
 			f = open(path+"/"+method+"/"+folder+"/"+File, "r")
 			subtel = 0

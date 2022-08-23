@@ -110,53 +110,55 @@ for g in datasets: #XXX
 	P.GENE_SELECTION = g #Setting the parameter
 	print("Dataset: ", g)
 	
-	"""
+	
 	#***CREATING A GENELIST****
 	if (P.select_on_genes):
 		print(st.GREEN, "\n*********** CREATE GENELIST **********", st.RST)
 		import Create_genelist as CG
 		genedict = CG.create_genelist()
-		#subprocess.call ("/usr/bin/python3 Create_genelist.py "+arguments(P.update_files, P.GENE_SELECTION, shell=True)
+	
 
-
+	
 	#****PREPROCESSING THE DATA for R******
 	print(st.GREEN, "\n*********** PREPROCESSING DATA FOR R **********", st.RST)
-	#subprocess.call ("/usr/bin/python3 Preprocessing.py "+arguments(P.update_files, P.GENE_SELECTION), shell=True)
 	import Preprocessing as Pr
-	Pr.preprocessing()
-
+	Pr.preprocessing()	
+	
+	input()
+	
+	"""
 	#****USING R******
-	#countsfilename, metafilename = calculate_filenames(P.use_middle_age, True, g) #XXX
+	countsfilename, metafilename = calculate_filenames(P.use_middle_age, True, g) #XXX
 	print(st.GREEN, "\n*********** NORMALIZING AND VISUALIZING WITH R **********", st.RST)
 	subprocess.call ("/usr/bin/Rscript --vanilla Normalize_and_visualize.R "+arguments(countsfilename, metafilename, P.experiment_name), shell=True) #Arguments: 1)countfile, 2)metadate, 3)project name
-
-	"""
 	
-	for i in ["DecisionTree","RandomForest","Support Vector Machine"]: #XXX
-		#update_parameter("PredictionModel = "+i) #XXX
+	
+	for i in ["DecisionTree","RandomForest","Support Vector Machine"]:
 		P.MODEL = i
-		#print(st.GREEN, "\b**", g, "\n**",i,st.RST)
+		
 		
 		#****Machinelearning****
-		"""
 		print(st.GREEN, "\n*********** MACHINE LEARNING **********", st.RST)
-		#subprocess.call ("/usr/bin/python3 Machinelearning.py "+arguments(), shell=True)
 		import Machinelearning as Ms
 		Ms.machinelearning()
-		print("terug van Machine Learning 😃️")
-		"""
-
+		
+		
+		
 		#****Extracting important genes from PCfiles and finding outliers
 		print(st.GREEN, "\n*********** Use PCs for MachineLearning2 **********", st.RST)
 		import Use_PCs_for_ML2 as ML2
 		ML2.use_pcs_for_ml2()
-		#subprocess.call ("/usr/bin/python3 Use_PCs_for_ML2.py "+arguments(), shell=True)
+	"""
+		
+
+
 
 #while True:
 #	print('\a\b\b', end='')
 
 #****DO R again
 #TODO
+#subprocess.call ("/usr/bin/python3 Machinelearning.py "+arguments(), shell=True)
 
 #******Machinelearning again
 #TODO

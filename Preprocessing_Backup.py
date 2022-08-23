@@ -23,7 +23,6 @@ import math as mt
 import statistics
 from itertools import islice #for selecting dictionary items
 #import sys
-import matplotlib.pyplot as plt
 
 
 
@@ -125,7 +124,6 @@ def add_new_row(new_row):
 ################################################################################
 
 def preprocessing():
-
 	RNACountsFileName = "RNAseqfile_Tissue="+P.tissue+".csv"
 	pathwaygenes = {}
 	PrC.df_RNA_seq = pd.DataFrame([]) #emptying dataframe
@@ -134,14 +132,10 @@ def preprocessing():
 	help_name = P.GENE_SELECTION #variable for nameing files and folders
 	if P.use_middle_age:	help_name += "_With-MiddleAge_METADATA.txt"
 	else: 							help_name += "_No-MiddleAge_METADATA.txt"
-
 	#__________________Updating of downloading source files_________________________
 	GF.ensure_file('https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_reads.gct.gz','GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_reads.gct.gz', P.update_files)
 	GF.ensure_file('https://storage.googleapis.com/gtex_analysis_v8/annotations/GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt', 'GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt', P.update_files)
-	#GF.ensure_file('https://storage.googleapis.com/gtex_analysis_v8/annotations/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt', 'GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt', P.update_files)
-	
-
-	GF.ensure_file('https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/gene_reads/gene_reads_2017-06-05_v8_'+P.tissue.lower().replace(" ", "_")+'.gct.gz', 'gene_reads_2017-06-05_v8_'+P.tissue.lower().replace(" ", "_")+'.gct.gz', P.update_files)
+	GF.ensure_file('https://storage.googleapis.com/gtex_analysis_v8/annotations/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt', 'GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt', P.update_files)
 
 
 	#__________________Reading and converting the datafiles_________________________
@@ -158,19 +152,14 @@ def preprocessing():
 	PrC.dict_samples = {lst_samples[i] for i in range(0, len(lst_samples), 1)} #list to dictionary
 	
 
-	"""
 	#Reading the RNA seq data (already filtering on samples by tissuetype (columns))
 	#--Option 1) the countset has previously been filtered on samples, use this saved vversion instead for speed
 	if ("Countset_Samplefiltered" in os.listdir('./'+P.experiment_name)) and (RNACountsFileName in os.listdir('./'+P.experiment_name+"/Countset_Samplefiltered/")): #Does this folder already exist
 		PrC.df_RNA_seq = strip_data_file(P.experiment_name+"/Countset_Samplefiltered/"+RNACountsFileName, read_this_sample, 0, '\t')
 	#--Option 2) This file has never been read and saved
 	else: PrC.df_RNA_seq = strip_data_file("Source/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_reads.gct", read_this_sample, 2, '\t')
-	"""
-	PrC.df_RNA_seq = GF.readfile('Source/gene_reads_2017-06-05_v8_'+P.tissue.lower().replace(" ", "_")+'.gct', '\t', 2, 'dataframe').iloc[:, 1:]
-	
-	print(PrC.df_RNA_seq)
-	#print(new_df_RNA_seq)
 
+	# print(PrC.df_RNA_seq)
 
 
 	#________________Saving in between for faster runs nexttime_____________________
@@ -246,12 +235,9 @@ def preprocessing():
 	for key,value in meta.items():
 		f.writelines(str(key+"\t"+value+'\n'))
 	f.close()
-	
-	
-	print(PrC.df_RNA_seq)
-	exit()
+
 	#_2______Filtering out middle age if this age group is not required______________
-	if not P.use_middle_age and not P.visualize_data:
+	if not P.use_middle_age:
 		print("Filtering out the middle age group (", P.MIDDLE,")...")
 		for col in PrC.df_RNA_seq.iloc[0:,2:]:
 			if ((col != "Name") and (col != "Description") and (col not in meta) ): #has this subject already been filtered out from the metadatafile because middle-age
@@ -279,153 +265,7 @@ def preprocessing():
 	PrC.df_RNA_seq.drop(['Description'], axis=1, inplace=True)
 	print("Writing", help_name, "to a file")
 	PrC.df_RNA_seq.iloc[3:, 0:].to_csv(P.experiment_name+"/Files_for_R/"+help_name,index=True, sep='\t')
-
-
-
-	#_5_____________________Visualizing the data__________________________________
-	if P.visualize_data:
-		# 1 = male, 2 = female
-
-		ages = {'20-29':{'thisage':0, 'DTHHRDY':[0]*6, 'sex':[0,0]}, 
-						'30-39':{'thisage':0, 'DTHHRDY':[0]*6, 'sex':[0,0]}, 
-						'40-49':{'thisage':0, 'DTHHRDY':[0]*6, 'sex':[0,0]}, 
-						'50-59':{'thisage':0, 'DTHHRDY':[0]*6, 'sex':[0,0]}, 
-						'60-69':{'thisage':0, 'DTHHRDY':[0]*6, 'sex':[0,0]}, 
-						'70-79':{'thisage':0, 'DTHHRDY':[0]*6, 'sex':[0,0]}}
-
-
-		for i in PrC.df_RNA_seq:
-			ages[PrC.df_RNA_seq.loc['Subject age',i]]['thisage'] += 1
-			if PrC.df_RNA_seq.loc['Subject DTHHRDY', i] == "nan": PrC.df_RNA_seq.loc['Subject DTHHRDY', i] = 5
-			else: PrC.df_RNA_seq.loc['Subject DTHHRDY', i] = int(float(PrC.df_RNA_seq.loc['Subject DTHHRDY', i]))
-			ages[PrC.df_RNA_seq.loc['Subject age',i]]['DTHHRDY'][int(PrC.df_RNA_seq.loc['Subject DTHHRDY', i])] += 1
-			ages[PrC.df_RNA_seq.loc['Subject age',i]]['sex'][int(PrC.df_RNA_seq.loc['Subject sex', i])-1] += 1
-
-		#NORMAL AGE DISTRIBUTION
-		plt.figure(figsize=[10,10])
-		plt.bar(ages.keys(), [k for k in [p['thisage'] for p in ages.values()]], edgecolor = "black")
-		plt.title('Nr '+P.tissue+' samples per agegroup', fontsize=20)
-		for i in range(0, len(ages.keys())):
-			plt.text(i, [k for k in [p['thisage'] for p in ages.values()]][i]+1 ,[k for k in [p['thisage'] for p in ages.values()]][i], color='black', fontweight=600, ha="center", fontsize=18)
-		plt.xlabel('Agegroup', fontsize=18)
-		plt.ylabel('Nr '+P.tissue+' samples', fontsize=18)
-		plt.xticks(fontsize=15)
-		plt.yticks(fontsize=15)
-		#plt.show()
-		plt.savefig(P.experiment_name+'/Normal_Age_distribution.png')
-		plt.close()
-
-
-		#SEX DISTRIBUTION OVER AGE
-		plt.figure(figsize=[10,10])
-		plt.bar(ages.keys(), [k for k in [p['sex'][0] for p in ages.values()]], color='cornflowerblue', edgecolor = "black")
-		plt.bar(ages.keys(), [k for k in [p['sex'][1] for p in ages.values()]], bottom=[k for k in [p['sex'][0] for p in ages.values()]], color='hotpink', edgecolor = "black")
-		for i in range(0, len(ages.keys())):
-			plt.text(i, [k for k in [p['thisage'] for p in ages.values()]][i]+2 ,[k for k in [p['thisage'] for p in ages.values()]][i], color='black', fontweight=600, ha="center", fontsize=18)
-		plt.title('Nr '+P.tissue+' samples of each sex per agegroup', fontsize=20)
-		plt.xlabel('Agegroup', fontsize=18)
-		plt.ylabel('Nr '+P.tissue+' samples per sex', fontsize=18)
-		plt.xticks(fontsize=15)
-		plt.yticks(fontsize=15)
-		#Legend
-		colors = {'Men':'cornflowerblue', 'Women':'hotpink'}         
-		labels = list(colors.keys())
-		handles = [plt.Rectangle((0,0),1,1, color=colors[label]) for label in labels]
-		plt.legend(handles, labels, loc='upper left', fontsize='xx-large')
-
-		#plt.show()
-		plt.savefig(P.experiment_name+'/Sex_Distribution_over_Age.png', bbox_inches = 'tight')
-		plt.close()
-
-
-		#DTHHRDY DISTRIBUTION OVER AGE
-		plt.figure(figsize=[10, 10])
-		colors = ['#7A67EE', '#FF8247', '#4EEE94', '#D8BFD8', '#EE0000', '#B7B7B7'] 
-		counthelp = [k for k in [p['DTHHRDY'][0] for p in ages.values()]]
-		plt.bar(ages.keys(), [k for k in [p['DTHHRDY'][0] for p in ages.values()]], color=colors[0], edgecolor = "black")
-		for i in range(1, len(ages.keys())):
-			plt.bar(ages.keys(), [k for k in [p['DTHHRDY'][i] for p in ages.values()]], bottom=counthelp, color=colors[i], edgecolor = "black")
-			counthelp = np.add(counthelp, [k for k in [p['DTHHRDY'][i] for p in ages.values()]])
-		for i in range(0, len(ages.keys())):
-			plt.text(i, [k for k in [p['thisage'] for p in ages.values()]][i]+2 ,[k for k in [p['thisage'] for p in ages.values()]][i], color='black', fontweight=600, ha="center", fontsize=18)
-		plt.title('Nr '+P.tissue+' samples of each sex per agegroup', fontsize=20)
-		plt.xlabel('Agegroup', fontsize=18)
-		plt.ylabel('Nr '+P.tissue+' samples per sex', fontsize=18)
-		plt.xticks(fontsize=15)
-		plt.yticks(fontsize=15)
-		#Legend
-		colors = {'Ventilator Case': colors[0], 'Violent & fast': colors[1], 'Fast of natural cause':colors[2], 'Intermediate':colors[3], 'Slow':colors[4], 'Unknown':colors[5]}         
-		labels = list(colors.keys())
-		handles = [plt.Rectangle((0,0),1,1, color=colors[label]) for label in labels]
-		plt.legend(handles, labels, loc='upper left', fontsize='xx-large')
-		#plt.show()
-		plt.savefig(P.experiment_name+'/Death Circumstances_DIstribution_over_Age.png', bbox_inches = 'tight')
-		plt.close()
-
-
-		print(PrC.df_RNA_seq)
-		smtsd = ["Adipose - Subcutaneous", "Adipose - Visceral (Omentum)", "Adrenal Gland", "Artery - Aorta", "Artery - Coronary", "Artery - Tibial", "Bladder", "Brain - Amygdala", "Brain - Anterior cingulate cortex (BA24)", "Brain - Caudate (basal ganglia)", "Brain - Cerebellar Hemisphere", "Brain - Cerebellum", "Brain - Cortex", "Brain - Frontal Cortex (BA9)", "Brain - Hippocampus", "Brain - Hypothalamus", "Brain - Nucleus accumbens (basal ganglia)", "Brain - Putamen (basal ganglia)", "Brain - Substantia nigra", "Brain - Spinal cord (cervical c-1)", "Brain - Substantia nigra", "Breast - Mammary Tissue", "Cervix - Ectocervix", "Cervix - Endocervix", "Colon - Transverse", "Esophagus - Mucosa", "Esophagus - Muscularis", "Fallopian Tube", "Heart - Atrial Appendage", "Heart - Left Ventricle", "Kidney - Cortex", "Kidney - Medulla", "Liver", "Lung", "Muscle - Skeletal", "Nerve - Tibial", "Ovary", "Pancreas", "Pituitary", "Prostate", "Skin - Not Sun Exposed (Suprapubic)", "Skin - Sun Exposed (Lower leg)", "Spleen", "Stomach", "Testis", "Thyroid", "Transformed fibroblasts", "Uterus", "Vagina", "Whole Blood"]
-		smts = ["Adipose Tissue", "Adrenal Gland", "Bladder", "Blood", "Blood Vessel", "Bone Marrow", "Brain", "Breast", "Cervix Uteri", "Colon", "Esophagus", "Fallopian Tube", "Heart", "Kidney", "Liver", "Lung", "Muscle", "Nerve", "Ovary", "Pancreas", "Pituitary", "Prostate", "Skin", "Spleen", "Stomach", "Testis", "Thyroid", "Uterus", "Vagina"]
-
-
-
-		fik = GF.readfile("Source/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt", '\t', 0, 																																																						"dataframe")
-		fik = fik.loc[:, ['SAMPID', 'SMTS', 'SMTSD', 'SMAFRZE']]
-		fik = fik.loc[fik['SMAFRZE'] == 'RNASEQ']
-		print(fik)
-		
-		samples_per_tissue = {}
-		for tis in smtsd:
-			samples_per_tissue[tis] = fik.loc[fik['SMTSD																																																'] == tis].shape[0]
-		print(fik)
-		
-		samples_per_tissue = {k: v for k, v in sorted(samples_per_tissue.																																items(), key=lambda item: item[1], reverse=True)}
-		print(samples_per_tissue)
-		#exit()																																																																				
-		for i in samples_per_tissue:
-			print(i, " - ", samples_per_tissue[i])
-		
-		# Samples per detailed tissue
-		plt.figure(figsize=[20,10])
-		plt.bar(samples_per_tissue.keys(),samples_per_tissue.values(), edgecolor = "black")
-		plt.title('Nr samples per detailed tissuetype', fontsize=20)
-		for i in range(0, len(samples_per_tissue.keys())):
-			#plt.text(i, [k for k in samples_per_tissue[i].values()][i]+1 , [k for k in samples_per_tissue[i].values()][i], color='black', fontweight=1000, ha="center")
-			plt.text(i, list(samples_per_tissue.values())[i]+10, list(samples_per_tissue.values())[i], color='black', fontweight=1000, ha="center", fontsize=13)
-		#plt.xlabel('Detailed tissuetypes', fontsize=22)
-		plt.xticks(rotation=-90)
-		plt.ylabel('Nr samples', fontsize=22)
-		
-		
-		plt.gcf().canvas.draw() #PLAGIAAT
-		tl = plt.gca().get_xticklabels() #PLAGIAAT
-		maxsize = max([t.get_window_extent().width for t in tl]) #PLAGIAAT
-		s = maxsize/plt.gcf().dpi*150+4*0.1 #PLAGIAAT
-		margin =  0.031
-		plt.gcf().subplots_adjust(left=margin, right=1-margin) #PLAGIAAT
-		plt.gcf().set_size_inches(s, plt.gcf().get_size_inches()[1]) #PLAGIAAT
-		
-		plt.margins(x=0)# or ax.margins(x=0)
-		plt.xticks(fontsize=19)
-		plt.yticks(fontsize=19)
-		
-		
-		#plt.rcParams["figure.figsize"] = [10, 20]
-		#plt.rcParams["figure.autolayout"] = True
-		
-		
-		#plt.show()
-		plt.savefig(P.experiment_name+'/Detailed_Samples.png', bbox_inches = 'tight')
-		plt.close()
-
-
-
-
-		while True:
-			choice = input("You have just visualized the data and saved barplots in your folder where the code is. Visualizing meant not excluding the middle group are you sure you want to continue? (yes/no)")
-			if choice == "no": exit()
-			elif choice == "yes": break
-		
+	
 
 
 

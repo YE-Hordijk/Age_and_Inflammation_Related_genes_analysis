@@ -63,11 +63,20 @@ def f_importances(coef, names):
 	imp = coef
 	imp,names = zip(*sorted(zip(imp,names)))
 	from matplotlib.pyplot import figure
-	figure(figsize=(6, 9), dpi=80)
+	figure(figsize=(6, 10), dpi=160)
 	plt.barh(range(len(names)), imp, align='center')
-	plt.yticks(range(len(names)), names, fontsize=8)
-	plt.savefig(P.experiment_name+'/Important_genes/'+P.METHOD+"/"+P.GENE_SELECTION+"["+P.MODEL+"]"+'_FeatureImportances.pdf')
+	
+	if len(names) > 60:
+		plt.yticks(range(len(names)), names, fontsize=6)
+	elif len(names) > 40:
+		plt.yticks(range(len(names)), names, fontsize=8)
+	else:
+		plt.yticks(range(len(names)), names, fontsize=10)
+	
+	plt.margins(y=0)# or ax.margins(x=0)
+	plt.savefig(P.experiment_name+'/Important_genes/'+P.METHOD+"/"+P.GENE_SELECTION+"["+P.MODEL+"]"+'_FeatureImportances.png', bbox_inches = 'tight') #, pad_inches = 0)
 	plt.close()
+	
 	#plt.show()
 
 #*******************************************************************************
@@ -299,7 +308,7 @@ def machinelearning():
 	df_RNA_seq = df_RNA_seq.fillna(0) #missing values become zero
 
 	#print(df_RNA_seq.iloc[0:,1:])
-	#df_RNA_seq.iloc[0:,1:] = log_adjustment(df_RNA_seq.iloc[0:,1:])
+	#df_RNA_seq.iloc[0:,1:] = log_adjustment(df_RNA_seq.iloc[0:,1:]) #taking the log values of the dataframe
 	#print(df_RNA_seq.iloc[0:,1:])
 
 
@@ -312,57 +321,39 @@ def machinelearning():
 	if P.MODEL not in os.listdir(P.experiment_name+"/Machine_Learning_Results/"+P.METHOD): #Making a folder for the machinelearning results
 		os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Machine_Learning_Results/"+P.METHOD+"/"+P.MODEL))
 
-
-
 	################# Making the model #############################################
 
-	mean_f1 = 0
-	######## pREPARING THe train and test data ####################################
+	#________________Praparing the train and test data____________________________
 	print(st.CYAN)
 	print("Method = ", P.METHOD, "\nModel = ", P.MODEL, "\nDataset = ", P.GENE_SELECTION, st.RST)
 
 	y = df_RNA_seq['age'].values.copy() #Making y (prediction column)
 
-	if P.METHOD == "Classification":
-		for i in range(len(y)): #converting strings to groups
-			if   y[i] == '20-29' or y[i] == '30-39' or y[i] == '40-49': y[i] = "Young"
-			elif y[i] == '50-59'																			: y[i] = "Middle"
-			elif y[i] == '60-69' or y[i] == '70-79'										: y[i] = "Old"
-	elif P.METHOD == "Regression":
-		for i in range(len(y)): #converting strings to integers (groups)
-			if   y[i] == '20-29' or y[i] == '30-39' or y[i] == '40-49': y[i] = 1
-			elif y[i] == '50-59'																			: y[i] = 2
-			elif y[i] == '60-69' or y[i] == '70-79'										: y[i] = 3
+	Value = {"Classification": ["Young","Middle","Old"], "Regression": [1,2,3]} #Making a dictionary with agegroupvalues for classification and regression
+	for i in range(0, len(y)): #converting strings to groups
+		if    y[i][-2:] <= P.YOUNG[-2:]: y[i] = Value[P.METHOD][0]		#"Young" or 1
+		elif  y[i][:2]  >= P.OLD[:2]:    y[i] = Value[P.METHOD][2]			#"Old" or 3
+		else: 													 y[i] = Value[P.METHOD][1]		#"Middle" or 2
 
 	print(st.YELLOW, st.BOLD,"Number of examples", len(y), "(nr of people)", st.RST)
-	
-	#print(df_RNA_seq.iloc[6:, :])
-	#exit()
+
 	X = df_RNA_seq.drop(['age'],axis=1).values #Making X, on which the prediction has to be made
 	X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True, random_state=1) #Splitting into train and test data
 	#X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False, random_state=None) #Splitting into train and test data
-	
 
-	
-	#print(P.GENE_SELECTION)
-	#print(P.MODEL) 	
-	#print(len(X), " x ", len(X[0]))
-	#print(len(y_test))
-	#input("volgende dataset?")
-
-	#-------------------------------------------------------------------------------
+	#___________________Training the model________________________________________
 	print("<-> Starting modeling process for {}...".format(P.MODEL))
 
 	if P.METHOD == "Regression":
 		if P.MODEL == "Support Vector Machine":	clf = svm.SVR(kernel="linear")
 		elif P.MODEL == "RandomForest":					clf = RandomForestRegressor(n_estimators=15, max_depth=50, random_state=None, criterion='mse') #, criterion='MSE', splitter='best')
-																					#clf = BaggingRegressor(rf, n_estimators=45, max_samples=0.1, random_state=25)
+																						#clf = BaggingRegressor(rf, n_estimators=45, max_samples=0.1, random_state=25)
 		elif P.MODEL == "DecisionTree":					clf = DecisionTreeRegressor(criterion='mse', random_state=None, max_depth=15) #, criterion='squared_error')
 
 	elif P.METHOD == "Classification":
 		if P.MODEL == "Support Vector Machine":	clf = svm.SVC(kernel='linear')
-		elif P.MODEL == "RandomForest":					clf = RandomForestClassifier(n_estimators=15, max_depth=50, random_state=None, criterion='gini') #, criterion='MSE', splitter='best')
-		elif P.MODEL == "DecisionTree":					clf = DecisionTreeClassifier(criterion='gini', max_depth=15, random_state=None)
+		elif P.MODEL == "RandomForest":					clf = RandomForestClassifier(criterion='gini', random_state=None, max_depth=15, n_estimators=15, min_samples_leaf=20) #, criterion='MSE', splitter='best')
+		elif P.MODEL == "DecisionTree":					clf = DecisionTreeClassifier(criterion='gini', random_state=None, max_depth=15, min_samples_leaf=20)
 	
 	#print(y_train)
 
@@ -379,7 +370,7 @@ def machinelearning():
 		y_pred = [round(x, 0) for x in y_pred] #round to the closest whole number
 		y_pred = [int(x) for x in y_pred] #cast to an integer
 	
-	if P.random_baseline:
+	if P.METHOD == "Regression":
 		RMSE = math.sqrt(np.square(np.subtract(y_test,y_pred)).mean())
 		print("\n\033[33m\033[1m<-> P.Model = ", P.MODEL, "\n<-> RMSE:", round(RMSE, 4), '\a \033[0m')
 
@@ -403,7 +394,8 @@ def machinelearning():
 
 	#---------------------------------------------------------------------------
 	if P.random_baseline: help_name= help_name.replace(help_name.split("_")[0], "RandomBaseline")
-
+	
+	mean_f1 = 0
 	#Writing LaTeX table
 	if P.WriteLaTeXTableforML:
 
@@ -416,22 +408,22 @@ def machinelearning():
 		write_latex_line(["Dataset","AgeGroups", "Accuracy", "Precision", "Recall", "F1", "Occ.Pred", "Occ.real", "Correct"], True, f)
 		
 		#ages = ["Young", "Middle", "Old"]
-		if P.METHOD == "Classification": ages = ["Young", "Middle", "Old"]
-		if P.METHOD == "Regression": ages = [1,2,3]
+		#if P.METHOD == "Classification": ages = ["Young", "Middle", "Old"]
+		#if P.METHOD == "Regression": ages = [1,2,3]
 		
 		group_mean_f1 = 0
-		for group in ages:
+		for group in Value[P.METHOD]:
 			y_pred = list(y_pred)
 			y_test = list(y_test)
-			Occurence = y_test.count(group)
-			Predicted = y_pred.count(group)
-			CorrectPredicted = sum([1 for i,j in zip(y_test,y_pred) if (i==j and j==group)])
-			PRECISION = sklearn.metrics.precision_score(y_test, y_pred, labels=None, pos_label=group, average="binary", sample_weight=None, zero_division='warn')
+			#Occurence = y_test.count(group)
+			#Predicted = y_pred.count(group)
+			#CorrectPredicted = sum([1 for i,j in zip(y_test,y_pred) if (i==j and j==group)])
+			#PRECISION = sklearn.metrics.precision_score(y_test, y_pred, labels=None, pos_label=group, average="binary", sample_weight=None, zero_division='warn')
 			#print(st.GREEN, "Accuracy1: ", Accuracy1,st.RST)
 			#print(st.GREEN, "Occurence in database: ", Occurence,st.RST)
 			#print(st.GREEN, "Predcited: ", Predicted,st.RST)
 			#print(st.GREEN, "CorrectPredicted: ", CorrectPredicted,st.RST)
-			print(st.GREEN, "PRECISION: ", PRECISION, st.RST)
+			#print(st.GREEN, "PRECISION: ", PRECISION, st.RST)
 			
 			
 			
@@ -463,7 +455,6 @@ def machinelearning():
 			print("\033[33m\033[1m  -> Occurance predicted:\t",group_predicted,'\033[0m')
 			print("\033[33m\033[1m  -> Correct predicted:\t",correct,'\033[0m\n')
 			
-			exit()
 			#input("Compare")
 			
 			GenelistnameIsLong = False
@@ -542,8 +533,8 @@ def machinelearning():
 	for feat, importance in zip(df_RNA_seq.iloc[0:,1:].columns, importances): #linking the genes and their importances together
 		feature_dict[feat] = importance #filling a dictionary with genes as keys and their importance as values
 	
-	feature_dict = dict(sorted(feature_dict.items(), key=lambda item: item[1], reverse=True)) #Sorting the genes from important to not important
-	best_features = list(islice(feature_dict.items(), P.NrFoundRelevantGenes)) #take the best 80 genes
+	feature_dict = dict(sorted(feature_dict.items(), key=lambda item: abs(item[1]), reverse=True)) #Sorting the genes from important to not important
+	best_features = list(islice(feature_dict.items(), P.NrFoundRelevantGenes)) #take the best X genes (X defined in Parameters.py)
 	
 	#____________________Writing the genelist_____________________________________
 	if "Important_genes" not in os.listdir('./'+P.experiment_name):
@@ -555,11 +546,16 @@ def machinelearning():
 	
 	if not P.random_baseline: f = open("./"+P.experiment_name+"/Important_genes/"+P.METHOD+"/"+P.GENE_SELECTION+"/ImportantGenes["+P.MODEL+"]["+P.GENE_SELECTION+"].txt", "w+")
 	for i in best_features:
-		f.write(i[0]+" "+str(i[1])+"\n")
+		if i[1] > 0: f.write(i[0]+" "+str(i[1])+"\n")
 	f.close
 	
+
 	#_____________________Plotting the Feature importance_________________________
-	f_importances([x[1] for x in best_features], [x[0] for x in best_features]) #function for making a graph if gene importance, first argument is the importances, second arg is the featurenames
+	copy_best_features = [] #Copying on;y the values with an importance higher or lower than 0.0
+	for i in best_features:
+		if i[1] != 0: copy_best_features.append(i)
+
+	f_importances([x[1] for x in copy_best_features], [x[0] for x in copy_best_features]) #function for making a graph if gene importance, first argument is the importances, second arg is the featurenames
 	
 	#best_feat_list = [x[1] for x in best_features]
 	#best_gene_list = [x[0] for x in best_features] 

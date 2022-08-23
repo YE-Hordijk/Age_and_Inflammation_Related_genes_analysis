@@ -5,4 +5,4 @@ Source
 *.txt
 rubbish
 venv
-/*
+/exp*

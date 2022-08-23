@@ -58,14 +58,14 @@ def set_vars():
 #******************************* Functions *************************************
 #*******************************************************************************
 #This function was copied from https://stackoverflow.com/questions/41592661/determining-the-most-contributing-features-for-svm-classifier-in-sklearn
-def f_importances(coef, names):
+def f_importances(coef, names, agegroup):
 	imp = coef
 	imp,names = zip(*sorted(zip(imp,names)))
 	from matplotlib.pyplot import figure
 	figure(figsize=(6, 9), dpi=80)
 	plt.barh(range(len(names)), imp, align='center')
 	plt.yticks(range(len(names)), names, fontsize=8)
-	plt.savefig(P.experiment_name+'/Compare_outliers/Outlier_Important_genes/'+P.METHOD+"/"+P.GENE_SELECTION+"["+P.MODEL+"]"+'_FeatureImportances.pdf')
+	plt.savefig(P.experiment_name+'/Compare_outliers/Outlier_Important_genes/'+P.METHOD+"/"+P.GENE_SELECTION+"_"+agegroup+"["+P.MODEL+"]"+'_FeatureImportances.pdf')
 	plt.close()
 	plt.show()
 	#exit()
@@ -267,81 +267,84 @@ def use_pcs_for_ml2():
 	df_RNA_seq_copy = df_RNA_seq.copy()
 
 
-	#______________Finding expressiondifference between normal &outliers__________
-
-	#1. Add row Agegroup using the dictionary
-	AgeRightWrong["Name"]={"Agegroup":"Agegroup", "inowngroup":"Inowngroup"}
-	df_RNA_seq_copy = df_RNA_seq_copy.drop(columns="Description")
-	df_RNA_seq_copy.loc[-0.5] = [AgeRightWrong[x]["Agegroup"] for x in df_RNA_seq_copy.columns]
+	#______________Finding expression difference between normal &outliers__________
 	
-	#2.Add row "inowngroup (True/False)"
-	df_RNA_seq_copy.loc[-0.2] = [AgeRightWrong[x]["inowngroup"] for x in df_RNA_seq_copy.columns]
-	df_RNA_seq_copy = df_RNA_seq_copy.sort_index().reset_index(drop=True)
-	df_RNA_seq_copy.set_index('Name', inplace=True) #Setting the Name column as index
+	if not P.random_baseline:
+		#1. Add row Agegroup using the dictionary
+		AgeRightWrong["Name"]={"Agegroup":"Agegroup", "inowngroup":"Inowngroup"}
+		df_RNA_seq_copy = df_RNA_seq_copy.drop(columns="Description")
+		df_RNA_seq_copy.loc[-0.5] = [AgeRightWrong[x]["Agegroup"] for x in df_RNA_seq_copy.columns]
+		
+		#2.Add row "inowngroup (True/False)"
+		df_RNA_seq_copy.loc[-0.2] = [AgeRightWrong[x]["inowngroup"] for x in df_RNA_seq_copy.columns]
+		df_RNA_seq_copy = df_RNA_seq_copy.sort_index().reset_index(drop=True)
+		df_RNA_seq_copy.set_index('Name', inplace=True) #Setting the Name column as index
 
-	#3. Split the dataframe in 1: YoungAgeGroup and 2: OldAgeGroup
-	YoungAgeGroup = df_RNA_seq_copy.loc[:, df_RNA_seq_copy.loc['Agegroup'] == 'Young (20-49)'].copy()
-	OldAgeGroup = df_RNA_seq_copy.loc[:, df_RNA_seq_copy.loc['Agegroup'] == 'Old (60-79)'].copy()
+		#3. Split the dataframe in 1: YoungAgeGroup and 2: OldAgeGroup
+		YoungAgeGroup = df_RNA_seq_copy.loc[:, df_RNA_seq_copy.loc['Agegroup'] == 'Young (20-49)'].copy()
+		OldAgeGroup = df_RNA_seq_copy.loc[:, df_RNA_seq_copy.loc['Agegroup'] == 'Old (60-79)'].copy()
 
-	#making a copy that can later be used for machinelearning
-	copyYoungAgeGroup = YoungAgeGroup.copy()
-	copyOldAgeGroup = OldAgeGroup.copy()
+		#making a copy that can later be used for machinelearning
+		copyYoungAgeGroup = YoungAgeGroup.copy()
+		copyOldAgeGroup = OldAgeGroup.copy()
 
-	#4. Calculating the sums
-	#pd.options.mode.chained_assignment = None  # default='warn' #TURNING OFF WANRINGS
-	YoungAgeGroup['SumNormal'] = YoungAgeGroup.iloc[2:, :].loc[:, (YoungAgeGroup.loc['Inowngroup'] == True)].sum(axis=1)
-	YoungAgeGroup['SumInWrongGroup'] = YoungAgeGroup.iloc[2:, :].loc[:, (YoungAgeGroup.loc['Inowngroup'] == False)].sum(axis=1)
-	OldAgeGroup['SumNormal'] = OldAgeGroup.iloc[2:, :].loc[:, (OldAgeGroup.loc['Inowngroup'] == True)].sum(axis=1)
-	OldAgeGroup['SumInWrongGroup'] = OldAgeGroup.iloc[2:, :].loc[:, (OldAgeGroup.loc['Inowngroup'] == False)].sum(axis=1)
-	print("Number of Young samples that are in the correct agegroup: ",YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == True)].shape[1])
-	print("Number of Young samples that are in the wrong agegroup: ",YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == False)].shape[1])
-	print("Number of Old samples that are in the correct agegroup: ",OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == True)].shape[1])
-	print("Number of Old samples that are in the wrong agegroup: ",OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == False)].shape[1])
-	
-	#5. Calculating the mean of the sums
-	YoungAgeGroup['MeanNormal'] = YoungAgeGroup["SumNormal"].iloc[2:]/YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == True)].shape[1]
-	YoungAgeGroup['MeanInWrongGroup'] = YoungAgeGroup["SumInWrongGroup"].iloc[2:]/YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == False)].shape[1]
-	OldAgeGroup['MeanNormal'] = OldAgeGroup["SumNormal"].iloc[2:]/OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == True)].shape[1]
-	OldAgeGroup['MeanInWrongGroup'] = OldAgeGroup["SumInWrongGroup"].iloc[2:]/OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == False)].shape[1]
+		#4. Calculating the sums
+		#pd.options.mode.chained_assignment = None  # default='warn' #TURNING OFF WANRINGS
+		YoungAgeGroup['SumNormal'] = YoungAgeGroup.iloc[2:, :].loc[:, (YoungAgeGroup.loc['Inowngroup'] == True)].sum(axis=1)
+		YoungAgeGroup['SumInWrongGroup'] = YoungAgeGroup.iloc[2:, :].loc[:, (YoungAgeGroup.loc['Inowngroup'] == False)].sum(axis=1)
+		OldAgeGroup['SumNormal'] = OldAgeGroup.iloc[2:, :].loc[:, (OldAgeGroup.loc['Inowngroup'] == True)].sum(axis=1)
+		OldAgeGroup['SumInWrongGroup'] = OldAgeGroup.iloc[2:, :].loc[:, (OldAgeGroup.loc['Inowngroup'] == False)].sum(axis=1)
+		print("Number of Young samples that are in the correct agegroup: ",YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == True)].shape[1])
+		print("Number of Young samples that are in the wrong agegroup: ",YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == False)].shape[1])
+		print("Number of Old samples that are in the correct agegroup: ",OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == True)].shape[1])
+		print("Number of Old samples that are in the wrong agegroup: ",OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == False)].shape[1])
+		
+		#5. Calculating the mean of the sums
+		YoungAgeGroup['MeanNormal'] = YoungAgeGroup["SumNormal"].iloc[2:]/YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == True)].shape[1]
+		YoungAgeGroup['MeanInWrongGroup'] = YoungAgeGroup["SumInWrongGroup"].iloc[2:]/YoungAgeGroup.loc[:, (YoungAgeGroup.loc['Inowngroup'] == False)].shape[1]
+		OldAgeGroup['MeanNormal'] = OldAgeGroup["SumNormal"].iloc[2:]/OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == True)].shape[1]
+		OldAgeGroup['MeanInWrongGroup'] = OldAgeGroup["SumInWrongGroup"].iloc[2:]/OldAgeGroup.loc[:, (OldAgeGroup.loc['Inowngroup'] == False)].shape[1]
 
-	#6. Remove the other expression columns
-	YoungAgeGroup = YoungAgeGroup.loc[:, ['MeanNormal', 'MeanInWrongGroup']]
-	OldAgeGroup = OldAgeGroup.loc[:, ['MeanNormal', 'MeanInWrongGroup']]
+		#6. Remove the other expression columns
+		YoungAgeGroup = YoungAgeGroup.loc[:, ['MeanNormal', 'MeanInWrongGroup']]
+		OldAgeGroup = OldAgeGroup.loc[:, ['MeanNormal', 'MeanInWrongGroup']]
 
-	#7. For each dataframe add the column "difference"
-	YoungAgeGroup["Difference"] = YoungAgeGroup.loc[:, 'MeanNormal'] - YoungAgeGroup.loc[:, 'MeanInWrongGroup']
-	OldAgeGroup["Difference"] = OldAgeGroup.loc[:, 'MeanNormal'] - OldAgeGroup.loc[:, 'MeanInWrongGroup']
+		#7. For each dataframe add the column "difference"
+		YoungAgeGroup["Difference"] = YoungAgeGroup.loc[:, 'MeanNormal'] - YoungAgeGroup.loc[:, 'MeanInWrongGroup']
+		OldAgeGroup["Difference"] = OldAgeGroup.loc[:, 'MeanNormal'] - OldAgeGroup.loc[:, 'MeanInWrongGroup']
 
-	#8. Add the gene description again
-	YoungAgeGroup.insert(0, 'Description', ["-", "-"] + list(df_RNA_seq['Description'])) #Adding the agegroup column to the dataframe
-	OldAgeGroup.insert(0, 'Description', ["-", "-"] + list(df_RNA_seq['Description'])) #Adding the agegroup column to the dataframe
+		#8. Add the gene description again
+		YoungAgeGroup.insert(0, 'Description', ["-", "-"] + list(df_RNA_seq['Description'])) #Adding the agegroup column to the dataframe
+		OldAgeGroup.insert(0, 'Description', ["-", "-"] + list(df_RNA_seq['Description'])) #Adding the agegroup column to the dataframe
 
-	#9. Sort on difference
-	YoungAgeGroup.iloc[2:, :] = YoungAgeGroup.iloc[2:, :].sort_values('Difference', ascending=False, key=abs)
-	OldAgeGroup.iloc[2:, :] = OldAgeGroup.iloc[2:, :].sort_values('Difference', ascending=False, key=abs)
+		#9. Sort on difference
+		YoungAgeGroup.iloc[2:, :] = YoungAgeGroup.iloc[2:, :].sort_values('Difference', ascending=False, key=abs)
+		OldAgeGroup.iloc[2:, :] = OldAgeGroup.iloc[2:, :].sort_values('Difference', ascending=False, key=abs)
 
-	#10. uUe the threshold line to make a list of genes that are down or upregulated in the two groups
-	#print(YoungAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]]) #printing the relevant genes
-	YoungThreshold = YoungAgeGroup.iloc[(P.NrFoundRelevantGenes+1), 3]
-	OldThreshold = OldAgeGroup.iloc[(P.NrFoundRelevantGenes+1), 3]
+		#10. uUe the threshold line to make a list of genes that are down or upregulated in the two groups
+		#print(YoungAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]]) #printing the relevant genes
+		YoungThreshold = YoungAgeGroup.iloc[(P.NrFoundRelevantGenes+1), 3]
+		OldThreshold = OldAgeGroup.iloc[(P.NrFoundRelevantGenes+1), 3]
 
-	# 11. Writing most important genes to filename
-	if "Compare_outliers" not in os.listdir(P.experiment_name): #Making a folder for the machinelearning results
-		os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers"))
-	if "Outlier_determining_genes" not in os.listdir(P.experiment_name+"/Compare_outliers"): #Making a folder for the machinelearning results
-		os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_determining_genes"))
-	YoungAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]].to_csv(P.experiment_name+"/Compare_outliers/Outlier_determining_genes/Young_"+P.GENE_SELECTION+"_Outlier_determining_genes.txt", index=False, header=False, sep="\t")
-	OldAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]].to_csv(P.experiment_name+"/Compare_outliers/Outlier_determining_genes/Old_"+P.GENE_SELECTION+"_Outlier_determining_genes.txt", index=False, header=False, sep="\t")
+		# 11. Writing most important genes to filename
+		if "Compare_outliers" not in os.listdir(P.experiment_name): #Making a folder for the machinelearning results
+			os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers"))
+		if "Outlier_determining_genes" not in os.listdir(P.experiment_name+"/Compare_outliers"): #Making a folder for the machinelearning results
+			os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_determining_genes"))
+		if P.GENE_SELECTION not in os.listdir(P.experiment_name+"/Compare_outliers/Outlier_determining_genes"): #Making a folder for the machinelearning results
+			os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_determining_genes/"+P.GENE_SELECTION))
+		YoungAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]].to_csv(P.experiment_name+"/Compare_outliers/Outlier_determining_genes/"+P.GENE_SELECTION+"/Young_"+P.GENE_SELECTION+"_Outlier_determining_genes.txt", index=False, header=False, sep="\t")
+		OldAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]].to_csv(P.experiment_name+"/Compare_outliers/Outlier_determining_genes/"+P.GENE_SELECTION+"/Old_"+P.GENE_SELECTION+"_Outlier_determining_genes.txt", index=False, header=False, sep="\t")
 
-	#12. Creating a barplot with threshold line
-	# Barplot for YoungAgeGroup	
-	Genes = list(YoungAgeGroup.iloc[2:, 0]) #Selecting the ' Description' column with the gene names
-	ExpressionDifference = list(YoungAgeGroup.iloc[2:, 3])
-	barplot_expressiondifference(Genes, ExpressionDifference, "Young", YoungThreshold)
-	# Barplot for Old
-	Genes = list(OldAgeGroup.iloc[2:, 0]) #Selecting the ' Description' column with the gene names
-	ExpressionDifference = list(OldAgeGroup.iloc[2:, 3])
-	barplot_expressiondifference(Genes, ExpressionDifference, "Old", OldThreshold)
+		#12. Creating a barplot with threshold line
+		# Barplot for YoungAgeGroup	
+		Genes = list(YoungAgeGroup.iloc[2:, 0]) #Selecting the ' Description' column with the gene names
+		ExpressionDifference = list(YoungAgeGroup.iloc[2:, 3])
+		barplot_expressiondifference(Genes, ExpressionDifference, "Young", YoungThreshold)
+		# Barplot for Old
+		Genes = list(OldAgeGroup.iloc[2:, 0]) #Selecting the ' Description' column with the gene names
+		ExpressionDifference = list(OldAgeGroup.iloc[2:, 3])
+		barplot_expressiondifference(Genes, ExpressionDifference, "Old", OldThreshold)
 
 
 
@@ -381,7 +384,7 @@ def use_pcs_for_ml2():
 
 		################# Making the model #############################################
 		mean_f1 = 0
-		######## pREPARING THe train and test data ####################################
+		######## Preparing the train and test data ####################################
 		print(st.CYAN)
 		print("Method = ", P.METHOD, "\nModel = ", P.MODEL, "\nDataset = ", P.GENE_SELECTION, "\nGroup = ", ThisAgeGroup, st.RST)
 
@@ -401,7 +404,7 @@ def use_pcs_for_ml2():
 
 		X = dfAgeGroup.drop(['Inowngroup'],axis=1).values #Making X, on which the prediction has to be made
 		#X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.7, shuffle=False) #Splitting into train and test data
-		X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.7, shuffle=True, random_state=1) #Splitting into train and test data
+		X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True, random_state=1) #Splitting into train and test data
 		
 		print(len(y_test))
 		print(len(X_test))
@@ -535,7 +538,6 @@ def use_pcs_for_ml2():
 		#Making the genelists and the plots
 
 		if P.random_baseline: return("Stoping function after writing model performance table because this is only a baseline")
-		#exit("JAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPEEEEEEEEEEEEE")
 		################################################################################
 		########### EXTRACTING LIST OF MOST IMPORTANT GENES ############################
 		if P.MODEL != "Support Vector Machine": importances = clf.feature_importances_ #creating a list with importance values for all the genes
@@ -564,33 +566,36 @@ def use_pcs_for_ml2():
 			#plt.show()
 
 
-	###########################################################################-----
+		###########################################################################-----
 
-	#_____________________Selecting only the X best features______________________
-	feature_dict = {}
-	if (len(importances) != len(dfAgeGroup.iloc[0:,1:].columns)): exit("Length importances and dataframe columns is not equal and cannot be linked together")
-	for feat, importance in zip(dfAgeGroup.iloc[0:,1:].columns, importances): #linking the genes and their importances together
-		feature_dict[feat] = importance #filling a dictionary with genes as keys and their importance as values
+		#_____________________Selecting only the X best features______________________
+		feature_dict = {}
+		if (len(importances) != len(dfAgeGroup.iloc[0:,1:].columns)): exit("Length importances and dataframe columns is not equal and cannot be linked together")
+		for feat, importance in zip(dfAgeGroup.iloc[0:,1:].columns, importances): #linking the genes and their importances together
+			feature_dict[feat] = importance #filling a dictionary with genes as keys and their importance as values
 
-	feature_dict = dict(sorted(feature_dict.items(), key=lambda item: item[1], reverse=True)) #Sorting the genes from important to not important
-	best_features = list(islice(feature_dict.items(), P.NrFoundRelevantGenes)) #take the best Nr genes
-
-	#____________________Writing the genelist_____________________________________
-	if "Outlier_Important_genes" not in os.listdir(P.experiment_name+"/Compare_outliers"):
-		os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_Important_genes"))
-	if P.METHOD not in os.listdir(P.experiment_name+"/Compare_outliers/Outlier_Important_genes"):
-		os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD))
+		if P.MODEL != "Support Vector Machine": feature_dict = dict(sorted(feature_dict.items(), key=lambda item: abs(item[1]), reverse=True)) #Sorting the genes from important to not important
+		else: feature_dict = dict(sorted(feature_dict.items(), key=lambda item: abs(item[1]), reverse=True))
+		#XXX HIER BOVEN AAN HET TESTEN met omgekeerde volgorde voor svm
 		
-	if P.GENE_SELECTION not in os.listdir(P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD):
-		os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD+"/"+P.GENE_SELECTION))
+		best_features = list(islice(feature_dict.items(), P.NrFoundRelevantGenes)) #Take the best Nr genes
 
-	f = open("./"+P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD+"/"+P.GENE_SELECTION+"/ImportantGenes_"+ThisAgeGroup+"["+P.MODEL+"]["+P.GENE_SELECTION+"].txt", "w+")
-	for i in best_features:
-		f.write(i[0]+" "+str(i[1])+"\n")
-	f.close
+		#____________________Writing the genelist_____________________________________
+		if "Outlier_Important_genes" not in os.listdir(P.experiment_name+"/Compare_outliers"):
+			os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_Important_genes"))
+		if P.METHOD not in os.listdir(P.experiment_name+"/Compare_outliers/Outlier_Important_genes"):
+			os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD))
+			
+		if P.GENE_SELECTION not in os.listdir(P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD):
+			os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD+"/"+P.GENE_SELECTION))
 
-	#_____________________Plotting the Feature importance_________________________
-	f_importances([x[1] for x in best_features], [x[0] for x in best_features]) #function for making a graph if gene importance, first argument is the importances, second arg is the featurenames
+		f = open("./"+P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD+"/"+P.GENE_SELECTION+"/ImportantGenes_"+ThisAgeGroup+"["+P.MODEL+"]["+P.GENE_SELECTION+"].txt", "w+")
+		for i in best_features:
+			f.write(i[0]+" "+str(i[1])+"\n")
+		f.close
+
+		#_____________________Plotting the Feature importance_________________________
+		f_importances([x[1] for x in best_features], [x[0] for x in best_features], ThisAgeGroup) #function for making a graph if gene importance, first argument is the importances, second arg is the featurenames
 	
 	#best_feat_list = [x[1] for x in best_features]
 	#best_gene_list = [x[0] for x in best_features] 
