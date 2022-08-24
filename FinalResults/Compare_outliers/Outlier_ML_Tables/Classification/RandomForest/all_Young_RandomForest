@@ -1,0 +1,17 @@
+all_No-MiddleAge:
+
+\subsection*{Classification}
+\subsubsection*{RandomForest}
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
+		All & InCorrectGroup & 0.96 & 0.94 & 1.0 & 0.97 & 35 & 33 & 33 \\
+		Young & InWrongGroup &   & 1.0 & 0.88 & 0.94 & 15 & 17 & 15 \\
+		\hline
+	\end{tabular}
+	\caption{Evaluation of Classification by RandomForest using the all-No-MiddleAge dataset.}
+	\label{tab:ClassificationRandomForestall_No-MiddleAge}
+\end{table}

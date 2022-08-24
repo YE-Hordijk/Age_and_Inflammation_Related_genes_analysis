@@ -1,0 +1,17 @@
+genes-from-papers_No-MiddleAge:
+
+\subsection*{Classification}
+\subsubsection*{RandomForest}
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
+		Genes-from-papers & InCorrectGroup & 0.96 & 1.0 & 0.94 & 0.97 & 34 & 36 & 34 \\
+		Young & InWrongGroup &   & 0.88 & 1.0 & 0.93 & 16 & 14 & 14 \\
+		\hline
+	\end{tabular}
+	\caption{Evaluation of Classification by RandomForest using the genes-from-papers-No-MiddleAge dataset.}
+	\label{tab:ClassificationRandomForestgenes-from-papers_No-MiddleAge}
+\end{table}

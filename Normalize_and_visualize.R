@@ -114,9 +114,10 @@ write.table(norm.data,
 
 
 #__________________________Making the PCAplot___________________________________
+dir.create("./PCAplots", showWarnings = FALSE, recursive = FALSE, mode = "0777")
 PCAplotName = paste(substr(genecounts, 0,nchar(genecounts) - 16), "PCAplot.png", sep="") #Making a name for the PCAplot
 w = plotPCA(vsd, intgroup=c("age")) # If you rmove the w = it will save the plot as a PDF as well
-ggsave(PCAplotName)
+ggsave(paste("PCAplots/", PCAplotName, sep=""))
 #ggsave("Eenleukplotekke.png", width=10, heigth=8, dpi = 300)
 
 
@@ -186,6 +187,7 @@ rownames(banaan) <- row.names(countTable)
 
 #getwd()
 cat("Creating and saving heatmap...")
+dir.create("./Heatmaps", showWarnings = FALSE, recursive = FALSE, mode = "0777")
 newFileName = paste(substr(genecounts, 0,nchar(genecounts) - 16), "Heatmap.png", sep="")
 w = HEATMAP = pheatmap(banaan,
                    cluster_rows=TRUE, 
@@ -196,7 +198,7 @@ w = HEATMAP = pheatmap(banaan,
                    annotation_col=df,
                    clustering_method = "complete",
                    clustering_distance_cols = "euclidean",
-                   file = newFileName,
+                   file = paste("Heatmaps/", newFileName, sep=""),
                    #fontsize_row = 1.4,
                    #cutree_rows = 20
                    #hight = 5000,

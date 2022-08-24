@@ -1,0 +1,17 @@
+all_No-MiddleAge:
+
+\subsection*{Classification}
+\subsubsection*{Support Vector Machine}
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
+		All & InCorrectGroup & 0.98 & 0.97 & 1.0 & 0.99 & 34 & 33 & 33 \\
+		Young & InWrongGroup &   & 1.0 & 0.94 & 0.97 & 16 & 17 & 16 \\
+		\hline
+	\end{tabular}
+	\caption{Evaluation of Classification by Support Vector Machine using the all-No-MiddleAge dataset.}
+	\label{tab:ClassificationSupport Vector Machineall_No-MiddleAge}
+\end{table}

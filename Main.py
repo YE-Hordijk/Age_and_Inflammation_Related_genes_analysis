@@ -12,26 +12,6 @@ from Parameters import P
 #*******************************************************************************
 #******************************** FUNCTIONS ************************************
 #*******************************************************************************
-"""
-def update_parameter(par):
-	#Giving a string quotationmarks
-	if not (par.split(" = ")[1] in ["False", "True"]) and not isinstance(par.split(" = ")[1], int) and not par.split(" = ")[1].startswith(("{", "[")):
-		par = par.split(" = ")[0] + " = " + "\""+par.split(" = ")[1]+"\"" #putting quotation marks around the value
-	found = False
-	f = open("Parameters.py", "r+")
-	d = f.readlines()
-	
-	f.seek(0) #to the beginning of the file
-	for i in d:
-		if (par.split(" = ")[0] not in i): f.write(i) #if this line is not to be over writen by the new parameter, leave it by copying
-		else:
-			f.write(par+"\n")
-			found = True
-	if found == False:
-		f.write(par+"\n")
-	f.truncate()
-	f.close
-"""
 #*******************************************************************************
 def arguments(*Args):
 	temp = ""
@@ -43,37 +23,6 @@ def setup_experiment(experiment_name):
 	if experiment_name not in [f for f in os.listdir('.') if os.path.isdir(f)]:
 		os.mkdir(os.path.join(os.getcwd(), experiment_name))
 #*******************************************************************************
-#************************************CODE***************************************
-#*******************************************************************************
-
-
-
-
-
-
-
-#*******************************************************************************
-
-# 1) Setting parameters with which the experiment will be performed
-"""
-class S: #Settings
-	experiment_name = "expTESTING_BEREN"
-	update_files = False
-	#⬇️For GENESELECTION: don't use underscores. It should be either: "all", "senescence", "searchwords","cell-age-signatures", "genes-from-papers"
-	GENE_SELECTION = "cell-age-signatures" #"genes-from-papers" 
-	inflam_synonyms = {'senescence','inflam', 'infection', ' cytokines', 'cytokine rush', 'immune response' , 'antibody'}
-	tissue = "Whole Blood"
-	select_on_genes = True #DONT PUT IT ON FALSE (r CANT HANDLE IT))
-	use_middle_age = False
-	YOUNG = "20-49"
-	MIDDLE = "50-59"
-	OLD = "60-79"
-	random_baseline = False
-	removing_outliers = False #True
-	PredictionModel = "RandomForest"#"DecisionTree"#"RandomForest" #"DecisionTree" #"Support Vector Machine"
-	PredictionMethod = "Classification" #"Regression"
-"""
-#*******************************************************************************
 def calculate_filenames(Use_middle_age, Select_on_genes, Geneselection):
 	#Calculating the names of the metadatafile and the countsfile
 	if Select_on_genes: metafilename = Geneselection #variable for nameing files and folders
@@ -82,51 +31,34 @@ def calculate_filenames(Use_middle_age, Select_on_genes, Geneselection):
 	else: 								metafilename += "_No-MiddleAge_METADATA.txt"
 	countsfilename = metafilename[:-12] + "unnormalized.txt"
 	return countsfilename, metafilename
-
-
+#*******************************************************************************
+#************************************CODE***************************************
+#*******************************************************************************
 
 countsfilename, metafilename = calculate_filenames(P.use_middle_age, P.select_on_genes, P.GENE_SELECTION)
-
-
-
-
-# 2)-------------------------------------------------------------------------------
 setup_experiment(P.experiment_name)
 
-# 3)-------------------------------------------------------------------------------
-#Sending the parameters to extern script so that all scripts can use these parameters
-#for attr in vars(S):
-#	if not attr.startswith("__"):
-#		str(attr+" = "+str(vars(S)[attr]))
-#		update_parameter(str(attr+" = "+str(vars(S)[attr])))
-
-#import test as tt
-#tt.TEST("appel")
-#tt.TEST("peer")
 
 if P.random_baseline: datasets = ["senescence"]
 else: datasets = ["senescence", "searchwords","cell-age-signatures", "genes-from-papers", "all"]
 for g in datasets: #XXX
 	P.GENE_SELECTION = g #Setting the parameter
 	print("Dataset: ", g)
-	
-	
+
+
 	#***CREATING A GENELIST****
 	if (P.select_on_genes):
 		print(st.GREEN, "\n*********** CREATE GENELIST **********", st.RST)
 		import Create_genelist as CG
 		genedict = CG.create_genelist()
-	
 
-	
+
 	#****PREPROCESSING THE DATA for R******
 	print(st.GREEN, "\n*********** PREPROCESSING DATA FOR R **********", st.RST)
 	import Preprocessing as Pr
-	Pr.preprocessing()	
-	
-	input()
-	
-	"""
+	Pr.preprocessing()
+
+
 	#****USING R******
 	countsfilename, metafilename = calculate_filenames(P.use_middle_age, True, g) #XXX
 	print(st.GREEN, "\n*********** NORMALIZING AND VISUALIZING WITH R **********", st.RST)
@@ -136,35 +68,28 @@ for g in datasets: #XXX
 	for i in ["DecisionTree","RandomForest","Support Vector Machine"]:
 		P.MODEL = i
 		
-		
 		#****Machinelearning****
 		print(st.GREEN, "\n*********** MACHINE LEARNING **********", st.RST)
 		import Machinelearning as Ms
 		Ms.machinelearning()
 		
 		
-		
 		#****Extracting important genes from PCfiles and finding outliers
 		print(st.GREEN, "\n*********** Use PCs for MachineLearning2 **********", st.RST)
 		import Use_PCs_for_ML2 as ML2
 		ML2.use_pcs_for_ml2()
-	"""
+
 		
 
 
 
-#while True:
-#	print('\a\b\b', end='')
+while True:
+	print('\a\b\b', end='')
 
 #****DO R again
 #TODO
 #subprocess.call ("/usr/bin/python3 Machinelearning.py "+arguments(), shell=True)
 
-#******Machinelearning again
-#TODO
-
-#**** PRODUCE Gene list_x
-#TODO
 
 
 

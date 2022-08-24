@@ -421,8 +421,8 @@ def use_pcs_for_ml2():
 			elif P.MODEL == "DecisionTree":					clf = DecisionTreeRegressor(random_state=None, max_depth=15) #, criterion='squared_error')
 		elif P.METHOD == "Classification":
 			if P.MODEL == "Support Vector Machine":	clf = svm.SVC(kernel='linear')
-			elif P.MODEL == "RandomForest":					clf = RandomForestClassifier(n_estimators=15, max_depth=50, random_state=None) #, criterion='MSE', splitter='best')
-			elif P.MODEL == "DecisionTree":					clf = DecisionTreeClassifier(criterion='entropy', max_depth=15, random_state=None)
+			elif P.MODEL == "RandomForest":					clf = RandomForestClassifier(n_estimators=15, max_depth=15, random_state=None, min_samples_leaf=10) #, criterion='MSE', splitter='best')
+			elif P.MODEL == "DecisionTree":					clf = DecisionTreeClassifier(criterion='entropy', max_depth=15, random_state=None, min_samples_leaf=10)
 
 		clf.fit(X_train, y_train)
 		y_pred = clf.predict(X_test) #make the prediction on the test data
@@ -591,74 +591,14 @@ def use_pcs_for_ml2():
 
 		f = open("./"+P.experiment_name+"/Compare_outliers/Outlier_Important_genes/"+P.METHOD+"/"+P.GENE_SELECTION+"/ImportantGenes_"+ThisAgeGroup+"["+P.MODEL+"]["+P.GENE_SELECTION+"].txt", "w+")
 		for i in best_features:
-			f.write(i[0]+" "+str(i[1])+"\n")
+			if i[1] > 0: f.write(i[0]+" "+str(i[1])+"\n")
 		f.close
-
+	
 		#_____________________Plotting the Feature importance_________________________
 		f_importances([x[1] for x in best_features], [x[0] for x in best_features], ThisAgeGroup) #function for making a graph if gene importance, first argument is the importances, second arg is the featurenames
 	
-	#best_feat_list = [x[1] for x in best_features]
-	#best_gene_list = [x[0] for x in best_features] 
-	#print(best_gene_list)
-	
-	#print(best_feat_list)
-	#exit()
-	#best_feat_list = list(best_features.values())
-
-	"""
-	plt.bar([x for x in best_gene_list], best_feat_list, width=1.0)
-	#plt.bar([x for x in range(len(feature_dict))], feature_dict)
-	plt.show()
-	exit("NOUNOU")
-	"""
-
-	"""
-	######################## PLOTTING THE DECISION TREE ############################
-	if P.MODEL == "DecisionTree":
-		fn = list(df_RNA_seq)
-		del fn[0]
-		cn = ["Young", "Middle", "Old"]
-
-		fig, axes = plt.subplots(nrows = 1,ncols = 1, dpi=500, figsize=(30,10))#,figsize = (30,28))
-		tree.plot_tree(clf,
-									feature_names = fn, 
-									class_names=cn,
-									#filled = True,
-									fontsize=3
-									)#;
-
-		fig.savefig(P.GENE_SELECTION+' DecisionTree.png')
-	#plt.figure(dpi=800) #,figsize=(10,10))  # set plot size (denoted in inches)
-	#tree.plot_tree(clf, fontsize=2, filled=True, feature_names = fn)
-	#plt.show()
-
-	#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	"""
-
 	print('\a')
-	################ LINKING MOST IMPORANT GENES TO PATHWAYS #######################
-	#isabelle = {}
-	#for gek in best_features:
-	#	for i in temppathways: #loop over all pathwyays
-	#		for tomke in temppathways[i]: #loop over all genes in a pathway
-	#			if tomke == gek[0]:
-	#				if i in isabelle: #hoog count op
-	#					isabelle[i] += 1
-	#				else:
-	#					isabelle[i] = 1
-	#
-	#
-	#for i in isabelle:
-	#	isabelle[i] /= len(temppathways[i])
-	#	isabelle[i] = round(isabelle[i], 3)
-	#isabelle = dict(sorted(isabelle.items(), key=lambda item: item[1], reverse=True))
-	#isabelle2 = list(islice(isabelle, 30))
-	#print("&&&&&&&&&&&&&&&&&&&&&&&")
-	#for k in isabelle2:
-	#	print(isabelle[k],'\t', k)
-	#print("&&&&&&&&&&&&&&&&&&&&&&&")
 
-	#exit(0)
 
 
 

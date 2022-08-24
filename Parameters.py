@@ -1,6 +1,7 @@
 class P:
-	experiment_name = "expSVM_negative_too"
+	experiment_name = "FinalResults"
 	update_files = False
+	Use_AllSammple_Data = False
 	#⬇️For GENESELECTION: don't use underscores. It should be either: "all", "senescence", "searchwords","cell-age-signatures", "genes-from-papers"
 	GENE_SELECTION = "senescence"#"genes-from-papers"#"senescence"#"cell-age-signatures" #"genes-from-papers" 
 	inflam_synonyms = {'inflam', 'infection', ' cytokines', 'cytokine rush', 'immune response' , 'antibody'}

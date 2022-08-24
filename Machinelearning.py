@@ -1,11 +1,9 @@
 #Machinelearning.py
 
-
 #General packages
 import GeneralFunctions as GF
 from GeneralFunctions import st
 from Parameters import P
-
 import numpy as np
 from numpy import log as ln
 import os
@@ -18,11 +16,9 @@ import matplotlib
 from matplotlib import pyplot as plt
 from collections import OrderedDict
 import random
-#import sys
 
 #For machinelearning
 np.random.seed(0)
-#Machine learning packages
 from sklearn.model_selection import train_test_split
 from sklearn import svm, tree, metrics #Support vector machines # DT #for accuracy calculation
 from sklearn.ensemble import RandomForestRegressor, BaggingRegressor	#Random Forrest
@@ -92,6 +88,8 @@ def NameDescription_linking(df):
 #*******************************************************************************
 #function that decides if this column contains a sample of interest and thus must be read
 def read_this_sample(index):
+	print(dict_samples)
+	exit()
 	if index in dict_samples or index == "Name" or index == "Description":
 		return True
 	return False
@@ -113,7 +111,8 @@ def integrate_normalized_data(Normalized_and_selected_file_name):
 	df_normalized_data.rename(columns={'Unnamed: 0':'Name'}, inplace=True )
 
 	if "NameDescription.txt" not in os.listdir('.'): #NameDescription contains the collumns Name and Description
-		df = strip_data_file("Source/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_reads.gct", read_this_sample, 2, '\t')
+		if P.Use_AllSammple_Data: df = strip_data_file("Source/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_reads.gct", read_this_sample, 2, '\t')
+		else: df = GF.readfile('Source/gene_reads_2017-06-05_v8_'+P.tissue.lower().replace(" ", "_")+'.gct', '\t', 2, 'dataframe').iloc[:, 1:]
 		tempo = NameDescription_linking(df) #making and saving the linking dictionary 
 	else: tempo = GF.readfile("NameDescription.txt", "\t", 0, "dictionary") #make a dictionairy with the "Name"-column as keys, and the "Description"-column as values
 
@@ -149,8 +148,9 @@ def make_subject_row(info): #Make the row with subject data connected to each sa
 #*******************************************************************************
 def add_new_row(new_row):
 	new_row = pd.DataFrame(new_row, index=[0])
-	df_RNA_seq2 = df_RNA_seq.append(new_row, ignore_index=True)
-	df_RNA_seq2 = pd.concat([df_RNA_seq2.reindex([len(df_RNA_seq2)-1]) , df_RNA_seq2.iloc[0:len(df_RNA_seq2)-1]])
+	#df_RNA_seq2 = df_RNA_seq.append(new_row, ignore_index=True)
+	#df_RNA_seq2 = pd.concat([df_RNA_seq2.reindex([len(df_RNA_seq2)-1]) , df_RNA_seq2.iloc[0:len(df_RNA_seq2)-1]])
+	df_RNA_seq2 = pd.concat([new_row, df_RNA_seq], ignore_index=True)
 	return df_RNA_seq2
 #*******************************************************************************
 def write_latex_line(w, bold, f):
@@ -232,10 +232,6 @@ def machinelearning():
 
 	df_RNA_seq = df_RNA_seq.set_index('Name')
 	print(df_RNA_seq)
-
-
-
-
 
 
 
@@ -352,8 +348,8 @@ def machinelearning():
 
 	elif P.METHOD == "Classification":
 		if P.MODEL == "Support Vector Machine":	clf = svm.SVC(kernel='linear')
-		elif P.MODEL == "RandomForest":					clf = RandomForestClassifier(criterion='gini', random_state=None, max_depth=15, n_estimators=15, min_samples_leaf=20) #, criterion='MSE', splitter='best')
-		elif P.MODEL == "DecisionTree":					clf = DecisionTreeClassifier(criterion='gini', random_state=None, max_depth=15, min_samples_leaf=20)
+		elif P.MODEL == "RandomForest":					clf = RandomForestClassifier(criterion='gini', random_state=None, max_depth=15, n_estimators=15, min_samples_leaf=10) #, criterion='MSE', splitter='best')
+		elif P.MODEL == "DecisionTree":					clf = DecisionTreeClassifier(criterion='gini', random_state=None, max_depth=15, min_samples_leaf=10)
 	
 	#print(y_train)
 

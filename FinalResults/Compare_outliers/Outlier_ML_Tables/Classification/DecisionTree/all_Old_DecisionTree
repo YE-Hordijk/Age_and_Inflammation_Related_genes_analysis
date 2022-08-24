@@ -1,0 +1,17 @@
+all_No-MiddleAge:
+
+\subsection*{Classification}
+\subsubsection*{DecisionTree}
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
+		All & InCorrectGroup & 0.96 & 0.94 & 1.0 & 0.97 & 36 & 34 & 34 \\
+		Old & InWrongGroup &   & 1.0 & 0.9 & 0.95 & 19 & 21 & 19 \\
+		\hline
+	\end{tabular}
+	\caption{Evaluation of Classification by DecisionTree using the all-No-MiddleAge dataset.}
+	\label{tab:ClassificationDecisionTreeall_No-MiddleAge}
+\end{table}

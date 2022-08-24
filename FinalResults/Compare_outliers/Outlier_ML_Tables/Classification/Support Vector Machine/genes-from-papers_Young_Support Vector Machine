@@ -1,0 +1,17 @@
+genes-from-papers_No-MiddleAge:
+
+\subsection*{Classification}
+\subsubsection*{Support Vector Machine}
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
+		Genes-from-papers & InCorrectGroup & 0.94 & 1.0 & 0.92 & 0.96 & 33 & 36 & 33 \\
+		Young & InWrongGroup &   & 0.82 & 1.0 & 0.9 & 17 & 14 & 14 \\
+		\hline
+	\end{tabular}
+	\caption{Evaluation of Classification by Support Vector Machine using the genes-from-papers-No-MiddleAge dataset.}
+	\label{tab:ClassificationSupport Vector Machinegenes-from-papers_No-MiddleAge}
+\end{table}

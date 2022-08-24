@@ -1,0 +1,17 @@
+genes-from-papers_No-MiddleAge:
+
+\subsection*{Classification}
+\subsubsection*{DecisionTree}
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
+		Genes-from-papers & InCorrectGroup & 0.98 & 1.0 & 0.97 & 0.99 & 35 & 36 & 35 \\
+		Young & InWrongGroup &   & 0.93 & 1.0 & 0.97 & 15 & 14 & 14 \\
+		\hline
+	\end{tabular}
+	\caption{Evaluation of Classification by DecisionTree using the genes-from-papers-No-MiddleAge dataset.}
+	\label{tab:ClassificationDecisionTreegenes-from-papers_No-MiddleAge}
+\end{table}

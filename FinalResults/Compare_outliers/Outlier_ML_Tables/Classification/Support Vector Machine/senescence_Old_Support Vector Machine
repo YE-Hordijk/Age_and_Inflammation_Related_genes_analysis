@@ -1,0 +1,17 @@
+senescence_No-MiddleAge:
+
+\subsection*{Classification}
+\subsubsection*{Support Vector Machine}
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
+		Senescence & InCorrectGroup & 0.96 & 0.95 & 1.0 & 0.97 & 37 & 35 & 35 \\
+		Old & InWrongGroup &   & 1.0 & 0.9 & 0.95 & 18 & 20 & 18 \\
+		\hline
+	\end{tabular}
+	\caption{Evaluation of Classification by Support Vector Machine using the senescence-No-MiddleAge dataset.}
+	\label{tab:ClassificationSupport Vector Machinesenescence_No-MiddleAge}
+\end{table}

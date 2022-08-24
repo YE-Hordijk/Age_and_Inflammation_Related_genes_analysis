@@ -26,12 +26,7 @@ from itertools import islice #for selecting dictionary items
 import matplotlib.pyplot as plt
 
 
-
 #*******************************************************************************
-
-
-#df_RNA_seq = pd.DataFrame([])
-
 class PrC:
 	dict_samples = {}
 	df_subjects = pd.DataFrame([])
@@ -56,20 +51,6 @@ def strip_data_file(filename, lambda_function, header, separator):
 		data = pd.read_csv(filename, header=header, usecols=(lambda x: lambda_function(x)), sep=separator) #'\t'
 	print('Reading complete')
 	return data
-
-
-#******************************************************************************* ->preprocessing
-"""
-#function that only reads and stores the columns of interest in a pandas dataframe
-def strip_data_file(filename, lambda_function, header, separator):
-	print("\nReading", filename ,"...")
-	if (lambda_function == 0):
-		data = pd.read_csv(filename, header=header, usecols=["SAMPID","SMTSD"], sep=separator).query('SMTSD == "{}"'.format(P.tissue)) #Change the sample type here
-	else:
-		data = pd.read_csv(filename, header=header, usecols=(lambda x: lambda_function(x)), sep=separator) #'\t'
-	print('Reading complete')
-	return data
-"""
 #*******************************************************************************
 #Creating a file with metadata about the samples (linking age to sample) for making a PCA plot in R
 def make_metadata(RNAseq, subjects):
@@ -112,8 +93,9 @@ def make_subject_row(info, df_RNA_seq): #Make the row with subject data connecte
 #*******************************************************************************
 def add_new_row(new_row):
 	new_row = pd.DataFrame(new_row, index=[0])
-	df_RNA_seq2 = PrC.df_RNA_seq.append(new_row, ignore_index=True)
-	df_RNA_seq2 = pd.concat([df_RNA_seq2.reindex([len(df_RNA_seq2)-1]) , df_RNA_seq2.iloc[0:len(df_RNA_seq2)-1]])
+	#df_RNA_seq2 = PrC.df_RNA_seq.append(new_row, ignore_index=True)
+	#df_RNA_seq2 = pd.concat([df_RNA_seq2.reindex([len(df_RNA_seq2)-1]) , df_RNA_seq2.iloc[0:len(df_RNA_seq2)-1]])
+	df_RNA_seq2 = pd.concat([new_row, PrC.df_RNA_seq], ignore_index=True)
 	return df_RNA_seq2
 
 ################################################################################
@@ -138,10 +120,8 @@ def preprocessing():
 	#__________________Updating of downloading source files_________________________
 	GF.ensure_file('https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_reads.gct.gz','GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_reads.gct.gz', P.update_files)
 	GF.ensure_file('https://storage.googleapis.com/gtex_analysis_v8/annotations/GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt', 'GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt', P.update_files)
-	#GF.ensure_file('https://storage.googleapis.com/gtex_analysis_v8/annotations/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt', 'GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt', P.update_files)
-	
-
-	GF.ensure_file('https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/gene_reads/gene_reads_2017-06-05_v8_'+P.tissue.lower().replace(" ", "_")+'.gct.gz', 'gene_reads_2017-06-05_v8_'+P.tissue.lower().replace(" ", "_")+'.gct.gz', P.update_files)
+	if P.Use_AllSammple_Data: GF.ensure_file('https://storage.googleapis.com/gtex_analysis_v8/annotations/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt', 'GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt', P.update_files)
+	else: GF.ensure_file('https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/gene_reads/gene_reads_2017-06-05_v8_'+P.tissue.lower().replace(" ", "_")+'.gct.gz', 'gene_reads_2017-06-05_v8_'+P.tissue.lower().replace(" ", "_")+'.gct.gz', P.update_files)
 
 
 	#__________________Reading and converting the datafiles_________________________
@@ -153,34 +133,32 @@ def preprocessing():
 	PrC.df_subjects.sort_values(by=['AGE','SEX'], inplace=True) #sort first by Age and then by Sex
 
 	#Reading SAMPLES dictionary and only selecting samples from a specific tissue
-	df_samples = strip_data_file("Source/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt", 0, 0, '\t')
-	lst_samples = df_samples['SAMPID'].tolist() #sample IDs from dataframe to list
-	PrC.dict_samples = {lst_samples[i] for i in range(0, len(lst_samples), 1)} #list to dictionary
-	
+	if P.Use_AllSammple_Data:
+		df_samples = strip_data_file("Source/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt", 0, 0, '\t')
+		lst_samples = df_samples['SAMPID'].tolist() #sample IDs from dataframe to list
+		PrC.dict_samples = {lst_samples[i] for i in range(0, len(lst_samples), 1)} #list to dictionary
 
-	"""
 	#Reading the RNA seq data (already filtering on samples by tissuetype (columns))
-	#--Option 1) the countset has previously been filtered on samples, use this saved vversion instead for speed
-	if ("Countset_Samplefiltered" in os.listdir('./'+P.experiment_name)) and (RNACountsFileName in os.listdir('./'+P.experiment_name+"/Countset_Samplefiltered/")): #Does this folder already exist
-		PrC.df_RNA_seq = strip_data_file(P.experiment_name+"/Countset_Samplefiltered/"+RNACountsFileName, read_this_sample, 0, '\t')
-	#--Option 2) This file has never been read and saved
-	else: PrC.df_RNA_seq = strip_data_file("Source/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_reads.gct", read_this_sample, 2, '\t')
-	"""
-	PrC.df_RNA_seq = GF.readfile('Source/gene_reads_2017-06-05_v8_'+P.tissue.lower().replace(" ", "_")+'.gct', '\t', 2, 'dataframe').iloc[:, 1:]
-	
-	print(PrC.df_RNA_seq)
-	#print(new_df_RNA_seq)
+	if P.Use_AllSammple_Data:
+		#--Option 1) the countset has previously been filtered on samples, use this saved vversion instead for speed
+		if ("Countset_Samplefiltered" in os.listdir('./'+P.experiment_name)) and (RNACountsFileName in os.listdir('./'+P.experiment_name+"/Countset_Samplefiltered/")): #Does this folder already exist
+			PrC.df_RNA_seq = strip_data_file(P.experiment_name+"/Countset_Samplefiltered/"+RNACountsFileName, read_this_sample, 0, '\t')
+		#--Option 2) This file has never been read and saved
+		else: PrC.df_RNA_seq = strip_data_file("Source/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_reads.gct", read_this_sample, 2, '\t')
+	if not P.Use_AllSammple_Data: #this is faster because the dataframe is much smaller and contains only the desired sample
+		PrC.df_RNA_seq = GF.readfile('Source/gene_reads_2017-06-05_v8_'+P.tissue.lower().replace(" ", "_")+'.gct', '\t', 2, 'dataframe').iloc[:, 1:]
 
 
 
 	#________________Saving in between for faster runs nexttime_____________________
-	if "Countset_Samplefiltered" not in os.listdir('./'+P.experiment_name): #The intermediate save folder does not exist jet 
-			os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Countset_Samplefiltered"))
+	if P.Use_AllSammple_Data:
+		if "Countset_Samplefiltered" not in os.listdir('./'+P.experiment_name): #The intermediate save folder does not exist jet 
+				os.mkdir(os.path.join(os.getcwd(), "./"+P.experiment_name+"/Countset_Samplefiltered"))
+				print("Writing ", RNACountsFileName, " to a file for intermediate saving. Next run will be faster.")
+				PrC.df_RNA_seq.to_csv("./"+P.experiment_name+"/Countset_Samplefiltered/"+RNACountsFileName,index=False, sep='\t')
+		elif RNACountsFileName not in os.listdir('./'+P.experiment_name+"/Countset_Samplefiltered/"): #File does not yet exist
 			print("Writing ", RNACountsFileName, " to a file for intermediate saving. Next run will be faster.")
 			PrC.df_RNA_seq.to_csv("./"+P.experiment_name+"/Countset_Samplefiltered/"+RNACountsFileName,index=False, sep='\t')
-	elif RNACountsFileName not in os.listdir('./'+P.experiment_name+"/Countset_Samplefiltered/"): #File does not yet exist
-		print("Writing ", RNACountsFileName, " to a file for intermediate saving. Next run will be faster.")
-		PrC.df_RNA_seq.to_csv("./"+P.experiment_name+"/Countset_Samplefiltered/"+RNACountsFileName,index=False, sep='\t')
 
 
 	#________________Reading the genelist___________________________________________
@@ -189,39 +167,9 @@ def preprocessing():
 	else: #If sure the file exists
 		f = open("./"+P.experiment_name+"/Genelists/"+P.GENE_SELECTION+"_Genelist.txt", "r+")
 		for i in f: pathwaygenes[i.split("\n")[0]] = None
-	
-	""" #CODE FOR CHECKING TE DOUBLE GENES IN TEH DATASET
-	geneocc = {}
-	for i in PrC.df_RNA_seq["Description"]:
-		if i in geneocc:
-			geneocc[i] += 1
-		else: geneocc[i] = 1
 
-	#geneocc2 = {k: v for k, v in sorted(geneocc.items(), key=lambda item: item[1])}
-	geneocc2 = dict( sorted(geneocc.items(), key=operator.itemgetter(1),reverse=True))
-	#print(geneocc2)
-	tel = 0
-	for i in geneocc2:
-		#print(i, ": ", geneocc2[i])
-		tel += 1
-		if tel > 198: break
-	
-	nroccurences = 0
-	tell = 0
-	print("<__> geneselection: ", P.GENE_SELECTION)
-	print("<__> number of gene in pathwyagenes: ", len(pathwaygenes))
-	for i in pathwaygenes:
-		tell += 1
-		if i in geneocc2:
-			nroccurences += geneocc2[i]
-			if geneocc2[i] > 1:
-				input(i+": "+str(geneocc2[i]))
-	
-	print(nroccurences)
-	print("Number of genes in pathwaygenes: ", tell)
-	"""
+
 	#________________Filtering on gene list (rows)__________________________________
-
 	if (P.select_on_genes):
 		print("Filtering on genes")
 		PrC.df_RNA_seq = PrC.df_RNA_seq[PrC.df_RNA_seq.Description.isin(pathwaygenes.keys())]
@@ -249,7 +197,7 @@ def preprocessing():
 	
 	
 	print(PrC.df_RNA_seq)
-	exit()
+
 	#_2______Filtering out middle age if this age group is not required______________
 	if not P.use_middle_age and not P.visualize_data:
 		print("Filtering out the middle age group (", P.MIDDLE,")...")

@@ -1,0 +1,17 @@
+searchwords_No-MiddleAge:
+
+\subsection*{Classification}
+\subsubsection*{RandomForest}
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
+		Searchwords & InCorrectGroup & 0.95 & 0.92 & 1.0 & 0.96 & 37 & 34 & 34 \\
+		Old & InWrongGroup &   & 1.0 & 0.86 & 0.92 & 18 & 21 & 18 \\
+		\hline
+	\end{tabular}
+	\caption{Evaluation of Classification by RandomForest using the searchwords-No-MiddleAge dataset.}
+	\label{tab:ClassificationRandomForestsearchwords_No-MiddleAge}
+\end{table}
