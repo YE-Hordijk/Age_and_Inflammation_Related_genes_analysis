@@ -1,0 +1,17 @@
+senescence_No-MiddleAge:
+
+\subsection*{Classification}
+\subsubsection*{Support Vector Machine}
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
+		senescence & Young & 0.69 & 0.61 & 0.76 & 0.68 & 57 & 46 & 35 \\
+		No-MiddleAge & Old &   & 0.77 & 0.63 & 0.69 & 48 & 59 & 37 \\
+		\hline
+	\end{tabular}
+	\caption{Evaluation of Classification by Support Vector Machine using the senescence-No-MiddleAge dataset}
+	\label{tab:ClassificationSupport Vector Machinesenescence_No-MiddleAge}
+\end{table}

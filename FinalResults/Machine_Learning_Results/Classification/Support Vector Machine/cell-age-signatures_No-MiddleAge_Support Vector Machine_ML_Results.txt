@@ -1,0 +1,17 @@
+cell-age-signatures_No-MiddleAge:
+
+\subsection*{Classification}
+\subsubsection*{Support Vector Machine}
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
+		cell-age-signatures & Young & 0.74 & 0.69 & 0.76 & 0.72 & 51 & 46 & 35 \\
+		No-MiddleAge & Old &   & 0.8 & 0.73 & 0.76 & 54 & 59 & 43 \\
+		\hline
+	\end{tabular}
+	\caption{Evaluation of Classification by Support Vector Machine using the cell-age-signatures-No-MiddleAge dataset}
+	\label{tab:ClassificationSupport Vector Machinecell-age-signatures_No-MiddleAge}
+\end{table}

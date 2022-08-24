@@ -1,0 +1,17 @@
+cell-age-signatures_No-MiddleAge:
+
+\subsection*{Classification}
+\subsubsection*{DecisionTree}
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
+		cell-age-signatures & Young & 0.66 & 0.61 & 0.59 & 0.6 & 44 & 46 & 27 \\
+		No-MiddleAge & Old &   & 0.69 & 0.71 & 0.7 & 61 & 59 & 42 \\
+		\hline
+	\end{tabular}
+	\caption{Evaluation of Classification by DecisionTree using the cell-age-signatures-No-MiddleAge dataset}
+	\label{tab:ClassificationDecisionTreecell-age-signatures_No-MiddleAge}
+\end{table}

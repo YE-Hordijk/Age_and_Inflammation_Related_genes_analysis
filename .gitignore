@@ -1,8 +1,10 @@
 # Unwanted filetypes
 Source
-*.csv
-*.png
-*.txt
+/Source
+#*.csv
+#*.png
+#*.txt
 rubbish
 venv
 /exp*
+__pycache__

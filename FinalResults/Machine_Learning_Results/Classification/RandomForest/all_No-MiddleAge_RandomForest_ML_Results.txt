@@ -1,0 +1,17 @@
+all_No-MiddleAge:
+
+\subsection*{Classification}
+\subsubsection*{RandomForest}
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
+		all & Young & 0.75 & 0.7 & 0.76 & 0.73 & 50 & 46 & 35 \\
+		No-MiddleAge & Old &   & 0.8 & 0.75 & 0.77 & 55 & 59 & 44 \\
+		\hline
+	\end{tabular}
+	\caption{Evaluation of Classification by RandomForest using the all-No-MiddleAge dataset}
+	\label{tab:ClassificationRandomForestall_No-MiddleAge}
+\end{table}

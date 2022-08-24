@@ -1,0 +1,17 @@
+senescence_No-MiddleAge:
+
+\subsection*{Classification}
+\subsubsection*{DecisionTree}
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
+		senescence & Young & 0.63 & 0.56 & 0.74 & 0.64 & 61 & 46 & 34 \\
+		No-MiddleAge & Old &   & 0.73 & 0.54 & 0.62 & 44 & 59 & 32 \\
+		\hline
+	\end{tabular}
+	\caption{Evaluation of Classification by DecisionTree using the senescence-No-MiddleAge dataset}
+	\label{tab:ClassificationDecisionTreesenescence_No-MiddleAge}
+\end{table}
