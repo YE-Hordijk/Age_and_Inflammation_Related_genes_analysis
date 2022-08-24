@@ -113,11 +113,42 @@ write.table(norm.data,
 #plot(clusters)
 
 
+
+
+#_______________________________________________________________________________
+#The code below is stolen from https://groups.google.com/g/ggplot2/c/HajrW1yN9ZE
+# david kahle
+# sept 27, 2010
+
+theme_nothing <- function (base_size = 12){
+  structure(list(
+    axis.line = theme_blank(), 
+    axis.text.x = theme_blank(), axis.text.y = theme_blank(),
+    axis.ticks = theme_blank(), 
+    axis.title.x = theme_blank(), axis.title.y = theme_blank(), 
+    axis.ticks.length = unit(0, "lines"), axis.ticks.margin = unit(0, "lines"), 
+    legend.position = "none", 
+    panel.background = theme_blank(), panel.border = theme_blank(), 
+    panel.grid.major = theme_blank(), panel.grid.minor = theme_blank(), 
+    panel.margin = unit(0, "lines"), 
+    plot.background = theme_blank(), 
+    plot.title = theme_text(size = base_size * 1.2), 
+    plot.margin = unit(c(-1, -1, -1.5, -1.5), "lines")
+  ), class = "options")
+}
+
+
 #__________________________Making the PCAplot___________________________________
 dir.create("./PCAplots", showWarnings = FALSE, recursive = FALSE, mode = "0777")
 PCAplotName = paste(substr(genecounts, 0,nchar(genecounts) - 16), "PCAplot.png", sep="") #Making a name for the PCAplot
-w = plotPCA(vsd, intgroup=c("age")) # If you rmove the w = it will save the plot as a PDF as well
-ggsave(paste("PCAplots/", PCAplotName, sep=""))
+#par(mar = c(0.1, 0.1, 0.1, 0.1))
+#par(mfrow = c(2, 2)) 
+#par(mar = c(4, 4, 0.1, 0.1))
+w = plotPCA(vsd, intgroup=c("age")) #, xaxs="i", yaxs="i") # If you rmove the w = it will save the plot as a PDF as well
+#w = trimws(w)
+w + theme(plot.margin = unit(c(-10, 0.1, -10, 0.1), "cm")) +geom_point()
+#w + par(mar = c(4, 4, 4, 4))
+ggsave(paste("PCAplots/", PCAplotName, sep="")) #, bg='transparent') #theme(plot.margin=unit(c(-0.30,0,0,0), "null")) # remove margin around plot)
 #ggsave("Eenleukplotekke.png", width=10, heigth=8, dpi = 300)
 
 

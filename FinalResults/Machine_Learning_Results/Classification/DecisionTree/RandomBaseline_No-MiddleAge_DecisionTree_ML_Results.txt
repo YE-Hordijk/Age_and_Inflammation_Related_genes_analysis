@@ -1,0 +1,17 @@
+RandomBaseline_No-MiddleAge:
+
+\subsection*{Classification}
+\subsubsection*{DecisionTree}
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
+		RandomBaseline & Young & 0.54 & 0.53 & 0.53 & 0.53 & 51 & 51 & 27 \\
+		No-MiddleAge & Old &   & 0.56 & 0.56 & 0.56 & 54 & 54 & 30 \\
+		\hline
+	\end{tabular}
+	\caption{Evaluation of Classification by DecisionTree using the RandomBaseline-No-MiddleAge dataset}
+	\label{tab:ClassificationDecisionTreeRandomBaseline_No-MiddleAge}
+\end{table}

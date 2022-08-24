@@ -7,6 +7,7 @@ from GeneralFunctions import st
 
 #import Parameters as P
 from Parameters import P
+import CropImage as CI
 
 
 #*******************************************************************************
@@ -52,17 +53,16 @@ for g in datasets: #XXX
 		import Create_genelist as CG
 		genedict = CG.create_genelist()
 
-
 	#****PREPROCESSING THE DATA for R******
 	print(st.GREEN, "\n*********** PREPROCESSING DATA FOR R **********", st.RST)
 	import Preprocessing as Pr
 	Pr.preprocessing()
 
-
 	#****USING R******
 	countsfilename, metafilename = calculate_filenames(P.use_middle_age, True, g) #XXX
 	print(st.GREEN, "\n*********** NORMALIZING AND VISUALIZING WITH R **********", st.RST)
 	subprocess.call ("/usr/bin/Rscript --vanilla Normalize_and_visualize.R "+arguments(countsfilename, metafilename, P.experiment_name), shell=True) #Arguments: 1)countfile, 2)metadate, 3)project name
+	CI.crop(P.experiment_name+"/PCAplots"+"/"+countsfilename[:-17]+"_PCAplot.png") #Cropping the file,  because that is difficult with R
 	
 	
 	for i in ["DecisionTree","RandomForest","Support Vector Machine"]:
@@ -79,7 +79,7 @@ for g in datasets: #XXX
 		import Use_PCs_for_ML2 as ML2
 		ML2.use_pcs_for_ml2()
 
-		
+	
 
 
 

@@ -269,7 +269,7 @@ def use_pcs_for_ml2():
 
 	#______________Finding expression difference between normal &outliers__________
 	
-	if not P.random_baseline:
+	if True: #not P.random_baseline:
 		#1. Add row Agegroup using the dictionary
 		AgeRightWrong["Name"]={"Agegroup":"Agegroup", "inowngroup":"Inowngroup"}
 		df_RNA_seq_copy = df_RNA_seq_copy.drop(columns="Description")
@@ -287,6 +287,7 @@ def use_pcs_for_ml2():
 		#making a copy that can later be used for machinelearning
 		copyYoungAgeGroup = YoungAgeGroup.copy()
 		copyOldAgeGroup = OldAgeGroup.copy()
+		
 
 		#4. Calculating the sums
 		#pd.options.mode.chained_assignment = None  # default='warn' #TURNING OFF WANRINGS
@@ -325,26 +326,28 @@ def use_pcs_for_ml2():
 		#print(YoungAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]]) #printing the relevant genes
 		YoungThreshold = YoungAgeGroup.iloc[(P.NrFoundRelevantGenes+1), 3]
 		OldThreshold = OldAgeGroup.iloc[(P.NrFoundRelevantGenes+1), 3]
-
+		
+		
 		# 11. Writing most important genes to filename
-		if "Compare_outliers" not in os.listdir(P.experiment_name): #Making a folder for the machinelearning results
-			os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers"))
-		if "Outlier_determining_genes" not in os.listdir(P.experiment_name+"/Compare_outliers"): #Making a folder for the machinelearning results
-			os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_determining_genes"))
-		if P.GENE_SELECTION not in os.listdir(P.experiment_name+"/Compare_outliers/Outlier_determining_genes"): #Making a folder for the machinelearning results
-			os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_determining_genes/"+P.GENE_SELECTION))
-		YoungAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]].to_csv(P.experiment_name+"/Compare_outliers/Outlier_determining_genes/"+P.GENE_SELECTION+"/Young_"+P.GENE_SELECTION+"_Outlier_determining_genes.txt", index=False, header=False, sep="\t")
-		OldAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]].to_csv(P.experiment_name+"/Compare_outliers/Outlier_determining_genes/"+P.GENE_SELECTION+"/Old_"+P.GENE_SELECTION+"_Outlier_determining_genes.txt", index=False, header=False, sep="\t")
+		if not P.random_baseline:
+			if "Compare_outliers" not in os.listdir(P.experiment_name): #Making a folder for the machinelearning results
+				os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers"))
+			if "Outlier_determining_genes" not in os.listdir(P.experiment_name+"/Compare_outliers"): #Making a folder for the machinelearning results
+				os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_determining_genes"))
+			if P.GENE_SELECTION not in os.listdir(P.experiment_name+"/Compare_outliers/Outlier_determining_genes"): #Making a folder for the machinelearning results
+				os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/Compare_outliers/Outlier_determining_genes/"+P.GENE_SELECTION))
+			YoungAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]].to_csv(P.experiment_name+"/Compare_outliers/Outlier_determining_genes/"+P.GENE_SELECTION+"/Young_"+P.GENE_SELECTION+"_Outlier_determining_genes.txt", index=False, header=False, sep="\t")
+			OldAgeGroup.iloc[2:(P.NrFoundRelevantGenes+2), [0,3]].to_csv(P.experiment_name+"/Compare_outliers/Outlier_determining_genes/"+P.GENE_SELECTION+"/Old_"+P.GENE_SELECTION+"_Outlier_determining_genes.txt", index=False, header=False, sep="\t")
 
-		#12. Creating a barplot with threshold line
-		# Barplot for YoungAgeGroup	
-		Genes = list(YoungAgeGroup.iloc[2:, 0]) #Selecting the ' Description' column with the gene names
-		ExpressionDifference = list(YoungAgeGroup.iloc[2:, 3])
-		barplot_expressiondifference(Genes, ExpressionDifference, "Young", YoungThreshold)
-		# Barplot for Old
-		Genes = list(OldAgeGroup.iloc[2:, 0]) #Selecting the ' Description' column with the gene names
-		ExpressionDifference = list(OldAgeGroup.iloc[2:, 3])
-		barplot_expressiondifference(Genes, ExpressionDifference, "Old", OldThreshold)
+			#12. Creating a barplot with threshold line
+			# Barplot for YoungAgeGroup	
+			Genes = list(YoungAgeGroup.iloc[2:, 0]) #Selecting the ' Description' column with the gene names
+			ExpressionDifference = list(YoungAgeGroup.iloc[2:, 3])
+			barplot_expressiondifference(Genes, ExpressionDifference, "Young", YoungThreshold)
+			# Barplot for Old
+			Genes = list(OldAgeGroup.iloc[2:, 0]) #Selecting the ' Description' column with the gene names
+			ExpressionDifference = list(OldAgeGroup.iloc[2:, 3])
+			barplot_expressiondifference(Genes, ExpressionDifference, "Old", OldThreshold)
 
 
 

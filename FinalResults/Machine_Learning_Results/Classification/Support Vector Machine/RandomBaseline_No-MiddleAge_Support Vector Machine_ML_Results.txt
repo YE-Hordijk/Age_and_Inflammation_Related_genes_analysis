@@ -1,0 +1,17 @@
+RandomBaseline_No-MiddleAge:
+
+\subsection*{Classification}
+\subsubsection*{Support Vector Machine}
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
+		RandomBaseline & Young & 0.51 & 0.5 & 0.45 & 0.47 & 46 & 51 & 23 \\
+		No-MiddleAge & Old &   & 0.53 & 0.57 & 0.55 & 59 & 54 & 31 \\
+		\hline
+	\end{tabular}
+	\caption{Evaluation of Classification by Support Vector Machine using the RandomBaseline-No-MiddleAge dataset}
+	\label{tab:ClassificationSupport Vector MachineRandomBaseline_No-MiddleAge}
+\end{table}

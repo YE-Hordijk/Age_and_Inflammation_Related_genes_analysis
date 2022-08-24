@@ -1,0 +1,72 @@
+\subsection*{Classification}
+\subsubsection*{Support Vector Machine}
+\begin{table}[H]
+	\centering
+	\small
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
+		\rowcolor{gray!20}
+		Senescence & InCorrectGroup & 0.98 & 1.0 & 0.97 & 0.99 & 34 & 35 & 34 \\
+		\rowcolor{gray!20}
+		Young & InWrongGroup &   & 0.94 & 1.0 & 0.97 & 16 & 15 & 15 \\
+		\hline
+		\rowcolor{gray!20}
+		Senescence & InCorrectGroup & 0.96 & 0.95 & 1.0 & 0.97 & 37 & 35 & 35 \\
+		\rowcolor{gray!20}
+		Old & InWrongGroup &   & 1.0 & 0.9 & 0.95 & 18 & 20 & 18 \\
+		\hline
+		\hline
+		%\rowcolor{green!40!yellow!40}
+		Searchwords & InCorrectGroup & 0.98 & 0.97 & 1.0 & 0.99 & 36 & 35 & 35 \\
+		%\rowcolor{green!40!yellow!40}
+		Young & InWrongGroup &   & 1.0 & 0.93 & 0.97 & 14 & 15 & 14 \\
+		\hline
+		%\rowcolor{green!40!yellow!40}
+		Searchwords & InCorrectGroup & 0.95 & 0.92 & 1.0 & 0.96 & 37 & 34 & 34 \\
+		%\rowcolor{green!40!yellow!40}
+		Old & InWrongGroup &   & 1.0 & 0.86 & 0.92 & 18 & 21 & 18 \\
+		\hline
+		\hline
+		\rowcolor{gray!20}
+		Genes-from-papers & InCorrectGroup & 0.94 & 1.0 & 0.92 & 0.96 & 33 & 36 & 33 \\
+		\rowcolor{gray!20}
+		Young & InWrongGroup &   & 0.82 & 1.0 & 0.9 & 17 & 14 & 14 \\
+		\hline
+		\rowcolor{gray!20}
+		Genes-from-papers & InCorrectGroup & 1.0 & 1.0 & 1.0 & 1.0 & 34 & 34 & 34 \\
+		\rowcolor{gray!20}
+		Old & InWrongGroup &   & 1.0 & 1.0 & 1.0 & 21 & 21 & 21 \\
+		\hline
+		\hline
+		%\rowcolor{green!40!yellow!40}
+		Cell-age-signatures & InCorrectGroup & 0.96 & 0.94 & 1.0 & 0.97 & 35 & 33 & 33 \\
+		%\rowcolor{green!40!yellow!40}
+		Young & InWrongGroup &   & 1.0 & 0.88 & 0.94 & 15 & 17 & 15 \\
+		\hline
+		%\rowcolor{green!40!yellow!40}
+		Cell-age-signatures & InCorrectGroup & 0.95 & 0.92 & 1.0 & 0.96 & 37 & 34 & 34 \\
+		%\rowcolor{green!40!yellow!40}
+		Old & InWrongGroup &   & 1.0 & 0.86 & 0.92 & 18 & 21 & 18 \\
+		\hline
+		\hline
+		\rowcolor{gray!20}
+		All & InCorrectGroup & 0.95 & 0.92 & 1.0 & 0.96 & 37 & 34 & 34 \\
+		\rowcolor{gray!20}
+		Old & InWrongGroup &   & 1.0 & 0.86 & 0.92 & 18 & 21 & 18 \\
+		\hline
+		\rowcolor{gray!20}
+		All & InCorrectGroup & 0.98 & 0.97 & 1.0 & 0.99 & 34 & 33 & 33 \\
+		\rowcolor{gray!20}
+		Young & InWrongGroup &   & 1.0 & 0.94 & 0.97 & 16 & 17 & 16 \\
+		\hline
+		\hline
+		%\rowcolor{green!40!yellow!40}
+		Randombaseline & InCorrectGroup & 0.52 & 0.68 & 0.6 & 0.64 & 31 & 35 & 21 \\
+		%\rowcolor{green!40!yellow!40}
+		Young & InWrongGroup &   & 0.26 & 0.33 & 0.29 & 19 & 15 & 5 \\
+		\hline
+	\end{tabular}
+	\caption{Evaluation of Classification by Support Vector Machine using different datasets, trying to predict if a sample is an outlier from its own agegroup.}
+	\label{tab:CompareOutliersClassificationSupport Vector Machine}
+\end{table}

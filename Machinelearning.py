@@ -216,7 +216,7 @@ def machinelearning():
 		dingda = list(df_RNA_seq.columns)[2:]
 		random.Random(42).shuffle(dingda)
 		df_RNA_seq.columns = list(df_RNA_seq.columns)[:2]+dingda #shuffeling the columns 
-		df_RNA_seq = df_RNA_seq.iloc[:300, :300] #making a smaller dataframe for creating the baseline
+		#df_RNA_seq = df_RNA_seq.iloc[:300, :300] #making a smaller dataframe for creating the baseline
 		print("Random matrix for baseline: \n", df_RNA_seq)
 
 
