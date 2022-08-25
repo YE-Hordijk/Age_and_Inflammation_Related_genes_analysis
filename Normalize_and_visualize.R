@@ -141,20 +141,13 @@ theme_nothing <- function (base_size = 12){
 #__________________________Making the PCAplot___________________________________
 dir.create("./PCAplots", showWarnings = FALSE, recursive = FALSE, mode = "0777")
 PCAplotName = paste(substr(genecounts, 0,nchar(genecounts) - 16), "PCAplot.png", sep="") #Making a name for the PCAplot
-#par(mar = c(0.1, 0.1, 0.1, 0.1))
-#par(mfrow = c(2, 2)) 
-#par(mar = c(4, 4, 0.1, 0.1))
-w = plotPCA(vsd, intgroup=c("age")) #, xaxs="i", yaxs="i") # If you rmove the w = it will save the plot as a PDF as well
-#w = trimws(w)
-w + theme(plot.margin = unit(c(-10, 0.1, -10, 0.1), "cm")) +geom_point()
-#w + par(mar = c(4, 4, 4, 4))
-ggsave(paste("PCAplots/", PCAplotName, sep="")) #, bg='transparent') #theme(plot.margin=unit(c(-0.30,0,0,0), "null")) # remove margin around plot)
-#ggsave("Eenleukplotekke.png", width=10, heigth=8, dpi = 300)
-
+w = plotPCA(vsd, intgroup=c("age")) # If you rmove the w = it will save the plot as a PDF as well
+#w + theme(plot.margin = unit(c(-10, 0.1, -10, 0.1), "cm"))
+ggsave(paste("PCAplots/", PCAplotName, sep=""))
 
 #__________________________Get the PCs__________________________________________
 pcs <- prcomp(t(norm.data)) 
-df <- as.data.frame(pcs$x) #Here you have your data
+df <- as.data.frame(pcs$x) #result is a table with all the PC values for every subject
 
 #summary(pcs)
 #PCAAnalysis$x
@@ -174,9 +167,6 @@ write.table(df,
 
 
 
-#
-#
-#
 #________Better code for making the PCA plot but returns ERROR_______
 #
 #percentrl <- pcs$sdev^2/sum(pcs$sdev^2)
@@ -190,10 +180,7 @@ write.table(df,
 #  theme(plot.title = element_text(family = "Helvetica", color = "#666666", face = "bold", 
 #                                  size = 16, hjust = 0.5)) +
 #  geom_text(aes(label = meta$Samples, hjust = 0.5, vjust = 2, size = 1), cex = 2.5)
-#
-#
-#
-#
+
 
 
 #__________________________Making the heatmap___________________________________
@@ -202,7 +189,6 @@ write.table(df,
 
 select <- order(rowMeans(counts(count.data.set.object,normalized=TRUE)), decreasing=TRUE)[1:20]
 df <- as.data.frame(colData(count.data.set.object)[,c("age")])
-#head(df)
 
 #colnames(mat) <- str_sub(colnames(count.data.set.object))
 rownames(df) <- colnames(count.data.set.object)

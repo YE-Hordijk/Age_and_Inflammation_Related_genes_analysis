@@ -8,8 +8,8 @@ genes-from-papers_No-MiddleAge:
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 		\hline
 		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
-		Genes-from-papers & InCorrectGroup & 0.95 & 0.92 & 1.0 & 0.96 & 37 & 34 & 34 \\
-		Old & InWrongGroup &   & 1.0 & 0.86 & 0.92 & 18 & 21 & 18 \\
+		Genes-from-papers & InCorrectGroup & 0.96 & 0.94 & 1.0 & 0.97 & 36 & 34 & 34 \\
+		Old & InWrongGroup &   & 1.0 & 0.9 & 0.95 & 19 & 21 & 19 \\
 		\hline
 	\end{tabular}
 	\caption{Evaluation of Classification by RandomForest using the genes-from-papers-No-MiddleAge dataset.}

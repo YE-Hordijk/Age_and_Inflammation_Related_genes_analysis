@@ -8,8 +8,8 @@ searchwords_No-MiddleAge:
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 		\hline
 		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
-		Searchwords & InCorrectGroup & 0.9 & 0.92 & 0.94 & 0.93 & 36 & 35 & 33 \\
-		Young & InWrongGroup &   & 0.86 & 0.8 & 0.83 & 14 & 15 & 12 \\
+		Searchwords & InCorrectGroup & 0.94 & 0.94 & 0.97 & 0.96 & 36 & 35 & 34 \\
+		Young & InWrongGroup &   & 0.93 & 0.87 & 0.9 & 14 & 15 & 13 \\
 		\hline
 	\end{tabular}
 	\caption{Evaluation of Classification by DecisionTree using the searchwords-No-MiddleAge dataset.}

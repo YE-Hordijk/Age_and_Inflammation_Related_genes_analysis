@@ -8,8 +8,8 @@ cell-age-signatures_No-MiddleAge:
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 		\hline
 		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
-		Cell-age-signatures & InCorrectGroup & 0.96 & 0.94 & 1.0 & 0.97 & 36 & 34 & 34 \\
-		Old & InWrongGroup &   & 1.0 & 0.9 & 0.95 & 19 & 21 & 19 \\
+		Cell-age-signatures & InCorrectGroup & 0.95 & 0.94 & 0.97 & 0.96 & 35 & 34 & 33 \\
+		Old & InWrongGroup &   & 0.95 & 0.9 & 0.93 & 20 & 21 & 19 \\
 		\hline
 	\end{tabular}
 	\caption{Evaluation of Classification by DecisionTree using the cell-age-signatures-No-MiddleAge dataset.}

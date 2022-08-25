@@ -424,8 +424,8 @@ def use_pcs_for_ml2():
 			elif P.MODEL == "DecisionTree":					clf = DecisionTreeRegressor(random_state=None, max_depth=15) #, criterion='squared_error')
 		elif P.METHOD == "Classification":
 			if P.MODEL == "Support Vector Machine":	clf = svm.SVC(kernel='linear')
-			elif P.MODEL == "RandomForest":					clf = RandomForestClassifier(n_estimators=15, max_depth=15, random_state=None, min_samples_leaf=10) #, criterion='MSE', splitter='best')
-			elif P.MODEL == "DecisionTree":					clf = DecisionTreeClassifier(criterion='entropy', max_depth=15, random_state=None, min_samples_leaf=10)
+			elif P.MODEL == "RandomForest":					clf = RandomForestClassifier(n_estimators=15, max_depth=15, random_state=None, min_samples_leaf=5) #, criterion='MSE', splitter='best')
+			elif P.MODEL == "DecisionTree":					clf = DecisionTreeClassifier(criterion='entropy', max_depth=15, random_state=None, min_samples_leaf=5)
 
 		clf.fit(X_train, y_train)
 		y_pred = clf.predict(X_test) #make the prediction on the test data

@@ -46,43 +46,46 @@ for g in datasets: #XXX
 	P.GENE_SELECTION = g #Setting the parameter
 	print("Dataset: ", g)
 
-
+	"""
 	#***CREATING A GENELIST****
 	if (P.select_on_genes):
 		print(st.GREEN, "\n*********** CREATE GENELIST **********", st.RST)
 		import Create_genelist as CG
 		genedict = CG.create_genelist()
 
+
 	#****PREPROCESSING THE DATA for R******
 	print(st.GREEN, "\n*********** PREPROCESSING DATA FOR R **********", st.RST)
 	import Preprocessing as Pr
 	Pr.preprocessing()
+	
 
 	#****USING R******
 	countsfilename, metafilename = calculate_filenames(P.use_middle_age, True, g) #XXX
 	print(st.GREEN, "\n*********** NORMALIZING AND VISUALIZING WITH R **********", st.RST)
 	subprocess.call ("/usr/bin/Rscript --vanilla Normalize_and_visualize.R "+arguments(countsfilename, metafilename, P.experiment_name), shell=True) #Arguments: 1)countfile, 2)metadate, 3)project name
 	CI.crop(P.experiment_name+"/PCAplots"+"/"+countsfilename[:-17]+"_PCAplot.png") #Cropping the file,  because that is difficult with R
-	
+	"""
 	
 	for i in ["DecisionTree","RandomForest","Support Vector Machine"]:
 		P.MODEL = i
 		
+		"""
 		#****Machinelearning****
 		print(st.GREEN, "\n*********** MACHINE LEARNING **********", st.RST)
 		import Machinelearning as Ms
 		Ms.machinelearning()
-		
+		"""
 		
 		#****Extracting important genes from PCfiles and finding outliers
 		print(st.GREEN, "\n*********** Use PCs for MachineLearning2 **********", st.RST)
 		import Use_PCs_for_ML2 as ML2
 		ML2.use_pcs_for_ml2()
 
-	
 
 
 
+exit()
 while True:
 	print('\a\b\b', end='')
 

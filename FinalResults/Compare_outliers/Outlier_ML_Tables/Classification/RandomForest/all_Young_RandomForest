@@ -8,8 +8,8 @@ all_No-MiddleAge:
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 		\hline
 		\textbf{Dataset} & \textbf{AgeGroups} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1} & \textbf{Occ.Pred} & \textbf{Occ.real} & \textbf{Correct} \\ \hline
-		All & InCorrectGroup & 0.96 & 0.94 & 1.0 & 0.97 & 35 & 33 & 33 \\
-		Young & InWrongGroup &   & 1.0 & 0.88 & 0.94 & 15 & 17 & 15 \\
+		All & InCorrectGroup & 0.98 & 0.97 & 1.0 & 0.99 & 34 & 33 & 33 \\
+		Young & InWrongGroup &   & 1.0 & 0.94 & 0.97 & 16 & 17 & 16 \\
 		\hline
 	\end{tabular}
 	\caption{Evaluation of Classification by RandomForest using the all-No-MiddleAge dataset.}
