@@ -1,0 +1,5 @@
+senescence_Young,senescence_Old,searchwords_Young,searchwords_Old,papergenes_Young,papergenes_Old,age-signatures_Young,age-signatures_Old,all_Young,all_Old
+"CCL3, 0.978","JUN, 1.0","DUSP2, 0.923","CCL4, 0.936","TLR5, 0.755","TLR5, 0.893","TNFSF10, 0.893","IFNG, 0.899","TNFAIP8L2, 0.971","CCL3, 0.979"
+"PYROXD1, 0.022",,"IRAK4, 0.047","GNAI2, 0.064","RHOC, 0.17","FCRL6, 0.107","TRIM22, 0.06","CDC20, 0.101","CBS, 0.029","TCIRG1, 0.021"
+,,"IGKV1D-33, 0.03",,"SLC16A10, 0.047",,"EPB41L2, 0.047",,,
+,,,,"PSRC1, 0.028",,,,,
