@@ -54,7 +54,7 @@ if "CombinedGenelists!" not in os.listdir(P.experiment_name): #Making a folder f
 	os.mkdir(os.path.join(os.getcwd(), P.experiment_name+"/"+"CombinedGenelists!"))
 
 #Make a combined list of important genes
-combine_these_lists = MLOutliers + CompareOutliers
+combine_these_lists = MLOutliers #+ CompareOutliers
 #combine_these_lists.remove("CompareOutliers_MLresults_DT.csv")
 #combine_these_lists.remove("CompareOutliers_MLresults_RF.csv")
 #combine_these_lists.remove("CompareOutliers_MLresults_SVM.csv")
@@ -71,13 +71,21 @@ for i in combine_these_lists:
 				if math.isnan(row[col]): pass
 			except:
 				if row[col].split(", ")[0] in best: best[row[col].split(", ")[0]] += abs(float(row[col].split(", ")[1])) #if item is already in best, add the value to this item to make it worth more
-				elif not len(best)>=threshold or not all(value > abs(float(row[col].split(", ")[1])) for value in best.values()): #if best is not full or there are smaller items
-					best[row[col].split(", ")[0]] = abs(float(row[col].split(", ")[1])) # Add to the best dictionary
-					if len(best) > threshold: del best[min(best, key=best.get)] # remove smallest item if dict is full
+				#elif not len(best)>=threshold or not all(value > abs(float(row[col].split(", ")[1])) for value in best.values()): #if best is not full or there are smaller items
+				#	best[row[col].split(", ")[0]] = abs(float(row[col].split(", ")[1])) # Add to the best dictionary
+				#	if len(best) > threshold: del best[min(best, key=best.get)] # remove smallest item if dict is full
+				else: best[row[col].split(", ")[0]] = abs(float(row[col].split(", ")[1]))
 
 	for q in best:
 		best[q] = best[q]/(GeneOccurence[q])
 	
+	best = sorted(best.items(), key=lambda x: x[1], reverse=True)
+	#print(best[:50])
+	#exit()
+	best = list(best[:50])
+	best = dict(best)
+	print(best)
+
 	print(i)
 	
 	tellie = 0
