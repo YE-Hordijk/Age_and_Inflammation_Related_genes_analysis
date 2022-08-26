@@ -154,7 +154,7 @@ for GENEDATASET in lijst:
 	
 	#*****************************************************************************
 	if GENEDATASET == "genes-from-papers": GENEDATASET = "papergenes"
-	if GENEDATASET == "cell-age-signatures": GENEDATASET = "age-signatures"
+	if GENEDATASET == "cell-age-signatures": GENEDATASET = "age-signa."
 	if foldername == "TotalGeneset_MLresults": 
 		DT_Allsets[GENEDATASET] = DT_list[0]
 		RF_Allsets[GENEDATASET] = RF_list[0]
@@ -263,7 +263,7 @@ names["TotalGeneset_MLresults"] = ["DT", "RF", "SVM"]
 for model in things: 
 	
 	if foldername == "CompareOutliers_Outlierdeteremining":
-		naammodel = "OwnMethod"
+		naammodel = "MeanDifference"
 	else: naammodel = names["TotalGeneset_MLresults"][tel]
 	tel += 1
 	
@@ -305,7 +305,7 @@ for model in things:
 	
 
 	from pylab import rcParams
-	if C__df.shape[1] > 5: rcParams['figure.figsize'] = 17, get_size(C__df.shape[0])#4 #18
+	if C__df.shape[1] > 5: rcParams['figure.figsize'] = 18, get_size(C__df.shape[0])#4 #18
 	else: rcParams['figure.figsize'] = 13, get_size(C__df.shape[0])#4 #18
 	fig, ax = plt.subplots()
 	
@@ -322,7 +322,7 @@ for model in things:
 	if foldername == "CompareOutliers_Outlierdeteremining": palette = "coolwarm"
 	s = sns.heatmap(results, annot=labels, fmt="", cmap=palette, ax=ax, linewidths=.5, yticklabels=True, xticklabels=x_axis_labels, cbar_kws={'label': 'Importance'}) #vmin=0, vmax=1)
 	sns.set(font_scale = 1)
-	s.set_xlabel('Different gene sets', fontsize=15)
+	s.set_xlabel('Different gene sets', fontsize=20)
 	#ax.yaxis.set_label_position("right")
 	plt.xticks(rotation=0, fontsize=14)
 	plt.yticks(np.arange(0.5, 0.5+C__df.shape[0]), np.arange(1, C__df.shape[0]+1), rotation=0, fontsize=14)

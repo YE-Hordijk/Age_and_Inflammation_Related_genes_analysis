@@ -15,6 +15,21 @@ def save_csv(d, filename):
 	df = pd.DataFrame(dict([ (k,pd.Series(v, dtype=pd.StringDtype())) for k,v in d.items() ]))
 	df.to_csv(filename, index= False)
 
+#*******************************************************************************
+GeneOccurence = {}
+for FILE in os.listdir(P.experiment_name+'/Genelists'):
+	print(FILE)
+	f = open(P.experiment_name+'/Genelists/'+FILE, "r")
+	for x in f:
+		line = x[:-1]
+		if line not in GeneOccurence: GeneOccurence[line] = 0
+		GeneOccurence[line] += 1
+		
+		#print(line[:-1])
+		#input()
+#print(GeneOccurence)
+
+#*******************************************************************************
 path = P.experiment_name+'/GenelistGradientTables/'
 threshold = 100 #P.NrFoundRelevantGenes
 
@@ -40,7 +55,9 @@ if "CombinedGenelists!" not in os.listdir(P.experiment_name): #Making a folder f
 
 #Make a combined list of important genes
 combine_these_lists = MLOutliers + CompareOutliers
-combine_these_lists.remove("CompareOutliers_MLresults_DT.csv")
+#combine_these_lists.remove("CompareOutliers_MLresults_DT.csv")
+#combine_these_lists.remove("CompareOutliers_MLresults_RF.csv")
+#combine_these_lists.remove("CompareOutliers_MLresults_SVM.csv")
 
 for i in combine_these_lists:
 	best = {}
@@ -58,11 +75,15 @@ for i in combine_these_lists:
 					best[row[col].split(", ")[0]] = abs(float(row[col].split(", ")[1])) # Add to the best dictionary
 					if len(best) > threshold: del best[min(best, key=best.get)] # remove smallest item if dict is full
 
+	for q in best:
+		best[q] = best[q]/(GeneOccurence[q])
+	
 	print(i)
+	
 	tellie = 0
 	for k in best:
 		tellie +=  1
-		print(tellie, k, "  ", round(best[k], 3))
+		print("\item", tellie, k, "  ", round(best[k], 3))
 	print("The above list is from ", i, "You can copy the list from the terminial, but it will also be saved in the folder CombinedGenelists!")
 	input()
 	P.experiment_name+"/"+"CombinedGenelists!"
@@ -73,7 +94,7 @@ for i in combine_these_lists:
 
 
 #Make Venn diagram if three lists were created above
-if len(combine_these_lists)  == 3:
+if len(combine_these_lists)  <= 3:
 	tell = -1
 	A = []
 	B = []
@@ -90,19 +111,28 @@ if len(combine_these_lists)  == 3:
 	A = set(A)
 	B = set(B)
 	C = set(C)
-	v = venn3([A,B,C], (vennamen))
+	if len(combine_these_lists) == 3: v = venn3([A,B,C], (vennamen))
+	elif len(combine_these_lists) == 2: v = venn2([A,B], (vennamen))
 	
 	intersect = {}
-	intersect["DT & RF & SVM"] = list(A&B&C)
-	intersect["DT & RF"] = list(A&B.symmetric_difference(list(A&B&C)))
-	intersect["DT & SVM"] = list(A&C.symmetric_difference(list(A&B&C)))
-	intersect["RF & SVM"] = list(B&C.symmetric_difference(list(A&B&C)))
+	if len(combine_these_lists) == 3:
+		intersect[vennamen[0]+" & "+vennamen[1]+" & "+vennamen[2]] = list(A&B&C)
+	intersect[vennamen[0]+" & "+vennamen[1]] = list(A&B.symmetric_difference(list(A&B&C)))
+	
+	if len(combine_these_lists) == 3: 
+		intersect[vennamen[0]+" & "+vennamen[2]] = list(A&C.symmetric_difference(list(A&B&C)))
+		intersect["RF & "+vennamen[2]] = list(B&C.symmetric_difference(list(A&B&C)))
 
-	plt.savefig(P.experiment_name+"/"+"CombinedGenelists!/"+vennamen[0]+"-"+vennamen[1]+"-"+vennamen[2]+'_Venn.png', bbox_inches = 'tight')
+
+	if len(combine_these_lists) == 3: between = vennamen[0]+"-"+vennamen[1]+"-"+vennamen[2]
+	elif len(combine_these_lists) == 2: between = vennamen[0]+"-"+vennamen[1]
+	
+	
+	plt.savefig(P.experiment_name+"/"+"CombinedGenelists!/"+between+'_Venn.png', bbox_inches = 'tight')
 	plt.show()
 	plt.close()
 	
-	save_csv(intersect, P.experiment_name+"/"+"CombinedGenelists!/"+vennamen[0]+"-"+vennamen[1]+"-"+vennamen[2]+'_Venn.csv')
+	save_csv(intersect, P.experiment_name+"/"+"CombinedGenelists!/"+between+'_Venn.csv')
 
 
 
