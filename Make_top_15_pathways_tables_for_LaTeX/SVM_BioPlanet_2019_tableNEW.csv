@@ -1,0 +1,565 @@
+,Term,Overlap,Adjusted P-value,Genes
+1,Senescence and autophagy,13/99,1.34e-12,JUN; CDKN1A; CXCL8; SERPINB2; CDKN2A; SERPINE1; IL24; MAPK14; THBS1; GABARAP; IFNG; IFI16; CCL3
+2,Interleukin-2 signaling pathway,24/847,8.49e-10,CX3CR1; FCGBP; JUN; CXCL8; SERPINE1; IL24; ARAP2; NKG7; FURIN; KIR2DL1; MAPK14; PRSS23; NELL2; LDHB; ABLIM1; IFNG; PLAU; PPP2R2B; CCL3; FLNB; JAK3; LDLR; GBP1; BIRC3
+3,Gastrin pathway,7/44,3.91e-07,JUN; CXCL8; SERPINB2; CDKN2A; SERPINE1; HBEGF; BIRC3
+4,T cell receptor regulation of apoptosis,16/603,5.75e-06,EGR1; JUN; CDKN1A; CXCL8; SERPINE2; CDKN2A; RHOC; MAPK14; CLK1; PNP; IFNG; IFI16; CCL3; MYBL2; GBP1; BIRC3
+5,Chagas disease,8/104,5.75e-06,JUN; CXCL8; IFNG; PPP2R2B; CCL3L3; SERPINE1; CCL3; MAPK14
+6,EGFR1 pathway,9/152,6.62e-06,CLK1; SELENBP1; CDKN1A; PNP; MME; PLAU; IGFBP3; MYBL2; HBEGF
+7,p53 activity regulation,8/118,1.10e-05,CDKN1A; CDKN2A; IGFBP3; SERPINE1; SESN2; SIAH1; MAPK14; THBS1
+8,AP-1 transcription factor network,6/70,9.58e-05,EGR1; JUN; CXCL8; IFNG; PLAU; CDKN2A
+9,Bladder cancer,5/42,1.17e-04,CDKN1A; CXCL8; CDKN2A; DAPK2; THBS1
+10,E2F transcription factor network,6/74,1.17e-04,CDKN1A; PLAU; CDKN2A; SERPINE1; MYBL2; WASF1
+11,ID regulation of gene expression,4/20,1.37e-04,CDKN1A; CXCL8; CDKN2A; THBS1
+12,Regular glucocorticoid receptor pathway,6/82,1.63e-04,EGR1; CDKN1A; JUN; CXCL8; IFNG; MAPK14
+13,TSP1-induced apoptosis in microvascular endothelial cell,3/8,2.69e-04,JUN; MAPK14; THBS1
+14,Dissolution of fibrin clot,3/8,2.69e-04,SERPINB2; PLAU; SERPINE1
+15,Fibroblast growth factor 1,4/26,3.01e-04,CDKN1A; SERPINB2; PLAU; SERPINE1
+16,Immune system,17/998,3.01e-04,EGR1; JUN; CDKN1A; GBP7; UBE2L6; KIR2DL1; MAPK14; KIR2DL3; KIR2DL4; AIM2; IFNG; FLNB; TLR5; FCGR1A; JAK3; GBP1; BIRC3
+17,ATF2 transcription factor network,5/59,3.79e-04,JUN; CXCL8; IFNG; PLAU; MAPK14
+18,CD40/CD40L signaling,4/31,5.23e-04,JUN; MAPK14; JAK3; BIRC3
+19,HIF-1 transcriptional activity in hypoxia,5/66,5.89e-04,NT5E; JUN; SERPINE1; SLC2A1; FURIN
+20,Interferon signaling,7/168,6.10e-04,EGR1; GBP7; IFNG; UBE2L6; FLNB; FCGR1A; GBP1
+21,Oncostatin M,9/311,7.01e-04,SELENBP1; JUN; CDKN1A; CXCL8; SERPINB2; PLAU; SERPINE1; LDLR; TGM2
+22,Interleukin-1 regulation of extracellular matrix,6/120,7.94e-04,JUN; CXCL8; SERPINB2; IFNG; BIRC3; HBEGF
+23,FRA pathway,4/37,8.39e-04,JUN; CXCL8; PLAU; CDKN2A
+24,Pathways in cancer,9/325,8.65e-04,JUN; CDKN1A; CDKN2B; CXCL8; FLT3; CDKN2A; DAPK2; SLC2A1; BIRC3
+25,Antigen processing and presentation,5/81,1.08e-03,IFNG; KIR2DL1; KIR2DL3; KIR2DL4; HSPA1B
+26,Fibrinolysis pathway,3/15,1.08e-03,SERPINB2; PLAU; SERPINE1
+27,BDNF signaling pathway,8/261,1.08e-03,EGR1; CHRNA3; JUN; CDKN1A; ABLIM1; IGFBP3; SERPINE1; HSPA1B
+28,FSH regulation of apoptosis,8/263,1.08e-03,CX3CR1; ABLIM1; IGFBP3; APOE; MAPK14; THBS1; LDLR; GBP1
+29,Interleukin-4 regulation of apoptosis,8/267,1.14e-03,SLC22A4; JUN; CDKN1A; CXCL8; LRRN3; IFI16; NKG7; UBE2L6
+30,Chylomicron-mediated lipid transport,3/17,1.47e-03,APOE; LDLRAP1; LDLR
+31,"Immune system signaling by interferons, interleukins, prolactin, and growth hormones",8/280,1.49e-03,EGR1; GBP7; IFNG; UBE2L6; FLNB; FCGR1A; JAK3; GBP1
+32,Interleukin-5 regulation of apoptosis,6/144,1.51e-03,EGR1; CXCL8; CCL3; MAPK14; BIRC3; HBEGF
+33,Regulation of NFAT transcription factors,4/47,1.52e-03,EGR1; JUN; CXCL8; IFNG
+34,Wnt signaling pathway and pluripotency,5/98,2.02e-03,JUN; PLAU; PPP2R2B; PRKCZ; LDLR
+35,Vitamin B12 metabolism,4/52,2.02e-03,IFNG; SERPINE1; APOE; LDLR
+36,4-1BB-dependent immune response,3/20,2.02e-03,JUN; IFNG; MAPK14
+37,TSH regulation of gene expression,5/97,2.02e-03,EGR1; JUN; DUSP2; CXCL8; LRRN3
+38,Pyrimidine metabolism,5/100,2.17e-03,NT5E; PNP; POLR1D; CMPK2; DCK
+39,Wnt signaling pathway,7/231,2.33e-03,JUN; PLAU; PPP2R2B; SIAH1; KREMEN1; PRKCZ; LDLR
+40,TAp63 pathway,4/55,2.33e-03,CDKN1A; CDKN2A; IGFBP3; MFGE8
+41,Blood clotting cascade,3/23,2.62e-03,SERPINB2; PLAU; SERPINE1
+42,Signaling events mediated by PRL,3/23,2.62e-03,EGR1; CDKN1A; RHOC
+43,Cyclins and cell cycle regulation,3/23,2.62e-03,CDKN1A; CDKN2B; CDKN2A
+44,RAGE pathway,4/60,2.97e-03,CXCL8; SERPINE1; MFGE8; LDLR
+45,Epidermal growth factor receptor (EGFR) pathway,5/111,2.98e-03,JUN; CDKN2A; RHOC; MAPK14; PRKCZ
+46,Folate metabolism,4/63,3.43e-03,IFNG; SERPINE1; FOLR3; LDLR
+47,TWEAK regulation of gene expression,3/27,3.78e-03,CXCL8; SERPINE1; CCL3
+48,Retinoblastoma protein regulation,4/66,3.78e-03,CDKN1A; JUN; CDKN2A; MAPK14
+49,Signaling by TGF-beta receptor complex,4/66,3.78e-03,CDKN2B; SERPINE1; FURIN; PRKCZ
+50,TGF-beta signaling pathway,6/185,3.78e-03,TGFBR3; JUN; IFNG; SERPINE1; MAPK14; THBS1
+51,Chemokine signaling pathway,6/189,3.92e-03,CX3CR1; CXCL8; CCL3L3; CCL3; PRKCZ; JAK3
+52,Epithelial cell signaling in Helicobacter pylori infection,4/68,3.92e-03,JUN; CXCL8; MAPK14; HBEGF
+53,Cell cycle: G1/S checkpoint,3/28,3.92e-03,CDKN1A; CDKN2B; CDKN2A
+54,Cytokine-cytokine receptor interaction,7/265,3.92e-03,CX3CR1; CXCL8; IFNG; FLT3; CCL3L3; IL24; CCL3
+55,Lipoprotein metabolism,3/29,4.13e-03,APOE; LDLRAP1; LDLR
+56,Interleukin-1 signaling pathway,5/125,4.15e-03,JUN; CXCL8; UBE2L6; MAPK14; PRKCZ
+57,Leishmaniasis,4/72,4.62e-03,JUN; IFNG; FCGR1A; MAPK14
+58,Endocytosis,6/201,5.06e-03,ARAP2; FOLR3; LDLRAP1; PRKCZ; LDLR; HSPA1B
+59,Interleukin-7 interactions in immune response,3/34,6.20e-03,JUN; CXCL8; IL24
+60,p53 signaling pathway,5/139,6.29e-03,JUN; CDKN1A; IGFBP3; SERPINE1; HSPA1B
+61,EGF/EGFR signaling pathway,5/141,6.60e-03,ATXN2; JUN; MYBL2; MAPK14; PRKCZ
+62,Toll-like receptor signaling pathway regulation,5/142,6.70e-03,JUN; CXCL8; CCL3; TLR5; MAPK14
+63,ATM-dependent DNA damage response,4/82,6.73e-03,CDKN1A; JUN; PLAU; LDLR
+64,SMAD2/3 nuclear pathway,4/82,6.73e-03,CDKN1A; JUN; CDKN2B; SERPINE1
+65,MAP kinase pathway regulation through dual specificity phosphatases,2/9,7.47e-03,DUSP2; MAPK14
+66,NOD signaling pathway,4/85,7.47e-03,CXCL8; AIM2; MAPK14; BIRC3
+67,Cyclin D-associated events in G1,3/38,7.59e-03,CDKN1A; CDKN2B; CDKN2A
+68,Purine catabolism,2/10,8.87e-03,NT5E; PNP
+69,Activation of the AP-1 family of transcription factors,2/10,8.87e-03,JUN; MAPK14
+70,Graft-versus-host disease,3/41,9.07e-03,IFNG; KIR2DL1; KIR2DL3
+71,Netrin-1 signaling,3/42,9.60e-03,ABLIM1; SIAH2; SIAH1
+72,Interferon-gamma signaling pathway,4/97,1.12e-02,GBP7; IFNG; FCGR1A; GBP1
+73,Interleukin-12/STAT4 pathway,3/45,1.14e-02,JUN; IFNG; MAPK14
+74,"Nucleotide-binding domain, leucine rich repeat containing receptor (NLR) signaling pathways",3/47,1.28e-02,AIM2; MAPK14; BIRC3
+75,"Lipid digestion, mobilization, and transport",3/48,1.34e-02,APOE; LDLRAP1; LDLR
+76,Purine salvage,2/13,1.38e-02,PNP; DCK
+77,TGF-beta regulation of extracellular matrix,9/565,1.53e-02,CLK1; TGFBR3; SELENBP1; CDKN2B; MME; CDKN2A; SERPINE1; SLC2A1; APOE
+78,Malaria,3/51,1.53e-02,CXCL8; IFNG; THBS1
+79,Platelet amyloid precursor protein pathway,2/14,1.55e-02,PLAU; SERPINE1
+80,Androgen receptor regulation of biosynthesis and transcription,3/53,1.67e-02,EGR1; JUN; MAPK14
+81,Adhesion and diapedesis of granulocytes,2/15,1.70e-02,CXCL8; IFNG
+82,Erythrocyte differentiation pathway,2/15,1.70e-02,FLT3; CCL3
+83,Binding of chemokines to chemokine receptors,3/54,1.70e-02,CX3CR1; CXCL8; CCL3
+84,Fas signaling pathway,4/115,1.78e-02,CXCL8; MAPK14; PRKCZ; BIRC3
+85,Insulin signaling pathway,6/277,1.78e-02,EGR1; JUN; SLC2A1; RHOC; MAPK14; PRKCZ
+86,Thromboxane A2 receptor signaling,3/56,1.82e-02,MAPK14; PRKCZ; TGM2
+87,Selenium metabolism and selenoproteins,2/16,1.84e-02,SELENBP1; JUN
+88,Prolactin regulation of apoptosis,4/118,1.85e-02,LDHB; EGR1; GBP1; BACH2
+89,Keratinocyte differentiation,3/57,1.85e-02,JUN; MAPK14; BIRC3
+90,Selenium pathway,3/60,2.12e-02,IFNG; SERPINE1; LDLR
+91,p75 neurotrophin receptor-mediated signaling,4/124,2.16e-02,FURIN; RHOC; PRKCZ; BIRC3
+92,FGF signaling pathway,3/61,2.17e-02,JUN; PLAU; MAPK14
+93,Pertussis toxin-insensitive CCR5 signaling in macrophage,2/18,2.18e-02,JUN; MAPK14
+94,Shigellosis,3/62,2.22e-02,CXCL8; WASF1; MAPK14
+95,TP53 network,2/19,2.35e-02,CDKN1A; CDKN2A
+96,Tob role in T-cell activation,2/19,2.35e-02,TGFBR3; IFNG
+97,Angiotensin II-stimulated signaling through G-proteins and beta-arrestin,3/64,2.36e-02,EGR1; MAPK14; PRKCZ
+98,Interleukin-12-mediated signaling events,3/65,2.41e-02,IFNG; CCL3; MAPK14
+99,LPA receptor mediated events,3/65,2.41e-02,JUN; CXCL8; HBEGF
+100,Beta-1 integrin cell surface interactions,3/66,2.45e-02,PLAU; THBS1; TGM2
+101,Estrogen receptor signaling pathway,2/20,2.45e-02,JUN; MAPK14
+102,Hypertrophy pathway,2/20,2.45e-02,IFNG; HBEGF
+103,G1 to S cell cycle control,3/67,2.52e-02,CDKN1A; CDKN2B; CDKN2A
+104,Mitotic G1-G1/S phases,4/135,2.56e-02,CDKN1A; CDKN2B; CDKN2A; MYBL2
+105,CD8/T cell receptor downstream pathway,3/68,2.58e-02,EGR1; JUN; IFNG
+106,Natural killer cell-mediated cytotoxicity,4/137,2.60e-02,IFNG; KIR2DL1; KIR2DL3; KIR2DL4
+107,Oxidative stress-induced gene expression via Nrf2,2/21,2.60e-02,JUN; MAPK14
+108,MAPK signaling pathway,6/314,2.60e-02,JUN; DUSP2; FLNB; MAPK14; PRKCZ; HSPA1B
+109,Developmental biology,7/420,2.64e-02,ABLIM1; SIAH2; SIAH1; FURIN; ANGPTL4; RHOC; MAPK14
+110,CDC42 signaling events,3/70,2.64e-02,JUN; MAPK14; PRKCZ
+111,Nucleotide metabolism,3/70,2.64e-02,NT5E; PNP; DCK
+112,T cell receptor signaling pathway,4/139,2.64e-02,JUN; IFNG; ARAP2; MAPK14
+113,Innate immune system,6/319,2.64e-02,JUN; AIM2; UBE2L6; TLR5; MAPK14; BIRC3
+114,Rac1 cell motility signaling pathway,3/71,2.64e-02,JUN; WASF1; MAPK14
+115,Interleukin-6 signaling pathway,3/71,2.64e-02,JUN; MAPK14; JAK3
+116,Mitochondrial pathway of apoptosis: multidomain Bcl-2 family,3/71,2.64e-02,DAPK2; PRKCZ; HSPA1B
+117,Hypoxia and p53 in the cardiovascular system,2/23,2.82e-02,CDKN1A; IGFBP3
+118,RANKL regulation of apoptosis and immune response,3/74,2.91e-02,EGR1; JUN; CCL3
+119,Tumor suppressor Arf inhibits ribosomal biogenesis,2/24,2.99e-02,CDKN2A; POLR1D
+120,Nicotinate and nicotinamide metabolism,2/24,2.99e-02,NT5E; PNP
+121,IGF1 receptor signaling through beta-arrestin,2/25,3.21e-02,PPP2R2B; MAPK14
+122,Apoptosis regulation,3/78,3.25e-02,CDKN1A; IFNG; DAPK2
+123,p73 transcription factor network,3/79,3.31e-02,CDKN1A; SERPINE1; MAPK14
+124,Signaling events mediated by hepatocyte growth factor receptor (c-Met),3/79,3.31e-02,EGR1; JUN; PRKCZ
+125,Physiological and pathological hypertrophy  of the heart,2/26,3.32e-02,JUN; MAPK14
+126,Selective expression of chemokine receptors during T-cell polarization,2/26,3.32e-02,IFNG; CCL3
+127,Apoptosis modulation and signaling,3/80,3.32e-02,JUN; CDKN2A; BIRC3
+128,Nuclear beta-catenin signaling and target gene transcription regulation,3/80,3.32e-02,JUN; CXCL8; CDKN2A
+129,Integrin signaling pathway,4/155,3.35e-02,JUN; CDKN2A; RHOC; MAPK14
+130,CTCF pathway,2/27,3.45e-02,TGFBR3; CDKN2A
+131,TNF/stress-related signaling,2/27,3.45e-02,JUN; MAPK14
+132,Toll receptor cascades,4/159,3.57e-02,JUN; UBE2L6; TLR5; MAPK14
+133,Differentiation pathway in PC12 cells,3/84,3.66e-02,EGR1; JUN; MAPK14
+134,C-Myb transcription factor network,3/85,3.72e-02,CDKN1A; CDKN2A; BIRC3
+135,TGF-beta regulation of skeletal system development,3/85,3.72e-02,CDKN2B; IFNG; THBS1
+136,Hemostasis pathway,7/468,3.76e-02,SERPINB2; PLAU; SIRPG; SERPINE1; MAPK14; PRKCZ; THBS1
+137,Statin pathway,2/29,3.76e-02,APOE; LDLR
+138,T cell receptor calcium pathway,2/29,3.76e-02,JUN; IFNG
+139,Purine metabolism,4/164,3.77e-02,NT5E; PNP; POLR1D; DCK
+140,Inflammatory response pathway,2/30,3.85e-02,IFNG; THBS1
+141,Tumor necrosis factor (TNF) pathway,2/30,3.85e-02,JUN; BIRC3
+142,Nuclear events mediated by MAP kinases,2/30,3.85e-02,JUN; MAPK14
+143,Hematopoietic cell lineage,3/88,3.85e-02,MME; FLT3; FCGR1A
+144,TNFR1 signaling pathway,2/30,3.85e-02,JUN; BIRC3
+145,Alpha-V beta-3 integrin/OPN pathway,2/31,4.05e-02,JUN; PLAU
+146,NF-kappaB activation by non-typeable Hemophilus influenzae,2/31,4.05e-02,CXCL8; MAPK14
+147,ERBB signaling pathway,3/94,4.49e-02,CDKN1A; JUN; HBEGF
+148,HIF-2-alpha transcription factor network,2/34,4.74e-02,SERPINE1; SLC2A1
+149,MAPK/TRK pathway,2/34,4.74e-02,EGR1; MAPK14
+150,Mitochondrial pathway of apoptosis: BH3-only Bcl-2 family,3/97,4.79e-02,JUN; PPP2R2B; PRKCZ
+151,Autophagy regulation,2/35,4.88e-02,IFNG; GABARAP
+152,Cytokines and inflammatory response,2/35,4.88e-02,CXCL8; IFNG
+153,Interleukin-2/PI3K pathway,2/35,4.88e-02,PRKCZ; JAK3
+154,TNF-alpha signaling pathway,3/101,5.16e-02,JUN; PRKCZ; BIRC3
+155,GnRH signaling pathway,3/101,5.16e-02,JUN; MAPK14; HBEGF
+156,Interleukin-23-mediated signaling events,2/37,5.32e-02,IFNG; IL24
+157,Signal transduction through IL-1R,2/38,5.53e-02,JUN; MAPK14
+158,p38 alpha/beta MAPK downstream pathway,2/38,5.53e-02,JUN; MAPK14
+159,Amoebiasis,3/105,5.55e-02,CXCL8; SERPINB2; IFNG
+160,Fibroblast growth factor receptor pathway,3/105,5.55e-02,CDKN2A; MAPK14; PRKCZ
+161,ERBB1 downstream pathway,3/106,5.65e-02,EGR1; JUN; PRKCZ
+162,Angiotensin II-mediated activation of JNK pathway via Pyk2-dependent signaling,2/39,5.66e-02,JUN; MAPK14
+163,G alpha i pathway,3/108,5.87e-02,MAPK14; PRKCZ; HBEGF
+164,Jak-STAT signaling pathway,4/199,6.04e-02,CXCL8; IFNG; IL24; JAK3
+165,Alpha-M beta-2 integrin signaling,2/41,6.04e-02,PLAU; PRKCZ
+166,Transcriptional activity of SMAD2/SMAD3-SMAD4 heterotrimer,2/41,6.04e-02,CDKN2B; SERPINE1
+167,FOXM1 transcription factor network,2/41,6.04e-02,CDKN2A; HSPA1B
+168,TWEAK signaling pathway,2/42,6.25e-02,JUN; MAPK14
+169,Urokinase-type plasminogen activator (uPA) and uPAR-mediated signaling,2/42,6.25e-02,PLAU; SERPINE1
+170,Beta-3 integrin cell surface interactions,2/43,6.46e-02,PLAU; THBS1
+171,"Platelet activation, signaling and aggregation",4/205,6.46e-02,SERPINE1; MAPK14; PRKCZ; THBS1
+172,PI3K events in ERBB2 signaling,2/44,6.70e-02,CDKN1A; HBEGF
+173,RhoA signaling pathway,2/45,6.87e-02,JUN; PRKCZ
+174,Wnt interactions in lipid metabolism and immune response,2/45,6.87e-02,SIAH2; APOE
+175,Interleukin-3 signaling pathway,2/45,6.87e-02,JUN; CXCL8
+176,Immunoregulatory interactions between a lymphoid and a non-lymphoid cell,3/119,7.01e-02,KIR2DL1; KIR2DL3; KIR2DL4
+177,Notch signaling pathway,3/121,7.28e-02,CDKN1A; FURIN; BIRC3
+178,Delta Np63 pathway,2/47,7.33e-02,CDKN2A; IGFBP3
+179,Signaling by PDGF,3/122,7.35e-02,CDKN1A; FURIN; THBS1
+180,ATM pathway,2/48,7.54e-02,CDKN1A; JUN
+181,Phospholipase C delta-1 interactions in phospholipid-associated cell signaling,1/5,7.58e-02,TGM2
+182,Kit receptor transcriptional targets,1/5,7.58e-02,SLC2A1
+183,Maturation of Notch precursor via proteolytic cleavage,1/5,7.58e-02,FURIN
+184,Angiopoietin receptor Tie2-mediated signaling,2/49,7.58e-02,CDKN1A; MAPK14
+185,Ceramide signaling pathway,2/49,7.58e-02,PRKCZ; BIRC3
+186,G alpha 12 pathway,2/49,7.58e-02,JUN; MAPK14
+187,Type II interferon signaling (interferon-gamma),2/50,7.83e-02,IFNG; GBP1
+188,PI3K pathway,2/53,8.67e-02,CDKN2A; PRKCZ
+189,Focal adhesion,4/233,8.70e-02,JUN; FLNB; THBS1; BIRC3
+190,ADP signalling through P2Y purinoceptor 1,1/6,8.70e-02,MAPK14
+191,Proteolysis and signaling pathway of Notch,1/6,8.70e-02,FURIN
+192,Low-density lipoprotein (LDL) pathway during atherogenesis,1/6,8.70e-02,LDLR
+193,RANKL signaling pathway,2/54,8.75e-02,JUN; MAPK14
+194,"TNF-alpha effects on cytokine activity, cell motility, and apoptosis",3/135,8.80e-02,CXCL8; BIRC3; HBEGF
+195,Calcineurin-dependent NFAT signaling role in lymphocytes,2/55,8.91e-02,MAPK14; PRKCZ
+196,Ubiquitin-mediated proteolysis,3/136,8.91e-02,SIAH1; UBE2L6; BIRC3
+197,Signal transduction,10/1020,8.97e-02,CX3CR1; JUN; CDKN1A; CDKN2B; CXCL8; ARAP2; CCL3; FURIN; MAPK14; HBEGF
+198,Cytosolic DNA-sensing pathway,2/56,9.11e-02,AIM2; POLR1D
+199,Pre-NOTCH expression and processing,2/57,9.32e-02,JUN; FURIN
+200,SHP2 signaling,2/57,9.32e-02,IFNG; JAK3
+201,Apoptosis,4/242,9.34e-02,JUN; CDKN2A; DAPK2; BIRC3
+202,Highly sodium permeable acetylcholine nicotinic receptors,1/7,9.49e-02,CHRNA3
+203,FXR and LXR regulation of cholesterol metabolism,1/7,9.49e-02,LDLR
+204,Arachidonate epoxygenase/epoxide hydrolase pathway,1/7,9.49e-02,EPHX2
+205,SARS coronavirus protease,1/7,9.49e-02,MAPK14
+206,Proepithelin conversion to epithelin and wound repair control,1/8,1.06e-01,CXCL8
+207,SREBP control of lipid biosynthesis,1/8,1.06e-01,LDLR
+208,Vitamin C (ascorbate) metabolism,1/8,1.06e-01,SLC2A1
+209,Organic cation transport,1/8,1.06e-01,SLC22A4
+210,Endothelins,2/64,1.10e-01,JUN; MAPK14
+211,Glioma,2/65,1.12e-01,CDKN1A; CDKN2A
+212,Myometrial relaxation and contraction pathways,3/155,1.14e-01,JUN; IGFBP3; PRKCZ
+213,Thyroid-stimulating hormone signaling pathway,2/66,1.14e-01,JUN; MAPK14
+214,EGFR transactivation by gastrin,1/9,1.15e-01,HBEGF
+215,Rapid glucocorticoid receptor pathway,1/9,1.15e-01,MAPK14
+216,Pyrimidine salvage reactions,1/9,1.15e-01,DCK
+217,Telomerase regulation,2/67,1.15e-01,JUN; IFNG
+218,NFAT involvement in hypertrophy of the heart,2/69,1.21e-01,MAPK14; HBEGF
+219,Antiviral mechanism by interferon-stimulated genes,2/70,1.22e-01,UBE2L6; FLNB
+220,Renal cell carcinoma,2/70,1.22e-01,JUN; SLC2A1
+221,Complement and coagulation cascades,2/70,1.22e-01,PLAU; SERPINE1
+222,DCC role in regulating apoptosis,1/10,1.23e-01,DAPK2
+223,Free radical-induced apoptosis,1/10,1.23e-01,CXCL8
+224,RIG-I-like receptor signaling pathway,2/71,1.23e-01,CXCL8; MAPK14
+225,Melanoma,2/71,1.23e-01,CDKN1A; CDKN2A
+226,Chronic myeloid leukemia,2/73,1.29e-01,CDKN1A; CDKN2A
+227,Myc repressed pathway,2/73,1.29e-01,CDKN1A; CDKN2B
+228,"Gamma-carboxylation, transport, and amino-terminal cleavage of proteins",1/11,1.29e-01,FURIN
+229,Osteopontin signaling,1/11,1.29e-01,PLAU
+230,Glypican-3 pathway,1/11,1.29e-01,FURIN
+231,Erythropoietin-mediated neuroprotection through NF-kB,1/11,1.29e-01,CDKN1A
+232,Down syndrome cell adhesion molecule (DSCAM) interactions,1/11,1.29e-01,MAPK14
+233,Seven transmembrane receptor signaling through beta-arrestin,2/74,1.29e-01,PPP2R2B; MAPK14
+234,Vitamin C in the brain,1/11,1.29e-01,SLC2A1
+235,Prolactin activation of MAPK signaling,2/75,1.30e-01,JUN; MAPK14
+236,Glycolysis and gluconeogenesis,2/75,1.30e-01,LDHB; SLC2A1
+237,Gamma-aminobutyric acid receptor life cycle,1/12,1.35e-01,GABARAP
+238,Mitochondrial pathway of apoptosis: caspases,2/77,1.35e-01,HSPA1B; BIRC3
+239,Parkin role in the ubiquitin-proteasomal pathway,1/12,1.35e-01,UBE2L6
+240,Pyrimidine catabolism,1/12,1.35e-01,NT5E
+241,SODD/TNFR1 signaling pathway,1/12,1.35e-01,BIRC3
+242,Salmonella infection,1/12,1.35e-01,WASF1
+243,D4-GDI signaling pathway,1/12,1.35e-01,JUN
+244,Facilitative sodium-independent glucose transporters,1/12,1.35e-01,SLC2A1
+245,Metabolism,13/1615,1.35e-01,EPHX2; DCK; AGMAT; LDHB; NT5E; PNP; POLR1D; CMPK2; PHGDH; APOE; ANGPTL4; LDLRAP1; LDLR
+246,Organic cation/anion/zwitterion transport,1/13,1.41e-01,SLC22A4
+247,MAP kinase downregulation by phosphorylation of MEK1 by Cdk5/p35,1/13,1.41e-01,EGR1
+248,Interleukin-22 soluble receptor signaling pathway,1/13,1.41e-01,JAK3
+249,Ghrelin-mediated regulation of food intake and energy homeostasis,1/13,1.41e-01,IGFBP3
+250,TACI and BCMA stimulation of B cell immune responses,1/13,1.41e-01,MAPK14
+251,Signal regulatory protein (SIRP) family interactions,1/13,1.41e-01,SIRPG
+252,MAP kinase signaling pathway,2/81,1.41e-01,JUN; MAPK14
+253,Response to elevated platelet cytosolic calcium,2/83,1.44e-01,SERPINE1; THBS1
+254,T cell signal transduction,2/83,1.44e-01,MAPK14; PRKCZ
+255,MAP kinase inactivation of SMRT corepressor,1/14,1.45e-01,MAPK14
+256,Interferon gamma signaling regulation,1/14,1.45e-01,IFNG
+257,DCC-mediated attractive signaling,1/14,1.45e-01,ABLIM1
+258,T cell receptor/JNK pathway,1/14,1.45e-01,JUN
+259,Polyamine metabolism,1/14,1.45e-01,AGMAT
+260,Acetylcholine binding and downstream events,1/14,1.45e-01,CHRNA3
+261,AKT phosphorylation of cytosolic targets,1/14,1.45e-01,CDKN1A
+262,Small cell lung cancer,2/84,1.45e-01,CDKN2B; BIRC3
+263,Adhesion and diapedesis of lymphocytes,1/14,1.45e-01,CXCL8
+264,HDL-mediated lipid transport,1/15,1.51e-01,APOE
+265,Interleukin-17 signaling pathway,1/15,1.51e-01,CXCL8
+266,Hematopoiesis regulation by cytokines,1/15,1.51e-01,CXCL8
+267,Calcium signaling by HBx of hepatitis B virus,1/15,1.51e-01,JUN
+268,HIF-1 degradation in normoxia,2/88,1.51e-01,MAPK14; PRKCZ
+269,"Androgen receptor signaling, proteolysis, and transcription regulation",2/88,1.51e-01,CDKN1A; JUN
+270,Peptide G-protein coupled receptors,3/192,1.51e-01,CX3CR1; CXCL8; CCL3
+271,Repression of pain sensation by the transcriptional regulator DREAM,1/15,1.51e-01,JUN
+272,Thymic stromal lymphopoietin (TSLP) pathway,2/90,1.55e-01,CXCL8; CCL3
+273,Cell cycle,5/453,1.55e-01,CDKN1A; CDKN2B; CDKN2A; MYBL2; NDEL1
+274,Amino acid biosynthesis and interconversion (transamination),1/16,1.55e-01,PHGDH
+275,Rb tumor suppressor/checkpoint signaling in response to DNA damage,1/16,1.55e-01,CDKN1A
+276,SREBF and miR-33 in cholesterol and lipid homeostasis,1/16,1.55e-01,LDLR
+277,TGF-beta receptor signaling in EMT (epithelial to mesenchymal transition),1/16,1.55e-01,PRKCZ
+278,Hypoxia-inducible factor in the cardivascular system,1/16,1.55e-01,JUN
+279,Interleukin-10 anti-inflammatory signaling pathway,1/16,1.55e-01,MAPK14
+280,Interleukin-9 signaling pathway,1/16,1.55e-01,JAK3
+281,Destabilization of mRNA by KSRP,1/17,1.56e-01,MAPK14
+282,Dendritic cells in regulating TH1 and TH2 development,1/17,1.56e-01,IFNG
+283,Inflammasomes,1/17,1.56e-01,AIM2
+284,TAK1-mediated activation of p38 MAPK,1/17,1.56e-01,MAPK14
+285,Integrin beta-5 pathway,1/17,1.56e-01,PLAU
+286,NO2-dependent IL-12 pathway in NK cells,1/17,1.56e-01,IFNG
+287,Insulin-like growth factor (IGF) activity regulation by insulin-like growth factor binding proteins (IGFBPs),1/17,1.56e-01,IGFBP3
+288,Syndecan 3 pathway,1/17,1.56e-01,CXCL8
+289,Axon guidance,4/325,1.56e-01,ABLIM1; SIAH2; SIAH1; RHOC
+290,Cadmium-induced DNA biosynthesis and proliferation in macrophages,1/17,1.56e-01,JUN
+291,Signaling by ERBB4,2/93,1.56e-01,CDKN1A; HBEGF
+292,Fc gamma receptor-mediated phagocytosis,2/94,1.56e-01,WASF1; FCGR1A
+293,Cells and molecules involved in local acute inflammatory response,1/17,1.56e-01,CXCL8
+294,Renin-angiotensin system,1/17,1.56e-01,MME
+295,Platelet sensitization by LDL,1/17,1.56e-01,MAPK14
+296,Atypical NF-kappaB pathway,1/17,1.56e-01,MAPK14
+297,Adaptive immune system,6/606,1.58e-01,CDKN1A; UBE2L6; KIR2DL1; FCGR1A; KIR2DL3; KIR2DL4
+298,"Transport of glucose and other sugars, bile salts and organic acids, metal ions and amine compounds",2/96,1.58e-01,SLC22A4; SLC2A1
+299,Pre-NOTCH processing in Golgi,1/18,1.61e-01,FURIN
+300,Serotonin receptor 4/6/7 and NR3C signaling,1/18,1.61e-01,EGR1
+301,Effect of METS on macrophage differentiation,1/18,1.61e-01,JUN
+302,Human cytomegalovirus and MAP kinase pathways,1/18,1.61e-01,MAPK14
+303,Hypoxic and oxygen homeostasis regulation of HIF-1-alpha,1/19,1.65e-01,CDKN2A
+304,G-protein-independent seven transmembrane receptor signaling,1/19,1.65e-01,MAPK14
+305,Calcineurin in effects in keratinocyte differentiation,1/19,1.65e-01,CDKN1A
+306,Lissencephaly gene (LIS1) in neuronal migration and development,1/19,1.65e-01,NDEL1
+307,STAT3 pathway,1/19,1.65e-01,JAK3
+308,Apoptosis modulation by HSP70,1/19,1.65e-01,HSPA1B
+309,Antigen-activated B-cell receptor generation of second messengers,3/211,1.65e-01,JUN; MAPK14; PRKCZ
+310,Signaling by NODAL,1/19,1.65e-01,FURIN
+311,Signaling by ERBB2,2/102,1.68e-01,CDKN1A; HBEGF
+312,GATA3-mediated activation of Th2 cytokine expression,1/20,1.71e-01,MAPK14
+313,Interleukin-3 regulation of hematopoietic cells,1/20,1.71e-01,CXCL8
+314,Nerve growth factor (NGF) pathway,1/20,1.71e-01,JUN
+315,Interleukin-4 signaling pathway,2/104,1.71e-01,MAPK14; JAK3
+316,Nicotine activity on dopaminergic neurons,1/21,1.76e-01,CHRNA3
+317,Mitochondrial role in apoptotic signaling,1/21,1.76e-01,BIRC3
+318,IGF1 signaling pathway,1/21,1.76e-01,JUN
+319,Signaling by NGF,3/221,1.76e-01,CDKN1A; FURIN; MAPK14
+320,Y branching of actin filaments,1/21,1.76e-01,WASF1
+321,p38 MK2 pathway,1/21,1.76e-01,MAPK14
+322,Epstein-Barr virus LMP1 signaling,1/22,1.83e-01,CXCL8
+323,Leptin influence on immune response,2/110,1.83e-01,CX3CR1; IFNG
+324,Mitochondrial pathway of apoptosis: antiapoptotic Bcl-2 family,1/23,1.86e-01,MAPK14
+325,Modulation of interferon signaling by chaperones,1/23,1.86e-01,IFNG
+326,Interleukin-11 pathway,1/23,1.86e-01,JUN
+327,RNA polymerase III transcription termination,1/23,1.86e-01,POLR1D
+328,Th1/Th2 differentiation pathway,1/23,1.86e-01,IFNG
+329,CREB transcription factor and its extracellular signals,1/23,1.86e-01,MAPK14
+330,Eicosanoid metabolism,1/23,1.86e-01,EPHX2
+331,Inhibition of cellular proliferation by Gleevec,1/24,1.93e-01,JUN
+332,CXCR4 signaling pathway,2/116,1.95e-01,RHOC; PRKCZ
+333,G0 and early G1 pathway,1/25,1.95e-01,MYBL2
+334,TPO signaling pathway,1/25,1.95e-01,JUN
+335,Corticotropin releasing hormone pathway,1/25,1.95e-01,CXCL8
+336,C-Myc pathway,1/25,1.95e-01,CDKN2A
+337,Ghrelin pathway,1/25,1.95e-01,CXCL8
+338,RNA polymerase I transcription initiation,1/25,1.95e-01,POLR1D
+339,Alpha-9 beta-1 integrin pathway,1/25,1.95e-01,TGM2
+340,Phosphoinositides and their downstream targets,1/25,1.95e-01,PRKCZ
+341,SHC1 events in ERBB2 signaling,1/25,1.95e-01,HBEGF
+342,Signaling by NOTCH,2/119,1.97e-01,JUN; FURIN
+343,Disease,6/674,2.00e-01,LDHB; CDKN1A; CXCL8; IGFBP3; RPL22; MFGE8
+344,Interleukin-27-mediated signaling events,1/26,2.00e-01,IFNG
+345,Interleukin-9 regulation of target genes,1/26,2.00e-01,CCL3
+346,Oxidative stress,1/27,2.03e-01,MAPK14
+347,Insulin regulation of blood glucose,1/27,2.03e-01,PRKCZ
+348,FSH signaling pathway,1/27,2.03e-01,MAPK14
+349,Rho GTPase cycle,2/123,2.03e-01,ARAP2; RHOC
+350,Cell cycle: G2/M checkpoint,1/27,2.03e-01,CDKN1A
+351,RNA polymerase III transcription initiation from type 2 promoter,1/27,2.03e-01,POLR1D
+352,eIF4E and p70 S6 kinase regulation,1/27,2.03e-01,MAPK14
+353,PERK-regulated gene expression,1/28,2.06e-01,CXCL8
+354,Neurotrophin signaling pathway,2/126,2.06e-01,JUN; MAPK14
+355,Interleukin receptor SHC signaling,1/28,2.06e-01,JAK3
+356,SLC-mediated transmembrane transport,3/251,2.06e-01,SLC22A4; SLC2A1; SLC16A10
+357,RNA polymerase III transcription initiation From type 3 promoter,1/28,2.06e-01,POLR1D
+358,TGF-beta receptor activation of SMADs,1/28,2.06e-01,FURIN
+359,"PTM: gamma carboxylation, hypusine formation and arylsulfatase activation",1/28,2.06e-01,FURIN
+360,Integrin beta-2 pathway,1/29,2.08e-01,PLAU
+361,Influence of Ras and Rho proteins on G1 to S transition,1/29,2.08e-01,CDKN1A
+362,IGF1 pathway,1/29,2.08e-01,PRKCZ
+363,Skeletal myogenesis control by HDAC and calcium/calmodulin-dependent kinase (CaMK),1/29,2.08e-01,MAPK14
+364,ADP-ribosylation factor,1/29,2.08e-01,ARAP2
+365,Sema4D in semaphorin signaling,1/29,2.08e-01,RHOC
+366,RNA polymerase,1/29,2.08e-01,POLR1D
+367,CDO in myogenesis,1/29,2.08e-01,MAPK14
+368,Cell-cell communication,2/129,2.08e-01,SIRPG; MAPK14
+369,PDGFB signaling pathway,2/129,2.08e-01,JUN; PPP2R2B
+370,Ovarian infertility genes,1/30,2.08e-01,EGR1
+371,MicroRNAs in muscle cell differentiation,1/30,2.08e-01,PRKCZ
+372,Interleukin-2/STAT5 pathway,1/30,2.08e-01,JAK3
+373,Interferon-beta enhancer pathway,1/30,2.08e-01,JUN
+374,PDGFA signaling pathway,1/30,2.08e-01,JUN
+375,Signaling pathway from G-protein families,1/30,2.08e-01,JUN
+376,Retinoic acid receptor-mediated signaling,1/30,2.08e-01,MAPK14
+377,Activation of matrix metalloproteinases,1/30,2.08e-01,FURIN
+378,p38-alpha and p38-beta regulation,1/30,2.08e-01,MAPK14
+379,Signal amplification,1/31,2.12e-01,MAPK14
+380,Amino acid transport across the plasma membrane,1/31,2.12e-01,SLC16A10
+381,Ras family activation regulation,1/31,2.12e-01,PRKCZ
+382,Tight junction,2/133,2.12e-01,PPP2R2B; PRKCZ
+383,Adipogenesis,2/133,2.12e-01,CDKN1A; SERPINE1
+384,Alpha-6 beta-4 integrin signaling pathway,1/31,2.12e-01,MAPK14
+385,NGF signaling via TRKA from the plasma membrane,2/136,2.16e-01,CDKN1A; MAPK14
+386,Serotonin HTR1 group and FOS pathway,1/32,2.16e-01,MAPK14
+387,Syndecan 4 pathway,1/32,2.16e-01,THBS1
+388,"Glycine, serine and threonine metabolism",1/32,2.16e-01,PHGDH
+389,Adrenergic pathway,2/137,2.17e-01,MAPK14; PRKCZ
+390,Diabetes pathways,2/137,2.17e-01,CXCL8; IGFBP3
+391,Negative regulators of RIG-I/MDA5 signaling,1/33,2.18e-01,UBE2L6
+392,Glycoprotein VI-mediated activation cascade,1/33,2.18e-01,PRKCZ
+393,Syndecan 2 pathway,1/33,2.18e-01,CXCL8
+394,Propanoate metabolism,1/33,2.18e-01,LDHB
+395,Systemic lupus erythematosus,2/139,2.19e-01,IFNG; FCGR1A
+396,Monoamine transport,1/34,2.21e-01,MAPK14
+397,Induction of apoptosis through DR3 and DR4/5 death receptors,1/34,2.21e-01,BIRC3
+398,EPO receptor signaling,1/34,2.21e-01,JUN
+399,Cysteine and methionine metabolism,1/34,2.21e-01,LDHB
+400,TOR signaling,1/34,2.21e-01,PRR5L
+401,EGF receptor transactivation by GPCRs in cardiac hypertrophy,1/34,2.21e-01,JUN
+402,Primary immunodeficiency,1/35,2.23e-01,JAK3
+403,Prion diseases,1/35,2.23e-01,EGR1
+404,Arf6 signal transduction regulation,1/35,2.23e-01,ARAP2
+405,fMLP induced chemokine gene expression in HMC-1 cells,1/35,2.23e-01,MAPK14
+406,Interleukin-7 signaling pathway,1/35,2.23e-01,JAK3
+407,PIK3C1/AKT pathway,1/35,2.23e-01,CDKN1A
+408,Glycogen metabolism,1/36,2.27e-01,PPP2R2B
+409,PI3K/PLC/TRK pathway,1/36,2.27e-01,EGR1
+410,Signaling to ERKs,1/36,2.27e-01,MAPK14
+411,PI3K/AKT activation,1/37,2.31e-01,CDKN1A
+412,ALK in cardiac myocytes,1/37,2.31e-01,TGFBR3
+413,Allograft rejection,1/37,2.31e-01,IFNG
+414,BMAL1-CLOCK/NPAS2 activates circadian expression,1/38,2.35e-01,SERPINE1
+415,Signaling of hepatocyte growth factor receptor,1/38,2.35e-01,JUN
+416,ERBB4 signaling events,1/38,2.35e-01,HBEGF
+417,GAB1 signalosome,1/39,2.39e-01,CDKN1A
+418,FAS pathway and stress induction of heat shock protein regulation,1/39,2.39e-01,JUN
+419,Signaling events regulated by Ret tyrosine kinase,1/39,2.39e-01,JUN
+420,Phagosome,2/154,2.42e-01,FCGR1A; THBS1
+421,Pyruvate metabolism and citric acid (TCA) cycle,1/40,2.42e-01,LDHB
+422,Nuclear signaling by ErbB4,1/40,2.42e-01,HBEGF
+423,PAC1 receptor pathway,1/40,2.42e-01,PRKCZ
+424,Plasma membrane estrogen receptor signaling,1/41,2.46e-01,HBEGF
+425,Bioactive peptide-induced signaling pathway,1/41,2.46e-01,MAPK14
+426,Fc epsilon receptor I signaling in mast cells,1/41,2.46e-01,JUN
+427,Hexose transport,1/42,2.50e-01,SLC2A1
+428,Signaling events mediated by T cell protein tyrosine phosphatase (TC-PTP),1/42,2.50e-01,JAK3
+429,Eukaryotic transcription initiation,1/42,2.50e-01,POLR1D
+430,Type 1 diabetes mellitus,1/43,2.53e-01,IFNG
+431,Voltage-gated potassium channels,1/43,2.53e-01,KCNH7
+432,Mitotic prometaphase,1/43,2.53e-01,NDEL1
+433,PI3K class IB pathway in neutrophils,1/43,2.53e-01,PRKCZ
+434,ERBB2/ERBB3 signaling events,1/44,2.57e-01,JUN
+435,HNF3A pathway,1/44,2.57e-01,JUN
+436,RNA polymerase III transcription,1/45,2.60e-01,POLR1D
+437,Integrin-linked kinase signaling,1/45,2.60e-01,JUN
+438,"Interleukin-3, interleukin-5, and GM-CSF signaling",1/45,2.60e-01,JAK3
+439,Alzheimer's disease,2/169,2.66e-01,MME; APOE
+440,Agrin in postsynaptic differentiation,1/47,2.69e-01,JUN
+441,Presenilin action in Notch and Wnt signaling,1/48,2.73e-01,JUN
+442,Energy metabolism,1/48,2.73e-01,MAPK14
+443,Interleukin-5 signaling pathway,1/49,2.77e-01,JUN
+444,Amino acid and oligopeptide SLC transporters,1/49,2.77e-01,SLC16A10
+445,Type 2 diabetes mellitus,1/50,2.81e-01,PRKCZ
+446,Amyloids,1/51,2.85e-01,MFGE8
+447,Metabolism of vitamins and cofactors,1/51,2.85e-01,SLC2A1
+448,Lipid and lipoprotein metabolism,4/489,2.88e-01,APOE; ANGPTL4; LDLRAP1; LDLR
+449,Pyruvate metabolism,1/52,2.88e-01,LDHB
+450,Interleukin-2 receptor beta chain in T cell activation,1/52,2.88e-01,JAK3
+451,JNK/MAPK pathway,1/53,2.91e-01,JUN
+452,Amyotrophic lateral sclerosis (ALS),1/53,2.91e-01,MAPK14
+453,Arginine and proline metabolism,1/54,2.94e-01,AGMAT
+454,Kit receptor signaling pathway,1/54,2.94e-01,MAPK14
+455,Non-small cell lung cancer,1/54,2.94e-01,CDKN2A
+456,RNA polymerase I transcription,1/55,2.98e-01,POLR1D
+457,Acute myeloid leukemia,1/57,3.05e-01,FLT3
+458,Mechanism of gene regulation by peroxisome proliferators via PPAR-alpha,1/57,3.05e-01,JUN
+459,Pathogenic Escherichia coli infection,1/57,3.05e-01,TLR5
+460,PI3K cascade,1/57,3.05e-01,CDKN1A
+461,HIV-1 Nef as negative effector of Fas and TNF,1/58,3.08e-01,BIRC3
+462,Arachidonic acid metabolism,1/58,3.08e-01,EPHX2
+463,Amino acid metabolism,2/195,3.11e-01,PHGDH; AGMAT
+464,Caspase cascade in apoptosis,1/59,3.12e-01,BIRC3
+465,Natural killer cell receptor signaling pathway,1/60,3.15e-01,MAPK14
+466,Neurotrophic factor-mediated Trk receptor signaling,1/60,3.15e-01,PRKCZ
+467,Androgen receptor proteolysis and transcription regulation,1/61,3.18e-01,CDKN2A
+468,Leptin signaling pathway,1/61,3.18e-01,MAPK14
+469,Signaling events mediated by focal adhesion kinase,1/62,3.20e-01,JUN
+470,Circadian rhythm,1/62,3.20e-01,SERPINE1
+471,Colorectal cancer,1/62,3.20e-01,JUN
+472,Proteasome degradation,1/63,3.24e-01,IFNG
+473,Validated nuclear estrogen receptor alpha network,1/64,3.26e-01,JUN
+474,Interferon alpha/beta signaling,1/64,3.26e-01,EGR1
+475,MAPK cascade role in angiogenesis,1/64,3.26e-01,MAPK14
+476,DNA replication,2/207,3.28e-01,CDKN1A; NDEL1
+477,Endochondral ossification,1/66,3.32e-01,PLAU
+478,Semaphorin interactions,1/66,3.32e-01,RHOC
+479,Destabilization of mRNA by AUF1 (hnRNP D0),1/66,3.32e-01,FCGR1A
+480,Adipocytokine signaling pathway,1/67,3.34e-01,SLC2A1
+481,SIDS susceptibility pathways,1/67,3.34e-01,CXCL8
+482,G alpha 13 pathway,1/67,3.34e-01,PRKCZ
+483,AMPK signaling,1/68,3.38e-01,CDKN1A
+484,PPAR signaling pathway,1/69,3.41e-01,ANGPTL4
+485,Pancreatic cancer,1/70,3.43e-01,CDKN2A
+486,Signaling events mediated by VEGFR1 and VEGFR2,1/70,3.43e-01,MAPK14
+487,G alpha q pathway,1/70,3.43e-01,PRKCZ
+488,MicroRNA regulation of DNA damage response,1/70,3.43e-01,CDKN1A
+489,Bacterial invasion of epithelial cells,1/71,3.46e-01,WASF1
+490,Cyclin A-Cdk2-associated events at S phase entry,1/72,3.49e-01,CDKN1A
+491,Myocyte adrenergic pathway,1/72,3.49e-01,MAPK14
+492,Cap-dependent translation initiation,1/73,3.52e-01,RPL22
+493,Wnt/calcium/cyclic GMP pathway,1/74,3.54e-01,PRKCZ
+494,Integrins in angiogenesis,1/74,3.54e-01,MFGE8
+495,Adherens junction cell adhesion,1/74,3.54e-01,WASF1
+496,VEGF signaling pathway,1/76,3.60e-01,MAPK14
+497,RIG-I/MDA5-mediated induction of interferon-alpha/beta pathways,1/76,3.60e-01,UBE2L6
+498,Transcriptional regulation of white adipocyte differentiation,1/77,3.62e-01,ANGPTL4
+499,G alpha (12/13) signaling events,1/77,3.62e-01,RHOC
+500,Peroxisome,1/78,3.65e-01,EPHX2
+501,Signaling by SCF-KIT,1/78,3.65e-01,CDKN1A
+502,Antigen processing: cross presentation,1/79,3.66e-01,FCGR1A
+503,Unfolded protein response,1/79,3.66e-01,CXCL8
+504,Fc epsilon receptor I signaling pathway,1/79,3.66e-01,MAPK14
+505,GPCR ligand binding,3/410,3.76e-01,CX3CR1; CXCL8; CCL3
+506,Platelet homeostasis,1/82,3.76e-01,MAPK14
+507,ECM-receptor interaction,1/84,3.83e-01,THBS1
+508,Integrin cell surface interactions,1/85,3.84e-01,THBS1
+509,MicroRNAs in cardiomyocyte hypertrophy,1/85,3.84e-01,MAPK14
+510,Myc active pathway,1/85,3.84e-01,SLC2A1
+511,mRNA stability regulation by proteins that bind AU-rich elements,1/86,3.86e-01,MAPK14
+512,"Non-class A, B, C GPCRs",1/86,3.86e-01,CELSR2
+513,Progesterone-mediated oocyte maturation,1/86,3.86e-01,MAPK14
+514,DNA replication pre-Initiation,1/88,3.92e-01,CDKN1A
+515,Prostate cancer,1/89,3.95e-01,CDKN1A
+516,"Antigen presentation: folding, assembly, and peptide loading of class I MHC proteins",2/255,3.99e-01,UBE2L6; FCGR1A
+517,Transmembrane transport of small molecules,3/432,4.00e-01,SLC22A4; SLC2A1; SLC16A10
+518,Extracellular matrix organization,1/93,4.06e-01,FURIN
+519,Cell surface interactions at the vascular wall,1/94,4.09e-01,SIRPG
+520,Transport of inorganic cations/anions and amino acids/oligopeptides,1/95,4.10e-01,SLC16A10
+521,"RNA polymerase I, RNA polymerase III, and mitochondrial transcription",1/95,4.10e-01,POLR1D
+522,G-protein signaling pathways,1/95,4.10e-01,PRKCZ
+523,M phase pathway,1/96,4.13e-01,NDEL1
+524,Downstream signaling events Of B cell receptor (BCR),1/98,4.19e-01,CDKN1A
+525,Potassium channels,1/99,4.20e-01,KCNH7
+526,Granule cell survival pathway,1/99,4.20e-01,JUN
+527,Neuronal system,2/283,4.44e-01,CHRNA3; KCNH7
+528,Cytoplasmic ribosomal proteins,1/108,4.47e-01,RPL22
+529,Signaling by interleukins,1/109,4.50e-01,JAK3
+530,Signaling by EGFR in cancer,1/111,4.55e-01,CDKN1A
+531,S phase,1/112,4.56e-01,CDKN1A
+532,Lipid metabolism regulation by peroxisome proliferator-activated receptor alpha (PPAR-alpha),1/112,4.56e-01,ANGPTL4
+533,Cell cycle checkpoints,1/117,4.69e-01,CDKN1A
+534,Tricarboxylic acid (TCA) cycle and respiratory electron transport,1/117,4.69e-01,LDHB
+535,Leukocyte transendothelial migration,1/117,4.69e-01,MAPK14
+536,G alpha s pathway,1/120,4.77e-01,MAPK14
+537,Influenza viral RNA transcription and replication,1/125,4.89e-01,RPL22
+538,Integration of energy metabolism,1/125,4.89e-01,SLC2A1
+539,Spliceosome,1/127,4.94e-01,HSPA1B
+540,Signaling by FGFR in disease,1/128,4.96e-01,CDKN1A
+541,Parkinson's disease,1/131,5.03e-01,UBE2L6
+542,Influenza infection,1/142,5.31e-01,RPL22
+543,Calcium regulation in the cardiac cell,1/149,5.48e-01,PRKCZ
+544,Signaling by the B cell receptor (BCR),1/151,5.51e-01,CDKN1A
+545,Translation,1/151,5.51e-01,RPL22
+546,Gene expression,5/968,5.52e-01,CDKN2B; SERPINE1; RPL22; POLR1D; MAPK14
+547,Integrated breast cancer pathway,1/152,5.52e-01,JUN
+548,Signaling by GPCR,5/977,5.59e-01,CX3CR1; CXCL8; CCL3; RHOC; HBEGF
+549,Generic transcription pathway,2/377,5.80e-01,CDKN2B; SERPINE1
+550,Protein processing in the endoplasmic reticulum,1/166,5.81e-01,HSPA1B
+551,"Fatty acid, triacylglycerol, and ketone body metabolism",1/173,5.95e-01,ANGPTL4
+552,Metapathway biotransformation,1/174,5.96e-01,EPHX2
+553,Transcription,1/181,6.10e-01,POLR1D
+554,Huntington's disease,1/184,6.15e-01,TGM2
+555,Transmission across chemical synapses,1/190,6.26e-01,CHRNA3
+556,Post-translational protein modification,1/196,6.36e-01,FURIN
+557,G alpha (i) signaling events,1/199,6.41e-01,CXCL8
+558,Messenger RNA processing,1/203,6.47e-01,CLK1
+559,Gastrin-CREB signaling pathway via PKC and MAPK,1/206,6.52e-01,HBEGF
+560,Protein metabolism,2/442,6.57e-01,RPL22; FURIN
+561,Actin cytoskeleton regulation,1/226,6.84e-01,WASF1
+562,Carbohydrate metabolism,1/235,6.97e-01,SLC2A1
+563,Class A GPCRs (rhodopsin-like),1/253,7.22e-01,CX3CR1
+564,Neuroactive ligand-receptor interaction,1/272,7.47e-01,CHRNA3

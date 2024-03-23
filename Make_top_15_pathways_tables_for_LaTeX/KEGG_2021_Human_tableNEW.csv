@@ -1,0 +1,202 @@
+,Term,Overlap,P-value,Genes
+0,Salmonella infection,15/249,1.73e-12,JUN; CXCL8; TUBB; PIK3CD; TIRAP; RHOB; PYCARD; TUBA1A; ARPC3; TNFSF10; CYCS; PIK3C3; RIPK1; TLR5; MYD88
+1,Toll-like receptor signaling pathway,11/104,4.22e-12,JUN; CXCL8; TOLLIP; CCL4L2; CCL4; CCL3; PIK3CD; RIPK1; TLR5; TIRAP; MYD88
+2,Pathogenic Escherichia coli infection,13/197,1.85e-11,JUN; CXCL8; TUBB; TIRAP; PYCARD; TUBA1A; ARPC3; TNFSF10; CYCS; RIPK1; EZR; TLR5; MYD88
+3,Cellular senescence,12/156,1.92e-11,CDKN1A; CDK6; CXCL8; PPP3CC; VDAC2; PIK3CD; ITPR3; CALML4; PPID; KIR2DL4; GADD45G; TGFBR2
+4,Human cytomegalovirus infection,13/225,9.80e-11,CDKN1A; CXCL8; CCL4L2; PIK3CD; ITPR3; CALML4; VEGFA; CDK6; PPP3CC; CCL4; CCL3; CYCS; RIPK1
+5,Kaposi sarcoma-associated herpesvirus infection,12/193,2.32e-10,JUN; CDKN1A; CDK6; CXCL8; PPP3CC; SYK; CYCS; PIK3CD; PIK3C3; ITPR3; CALML4; VEGFA
+6,Lipid and atherosclerosis,12/215,8.02e-10,PYCARD; JUN; CXCL8; PPP3CC; TNFSF10; CCL3; CYCS; PIK3CD; CALML4; HSPA1B; TIRAP; MYD88
+7,Shigellosis,12/246,3.70e-09,PYCARD; JUN; CXCL8; ARPC3; CYCS; PIK3CD; PIK3C3; ITPR3; RIPK1; TLR5; PPID; MYD88
+8,Alzheimer disease,14/369,4.36e-09,TUBB; PIK3CD; ITPR3; CALML4; PSEN1; PSMD6; APH1B; PPP3CC; TUBA1A; CYCS; VDAC2; PIK3C3; APOE; PPID
+9,Epstein-Barr virus infection,11/202,5.49e-09,PSMD6; JUN; CDKN1A; CDK6; SYK; CYCS; PIK3CD; RIPK1; RUNX3; MYD88; GADD45G
+10,Chagas disease,8/102,4.38e-08,JUN; CXCL8; IFNG; PPP2R2B; CCL3; PIK3CD; MYD88; TGFBR2
+11,NF-kappa B signaling pathway,8/104,5.10e-08,CXCL8; SYK; CCL4L2; CCL4; RIPK1; TIRAP; MYD88; GADD45G
+12,Influenza A,9/172,2.03e-07,PYCARD; CDK6; CXCL8; NXT1; IFNG; TNFSF10; CYCS; PIK3CD; MYD88
+13,NOD-like receptor signaling pathway,9/181,3.13e-07,PYCARD; JUN; CXCL8; AIM2; IFI16; VDAC2; ITPR3; RIPK1; MYD88
+14,Legionellosis,6/57,3.96e-07,PYCARD; CXCL8; CYCS; TLR5; HSPA1B; MYD88
+15,Apoptosis,8/142,5.69e-07,JUN; TUBA1A; TNFSF10; CYCS; PIK3CD; ITPR3; RIPK1; GADD45G
+16,C-type lectin receptor signaling pathway,7/104,9.03e-07,PYCARD; JUN; PPP3CC; SYK; PIK3CD; ITPR3; CALML4
+17,Hepatitis B,8/162,1.54e-06,JUN; CDKN1A; CXCL8; CYCS; PIK3CD; TIRAP; MYD88; TGFBR2
+18,Pancreatic cancer,6/76,2.21e-06,CDKN1A; CDK6; PIK3CD; TGFBR2; VEGFA; GADD45G
+19,Pertussis,6/76,2.21e-06,PYCARD; JUN; CXCL8; CALML4; TIRAP; MYD88
+20,Tuberculosis,8/180,3.39e-06,PPP3CC; IFNG; SYK; CYCS; PIK3C3; CALML4; TIRAP; MYD88
+21,Pathways of neurodegeneration,12/475,4.44e-06,PSMD6; PPP3CC; TUBA1A; TUBB; CYCS; VDAC2; PIK3C3; ITPR3; CALML4; PSEN1; PPID; UBE2J1
+22,Colorectal cancer,6/86,4.57e-06,CDKN1A; JUN; PIK3CD; CYCS; TGFBR2; GADD45G
+23,PD-L1 expression and PD-1 checkpoint pathway in cancer,6/89,5.58e-06,JUN; PPP3CC; IFNG; PIK3CD; TIRAP; MYD88
+24,Th1 and Th2 cell differentiation,6/92,6.77e-06,JUN; PPP3CC; IFNG; TBX21; RUNX3; IL12RB2
+25,Rheumatoid arthritis,6/93,7.20e-06,JUN; CXCL8; IFNG; CCL3; ATP6V1E2; VEGFA
+26,Prion disease,9/273,9.28e-06,PSMD6; PPP3CC; TUBA1A; TUBB; CYCS; VDAC2; PIK3CD; ITPR3; HSPA1B
+27,Human immunodeficiency virus 1 infection,8/212,1.13e-05,JUN; PPP3CC; CYCS; PIK3CD; ITPR3; RIPK1; CALML4; MYD88
+28,Pathways in cancer,12/531,1.36e-05,JUN; CDKN1A; CDK6; CXCL8; IFNG; CYCS; PIK3CD; CALML4; IL12RB2; GADD45G; TGFBR2; VEGFA
+29,Hepatitis C,7/157,1.40e-05,CDKN1A; CDK6; IFNG; PPP2R2B; CYCS; PIK3CD; RIPK1
+30,Cytosolic DNA-sensing pathway,5/63,1.58e-05,PYCARD; AIM2; CCL4L2; CCL4; RIPK1
+31,MAPK signaling pathway,9/294,1.67e-05,JUN; DUSP2; DUSP10; PPP3CC; HSPA1B; MYD88; GADD45G; TGFBR2; VEGFA
+32,Cytokine-cytokine receptor interaction,9/295,1.72e-05,CXCL8; IFNG; CCL4L2; CCL4; TNFSF10; CCL3; TNFSF9; IL12RB2; TGFBR2
+33,Inflammatory bowel disease,5/65,1.84e-05,JUN; IFNG; TBX21; TLR5; IL12RB2
+34,p53 signaling pathway,5/73,3.24e-05,CDKN1A; CDK6; CYCS; GTSE1; GADD45G
+35,Parkinson disease,8/249,3.58e-05,PSMD6; TUBA1A; TUBB; CYCS; VDAC2; ITPR3; CALML4; UBE2J1
+36,Glioma,5/75,3.70e-05,CDKN1A; CDK6; PIK3CD; CALML4; GADD45G
+37,Chronic myeloid leukemia,5/76,3.94e-05,CDKN1A; CDK6; PIK3CD; TGFBR2; GADD45G
+38,Osteoclast differentiation,6/127,4.26e-05,JUN; PPP3CC; IFNG; SYK; PIK3CD; TGFBR2
+39,Natural killer cell mediated cytotoxicity,6/131,5.07e-05,PPP3CC; IFNG; SYK; TNFSF10; PIK3CD; KIR2DL3
+40,Yersinia infection,6/137,6.51e-05,PYCARD; JUN; CXCL8; ARPC3; PIK3CD; MYD88
+41,Measles,6/139,7.05e-05,JUN; CDK6; CYCS; PIK3CD; HSPA1B; MYD88
+42,Spinocerebellar ataxia,6/143,8.26e-05,PSMD6; CYCS; VDAC2; PIK3CD; PIK3C3; ITPR3
+43,Small cell lung cancer,5/92,9.85e-05,CDKN1A; CDK6; PIK3CD; CYCS; GADD45G
+44,Oxytocin signaling pathway,6/154,1.24e-04,JUN; CDKN1A; PPP3CC; ITPR3; CALML4; KCNJ2
+45,AGE-RAGE signaling pathway in diabetic complications,5/100,1.46e-04,JUN; CXCL8; PIK3CD; TGFBR2; VEGFA
+46,Viral protein interaction with cytokine and cytokine receptor,5/100,1.46e-04,CXCL8; CCL4L2; CCL4; TNFSF10; CCL3
+47,Necroptosis,6/159,1.48e-04,PYCARD; IFNG; TNFSF10; VDAC2; RIPK1; PPID
+48,Th17 cell differentiation,5/107,2.01e-04,JUN; PPP3CC; IFNG; TBX21; TGFBR2
+49,Renal cell carcinoma,4/69,3.96e-04,CDKN1A; JUN; PIK3CD; VEGFA
+50,Renin secretion,4/69,3.96e-04,PPP3CC; ITPR3; CALML4; KCNJ2
+51,Melanoma,4/72,4.66e-04,CDKN1A; CDK6; PIK3CD; GADD45G
+52,Non-small cell lung cancer,4/72,4.66e-04,CDKN1A; CDK6; PIK3CD; GADD45G
+53,Amyotrophic lateral sclerosis,8/364,4.84e-04,PSMD6; PPP3CC; NXT1; TUBA1A; TUBB; CYCS; PIK3C3; ITPR3
+54,FoxO signaling pathway,5/131,5.11e-04,CDKN1A; TNFSF10; PIK3CD; GADD45G; TGFBR2
+55,Gastric acid secretion,4/76,5.73e-04,ITPR3; CALML4; EZR; KCNJ2
+56,Estrogen signaling pathway,5/137,6.27e-04,JUN; PIK3CD; ITPR3; CALML4; HSPA1B
+57,Antigen processing and presentation,4/78,6.32e-04,IFNG; KIR2DL3; KIR2DL4; HSPA1B
+58,Fluid shear stress and atherosclerosis,5/139,6.69e-04,JUN; IFNG; PIK3CD; CALML4; VEGFA
+59,B cell receptor signaling pathway,4/81,7.29e-04,JUN; PPP3CC; SYK; PIK3CD
+60,Human T-cell leukemia virus 1 infection,6/219,8.15e-04,JUN; CDKN1A; PPP3CC; VDAC2; PIK3CD; TGFBR2
+61,Breast cancer,5/147,8.61e-04,JUN; CDKN1A; CDK6; PIK3CD; GADD45G
+62,Huntington disease,7/306,8.71e-04,PSMD6; TUBA1A; POLR2B; TUBB; CYCS; VDAC2; PIK3C3
+63,Herpes simplex virus 1 infection,9/498,8.77e-04,ZNF331; ZNF350; IFNG; SYK; CYCS; ZNF613; PIK3CD; ZNF780A; MYD88
+64,MicroRNAs in cancer,7/310,9.40e-04,DNMT1; CDKN1A; CDK6; PIK3CD; EZR; EZH2; VEGFA
+65,Bladder cancer,3/41,1.13e-03,CDKN1A; CXCL8; VEGFA
+66,Human papillomavirus infection,7/331,1.37e-03,CDKN1A; CDK6; PPP2R2B; PIK3CD; PSEN1; ATP6V1E2; VEGFA
+67,Phosphatidylinositol signaling system,4/97,1.43e-03,PIK3CD; ITPR3; PIK3C3; CALML4
+68,Hepatocellular carcinoma,5/168,1.56e-03,CDKN1A; CDK6; PIK3CD; GADD45G; TGFBR2
+69,Proteasome,3/46,1.58e-03,PSMD6; IFNG; PSMB8
+70,Tight junction,5/169,1.60e-03,JUN; TUBA1A; ARPC3; PPP2R2B; EZR
+71,T cell receptor signaling pathway,4/104,1.85e-03,JUN; PPP3CC; IFNG; PIK3CD
+72,Malaria,3/50,2.00e-03,CXCL8; IFNG; MYD88
+73,HIF-1 signaling pathway,4/109,2.19e-03,CDKN1A; IFNG; PIK3CD; VEGFA
+74,Toxoplasmosis,4/112,2.42e-03,IFNG; CYCS; HSPA1B; MYD88
+75,Chemokine signaling pathway,5/192,2.79e-03,CXCL8; CCL4L2; CCL4; CCL3; PIK3CD
+76,Neurotrophin signaling pathway,4/119,3.01e-03,JUN; PIK3CD; CALML4; PSEN1
+77,Endometrial cancer,3/58,3.07e-03,CDKN1A; PIK3CD; GADD45G
+78,VEGF signaling pathway,3/59,3.22e-03,PPP3CC; PIK3CD; VEGFA
+79,Viral carcinogenesis,5/203,3.54e-03,JUN; CDKN1A; CDK6; SYK; PIK3CD
+80,Proteoglycans in cancer,5/205,3.69e-03,CDKN1A; PIK3CD; ITPR3; EZR; VEGFA
+81,Relaxin signaling pathway,4/129,4.02e-03,JUN; PIK3CD; TGFBR2; VEGFA
+82,Dopaminergic synapse,4/132,4.36e-03,PPP3CC; PPP2R2B; ITPR3; CALML4
+83,Long-term potentiation,3/67,4.61e-03,PPP3CC; ITPR3; CALML4
+84,Amphetamine addiction,3/69,5.00e-03,JUN; PPP3CC; CALML4
+85,Epithelial cell signaling in Helicobacter pylori infection,3/70,5.21e-03,JUN; CXCL8; ATP6V1E2
+86,Coronavirus disease,5/232,6.21e-03,JUN; CXCL8; SYK; PIK3CD; MYD88
+87,Gastric cancer,4/149,6.67e-03,CDKN1A; PIK3CD; GADD45G; TGFBR2
+88,Leishmaniasis,3/77,6.79e-03,JUN; IFNG; MYD88
+89,Calcium signaling pathway,5/240,7.14e-03,PPP3CC; VDAC2; ITPR3; CALML4; VEGFA
+90,Phagosome,4/152,7.15e-03,TUBA1A; TUBB; PIK3C3; ATP6V1E2
+91,Non-alcoholic fatty liver disease,4/155,7.65e-03,JUN; CXCL8; CYCS; PIK3CD
+92,PI3K-Akt signaling pathway,6/354,8.73e-03,CDKN1A; CDK6; SYK; PPP2R2B; PIK3CD; VEGFA
+93,ErbB signaling pathway,3/85,8.91e-03,CDKN1A; JUN; PIK3CD
+94,JAK-STAT signaling pathway,4/162,8.91e-03,CDKN1A; IFNG; PIK3CD; IL12RB2
+95,Gap junction,3/88,9.79e-03,TUBA1A; TUBB; ITPR3
+96,cGMP-PKG signaling pathway,4/167,9.89e-03,PPP3CC; VDAC2; ITPR3; CALML4
+97,GnRH signaling pathway,3/93,1.14e-02,JUN; ITPR3; CALML4
+98,IL-17 signaling pathway,3/94,1.17e-02,JUN; CXCL8; IFNG
+99,Fc gamma R-mediated phagocytosis,3/97,1.27e-02,SYK; ARPC3; PIK3CD
+100,Choline metabolism in cancer,3/98,1.31e-02,SLC22A4; JUN; PIK3CD
+101,Inflammatory mediator regulation of TRP channels,3/98,1.31e-02,PIK3CD; ITPR3; CALML4
+102,Axon guidance,4/182,1.32e-02,ABLIM1; RGS3; PPP3CC; PIK3CD
+103,Amoebiasis,3/102,1.46e-02,CXCL8; IFNG; PIK3CD
+104,African trypanosomiasis,2/37,1.47e-02,IFNG; MYD88
+105,Thyroid cancer,2/37,1.47e-02,CDKN1A; GADD45G
+106,Neutrophil extracellular trap formation,4/189,1.50e-02,SYK; HAT1; VDAC2; PIK3CD
+107,Transcriptional misregulation in cancer,4/192,1.58e-02,CDKN1A; CXCL8; GADD45G; TGFBR2
+108,Glucagon signaling pathway,3/107,1.65e-02,PPP3CC; ITPR3; CALML4
+109,TNF signaling pathway,3/112,1.87e-02,JUN; PIK3CD; RIPK1
+110,Graft-versus-host disease,2/42,1.87e-02,IFNG; KIR2DL3
+111,Cholinergic synapse,3/113,1.91e-02,PIK3CD; ITPR3; KCNJ2
+112,Cell cycle,3/124,2.43e-02,CDKN1A; CDK6; GADD45G
+113,Platelet activation,3/124,2.43e-02,SYK; PIK3CD; ITPR3
+114,Cholesterol metabolism,2/50,2.59e-02,VDAC2; APOE
+115,Oocyte meiosis,3/129,2.69e-02,PPP3CC; ITPR3; CALML4
+116,Apelin signaling pathway,3/137,3.14e-02,PIK3C3; ITPR3; CALML4
+117,Notch signaling pathway,2/59,3.52e-02,APH1B; PSEN1
+118,Phospholipase D signaling pathway,3/148,3.82e-02,CXCL8; SYK; PIK3CD
+119,Basal cell carcinoma,2/63,3.97e-02,CDKN1A; GADD45G
+120,GnRH secretion,2/64,4.08e-02,PIK3CD; ITPR3
+121,Cushing syndrome,3/155,4.28e-02,CDKN1A; CDK6; ITPR3
+122,Fc epsilon RI signaling pathway,2/68,4.56e-02,SYK; PIK3CD
+123,RIG-I-like receptor signaling pathway,2/70,4.80e-02,CXCL8; RIPK1
+124,Wnt signaling pathway,3/166,5.07e-02,JUN; PPP3CC; PSEN1
+125,Inositol phosphate metabolism,2/73,5.17e-02,PIK3CD; PIK3C3
+126,Protein processing in endoplasmic reticulum,3/171,5.44e-02,DNAJB12; HSPA1B; UBE2J1
+127,Bacterial invasion of epithelial cells,2/77,5.69e-02,ARPC3; PIK3CD
+128,Salivary secretion,2/93,7.90e-02,ITPR3; CALML4
+129,Focal adhesion,3/201,7.98e-02,JUN; PIK3CD; VEGFA
+130,TGF-beta signaling pathway,2/94,8.05e-02,IFNG; TGFBR2
+131,Diabetic cardiomyopathy,3/203,8.17e-02,VDAC2; PIK3CD; TGFBR2
+132,Circadian entrainment,2/97,8.49e-02,ITPR3; CALML4
+133,Prostate cancer,2/97,8.49e-02,CDKN1A; PIK3CD
+134,Aldosterone synthesis and secretion,2/98,8.64e-02,ITPR3; CALML4
+135,mRNA surveillance pathway,2/98,8.64e-02,NXT1; PPP2R2B
+136,Rap1 signaling pathway,3/210,8.83e-02,PIK3CD; CALML4; VEGFA
+137,Progesterone-mediated oocyte maturation,2/100,8.94e-02,PIK3CD; KIF22
+138,Longevity regulating pathway,2/102,9.25e-02,PIK3CD; HSPA1B
+139,cAMP signaling pathway,3/216,9.41e-02,JUN; PIK3CD; CALML4
+140,Regulation of actin cytoskeleton,3/218,9.61e-02,ARPC3; PIK3CD; EZR
+141,"Parathyroid hormone synthesis, secretion and action",2/106,9.87e-02,CDKN1A; ITPR3
+142,Ras signaling pathway,3/232,1.10e-01,PIK3CD; CALML4; VEGFA
+143,Glutamatergic synapse,2/114,1.11e-01,PPP3CC; ITPR3
+144,Leukocyte transendothelial migration,2/114,1.11e-01,PIK3CD; EZR
+145,Chemical carcinogenesis,3/239,1.18e-01,JUN; PIK3CD; VEGFA
+146,"Growth hormone synthesis, secretion and action",2/119,1.20e-01,PIK3CD; ITPR3
+147,Sphingolipid signaling pathway,2/119,1.20e-01,PPP2R2B; PIK3CD
+148,AMPK signaling pathway,2/120,1.21e-01,PPP2R2B; PIK3CD
+149,Collecting duct acid secretion,1/27,1.27e-01,ATP6V1E2
+150,Phototransduction,1/28,1.31e-01,CALML4
+151,Endocytosis,3/252,1.32e-01,ARPC3; HSPA1B; TGFBR2
+152,Pentose phosphate pathway,1/30,1.40e-01,DERA
+153,Vascular smooth muscle contraction,2/133,1.43e-01,ITPR3; CALML4
+154,RNA polymerase,1/31,1.44e-01,POLR2B
+155,Autophagy,2/137,1.50e-01,PIK3CD; PIK3C3
+156,Insulin signaling pathway,2/137,1.50e-01,PIK3CD; CALML4
+157,Aldosterone-regulated sodium reabsorption,1/37,1.69e-01,PIK3CD
+158,Adrenergic signaling in cardiomyocytes,2/150,1.73e-01,PPP2R2B; CALML4
+159,Allograft rejection,1/38,1.74e-01,IFNG
+160,mTOR signaling pathway,2/154,1.80e-01,PIK3CD; ATP6V1E2
+161,Ferroptosis,1/41,1.86e-01,VDAC2
+162,Type I diabetes mellitus,1/43,1.94e-01,IFNG
+163,Hippo signaling pathway,2/163,1.96e-01,PPP2R2B; TGFBR2
+164,Type II diabetes mellitus,1/46,2.06e-01,PIK3CD
+165,Carbohydrate digestion and absorption,1/47,2.10e-01,PIK3CD
+166,Cocaine addiction,1/49,2.18e-01,JUN
+167,Cysteine and methionine metabolism,1/50,2.22e-01,DNMT1
+168,Vibrio cholerae infection,1/50,2.22e-01,ATP6V1E2
+169,Alcoholism,2/186,2.38e-01,HAT1; CALML4
+170,Regulation of lipolysis in adipocytes,1/55,2.41e-01,PIK3CD
+171,Hedgehog signaling pathway,1/56,2.45e-01,SPOP
+172,Long-term depression,1/60,2.60e-01,ITPR3
+173,Viral myocarditis,1/60,2.60e-01,CYCS
+174,Lysine degradation,1/63,2.71e-01,EZH2
+175,Cortisol synthesis and secretion,1/65,2.78e-01,ITPR3
+176,Acute myeloid leukemia,1/67,2.86e-01,PIK3CD
+177,Mitophagy,1/68,2.89e-01,JUN
+178,Retinol metabolism,1/68,2.89e-01,DHRS3
+179,Central carbon metabolism in cancer,1/70,2.96e-01,PIK3CD
+180,Prolactin signaling pathway,1/70,2.96e-01,PIK3CD
+181,Adherens junction,1/71,3.00e-01,TGFBR2
+182,Thyroid hormone synthesis,1/75,3.14e-01,ITPR3
+183,Synaptic vesicle cycle,1/78,3.24e-01,ATP6V1E2
+184,Insulin secretion,1/86,3.51e-01,ITPR3
+185,Taste transduction,1/86,3.51e-01,ITPR3
+186,Melanogenesis,1/101,3.98e-01,CALML4
+187,Pancreatic secretion,1/102,4.01e-01,ITPR3
+188,Insulin resistance,1/108,4.19e-01,PIK3CD
+189,Ribosome biogenesis in eukaryotes,1/108,4.19e-01,NXT1
+190,Serotonergic synapse,1/113,4.33e-01,ITPR3
+191,Thyroid hormone signaling pathway,1/121,4.56e-01,PIK3CD
+192,Oxidative phosphorylation,1/133,4.88e-01,ATP6V1E2
+193,Systemic lupus erythematosus,1/135,4.93e-01,IFNG
+194,Ubiquitin mediated proteolysis,1/140,5.06e-01,UBE2J1
+195,Signaling pathways regulating pluripotency of stem cells,1/143,5.13e-01,PIK3CD
+196,Cell adhesion molecules,1/148,5.25e-01,ICAM3
+197,Retrograde endocannabinoid signaling,1/148,5.25e-01,ITPR3
+198,Spliceosome,1/150,5.30e-01,HSPA1B
+199,RNA transport,1/186,6.08e-01,NXT1
+200,Olfactory transduction,1/440,8.92e-01,CALML4

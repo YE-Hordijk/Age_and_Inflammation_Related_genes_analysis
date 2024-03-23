@@ -1,0 +1,437 @@
+,Term,Overlap,Adjusted P-value,Genes
+1,Interleukin-2 signaling pathway,24/847,9.26e-10,DUSP4; DUSP5; JUN; CXCL8; SERPINE1; PRF1; GZMB; KIR2DL1; PRSS23; GADD45G; VEGFA; TPST1; DUSP10; IFNG; PLAU; GNLY; BHLHE40; CCL4; IL2RB; TNFSF10; CCL3; PMAIP1; XCL1; IL12RB2
+2,Cytokine-cytokine receptor interaction,15/265,9.26e-10,CXCL8; CCL4L2; IL1R2; CCL3L3; VEGFA; IFNG; LEP; CCL4; IL2RB; TNFSF10; XCL2; CCL3; TNFSF9; XCL1; IL12RB2
+3,Interleukin-12-mediated signaling events,9/65,4.98e-09,IFNG; CD8A; CCL4L2; TBX21; IL2RB; CCL3; GZMB; IL12RB2; GADD45G
+4,Graft-versus-host disease,7/41,1.35e-07,IFNG; PRF1; GZMB; KIR3DL1; KIR2DL1; KIR3DL2; KIR2DL3
+5,Interleukin-1 regulation of extracellular matrix,9/120,7.81e-07,JUN; CXCL8; IFNG; IL1R2; CCL4; SPP1; PTGS2; RHOB; HBEGF
+6,Natural killer cell-mediated cytotoxicity,9/137,2.08e-06,IFNG; PRF1; TNFSF10; SH2D1B; GZMB; KIR3DL1; KIR2DL1; KIR3DL2; KIR2DL3
+7,CD8/T cell receptor downstream pathway,7/68,2.97e-06,EGR1; JUN; IFNG; CD8A; IL2RB; PRF1; GZMB
+8,Leptin influence on immune response,8/110,3.84e-06,IFNG; PTAFR; CCL4; PRF1; TNFSF10; TLR8; XCL1; VEGFA
+9,Gastrin pathway,6/44,3.84e-06,JUN; CXCL8; SERPINE1; PTGS2; VEGFA; HBEGF
+10,Immune system,20/998,3.84e-06,DUSP4; EGR1; JUN; VCAM1; IL1R2; DEFA4; PTAFR; DEFA3; KIR3DL1; KIR2DL1; NLRC4; KIR3DL2; KIR2DL3; AIM2; IFNG; CD8A; IL2RB; TLR8; NCAM1; TLR5
+11,Interleukin-4 regulation of apoptosis,11/267,3.84e-06,SLC22A4; JUN; VCAM1; CXCL8; ALOX15; TNFSF10; SPP1; XCL1; GZMB; PTGS2; FKBP5
+12,Regulation of NFAT transcription factors,6/47,4.44e-06,EGR1; JUN; CXCL8; IFNG; TBX21; PTGS2
+13,Antigen processing and presentation,7/81,5.44e-06,IFNG; CD8A; KIR3DL1; KIR2DL1; KIR3DL2; KIR2DL3; HSPA1B
+14,TWEAK regulation of gene expression,5/27,6.51e-06,CXCL8; VCAM1; SERPINE1; CCL3; SPP1
+15,"TNF-alpha effects on cytokine activity, cell motility, and apoptosis",8/135,1.12e-05,CD83; VCAM1; CXCL8; IL1R2; CCL4; TNFSF10; PMAIP1; HBEGF
+16,ATF2 transcription factor network,6/59,1.33e-05,DUSP5; JUN; CXCL8; DUSP10; IFNG; PLAU
+17,Interleukin-5 regulation of apoptosis,8/144,1.62e-05,DUSP4; EGR1; DUSP5; CXCL8; PTAFR; CCL3; PTGS2; HBEGF
+18,BDNF signaling pathway,10/261,1.80e-05,DUSP4; EGR1; DUSP5; JUN; SERPINE1; SPP1; PTGS2; HSPA1B; RHOB; VEGFA
+19,T cell receptor regulation of apoptosis,14/603,4.12e-05,EGR1; DUSP5; JUN; CD83; CXCL8; CCL4L2; GZMB; IFNG; CCL4; CCL3; PMAIP1; TLR8; XCL1; LTF
+20,Interleukin-12/STAT4 pathway,5/45,6.42e-05,JUN; IFNG; TBX21; PRF1; IL12RB2
+21,Regular glucocorticoid receptor pathway,6/82,7.18e-05,EGR1; JUN; CXCL8; IFNG; TBX21; FKBP5
+22,p53 signaling pathway,7/139,1.25e-04,DUSP5; JUN; SERPINE1; SPP1; PMAIP1; NLRC4; HSPA1B
+23,Dissolution of fibrin clot,3/8,1.26e-04,PLAU; SERPINE1; HRG
+24,Toll-like receptor signaling pathway regulation,7/142,1.28e-04,JUN; CXCL8; CCL4; CCL3; SPP1; TLR8; TLR5
+25,Binding of chemokines to chemokine receptors,5/54,1.28e-04,CXCL8; CCL4; XCL2; CCL3; XCL1
+26,Selective expression of chemokine receptors during T-cell polarization,4/26,1.36e-04,IFNG; CCL4; CCL3; IL12RB2
+27,TSH regulation of gene expression,6/97,1.48e-04,EGR1; JUN; DUSP2; CXCL8; PTGS2; VEGFA
+28,Chagas disease,6/104,2.14e-04,JUN; CXCL8; IFNG; CCL3L3; SERPINE1; CCL3
+29,HIF-1 transcriptional activity in hypoxia,5/66,2.98e-04,JUN; LEP; SERPINE1; BHLHE40; VEGFA
+30,D4-GDI signaling pathway,3/12,3.72e-04,JUN; PRF1; GZMB
+31,AP-1 transcription factor network,5/70,3.72e-04,EGR1; JUN; CXCL8; IFNG; PLAU
+32,Immunoregulatory interactions between a lymphoid and a non-lymphoid cell,6/119,4.02e-04,VCAM1; CD8A; KIR3DL1; KIR2DL1; KIR3DL2; KIR2DL3
+33,RANKL regulation of apoptosis and immune response,5/74,4.58e-04,EGR1; JUN; VCAM1; BAG3; CCL3
+34,Chemokine signaling pathway,7/189,5.89e-04,CXCL8; CCL4L2; CCL3L3; CCL4; XCL2; CCL3; XCL1
+35,Apoptosis modulation and signaling,5/80,6.29e-04,JUN; BAG3; IL1R2; TNFSF10; PMAIP1
+36,FSH regulation of apoptosis,8/263,6.38e-04,ZNF331; TUBA1A; GNLY; PMAIP1; APOE; EREG; RHOB; VEGFA
+37,Urokinase-type plasminogen activator (uPA) and uPAR-mediated signaling,4/42,6.71e-04,PLAU; SERPINE1; CTSG; ELANE
+38,EGFR1 pathway,6/152,1.33e-03,DUSP4; PLAU; SPP1; EREG; HBEGF; VEGFA
+39,Malaria,4/51,1.37e-03,CXCL8; VCAM1; IFNG; KLRB1
+40,4-1BB-dependent immune response,3/20,1.38e-03,JUN; IFNG; TNFSF9
+41,Hypertrophy pathway,3/20,1.38e-03,IFNG; VEGFA; HBEGF
+42,Senescence and autophagy,5/99,1.45e-03,JUN; CXCL8; IFNG; SERPINE1; CCL3
+43,MAPK signaling pathway,8/314,1.82e-03,DUSP4; DUSP5; JUN; DUSP2; DUSP10; IL1R2; HSPA1B; GADD45G
+44,Innate immune system,8/319,1.98e-03,DUSP4; JUN; AIM2; DEFA4; DEFA3; TLR8; NLRC4; TLR5
+45,RAGE pathway,4/60,2.19e-03,CXCL8; VCAM1; SERPINE1; VEGFA
+46,Selenium pathway,4/60,2.19e-03,IFNG; SERPINE1; PTGS2; ALOX15B
+47,FGF signaling pathway,4/61,2.29e-03,JUN; PLAU; SPP1; NCAM1
+48,Alpha-9 beta-1 integrin pathway,3/25,2.34e-03,VCAM1; SPP1; VEGFA
+49,Fibroblast growth factor 1,3/26,2.53e-03,PLAU; SERPINE1; VEGFA
+50,Interleukin-27-mediated signaling events,3/26,2.53e-03,IFNG; TBX21; IL12RB2
+51,Endochondral ossification,4/66,2.76e-03,PLAU; SPP1; RUNX3; VEGFA
+52,TGF-beta signaling pathway,6/185,2.76e-03,TGFBR3; JUN; IFNG; SERPINE1; SPP1; RUNX3
+53,Beta-1 integrin cell surface interactions,4/66,2.76e-03,VCAM1; PLAU; SPP1; VEGFA
+54,Statin pathway,3/29,3.20e-03,APOC1; APOA2; APOE
+55,T cell receptor calcium pathway,3/29,3.20e-03,JUN; IFNG; PTGS2
+56,Activation of matrix metalloproteinases,3/30,3.48e-03,MMP25; CTSG; ELANE
+57,Alpha-V beta-3 integrin/OPN pathway,3/31,3.77e-03,JUN; PLAU; SPP1
+58,"Immune system signaling by interferons, interleukins, prolactin, and growth hormones",7/280,3.88e-03,EGR1; VCAM1; IFNG; IL1R2; PTAFR; IL2RB; NCAM1
+59,HIF-2-alpha transcription factor network,3/34,4.79e-03,SERPINE1; BHLHE40; VEGFA
+60,Proepithelin conversion to epithelin and wound repair control,2/8,4.94e-03,CXCL8; ELANE
+61,Allograft rejection,3/37,5.86e-03,IFNG; PRF1; GZMB
+62,FRA pathway,3/37,5.86e-03,JUN; CXCL8; PLAU
+63,MAP kinase pathway regulation through dual specificity phosphatases,2/9,5.86e-03,DUSP4; DUSP2
+64,NOD signaling pathway,4/85,5.86e-03,NLRP12; CXCL8; AIM2; NLRC4
+65,Alpha defensins,2/9,5.86e-03,DEFA4; DEFA3
+66,Thymic stromal lymphopoietin (TSLP) pathway,4/90,7.15e-03,CXCL8; CD83; CCL4; CCL3
+67,Beta-3 integrin cell surface interactions,3/43,8.30e-03,PLAU; SPP1; VEGFA
+68,Type 1 diabetes mellitus,3/43,8.30e-03,IFNG; PRF1; GZMB
+69,Osteopontin signaling,2/11,8.35e-03,PLAU; SPP1
+70,Interferon-gamma signaling pathway,4/97,8.90e-03,VCAM1; IFNG; PTAFR; NCAM1
+71,Interferon signaling,5/168,9.57e-03,EGR1; VCAM1; IFNG; PTAFR; NCAM1
+72,Granzyme A-mediated apoptosis pathway,2/12,9.57e-03,PRF1; GZMB
+73,CTL mediated immune response against target cells,2/13,1.11e-02,PRF1; GZMB
+74,Amoebiasis,4/105,1.13e-02,CXCL8; IFNG; IL1R2; CTSG
+75,TGF-beta regulation of extracellular matrix,9/565,1.22e-02,TGFBR3; VCAM1; IMPA2; SERPINE1; APOC1; TNFSF10; APOE; PTGS2; VEGFA
+76,Adhesion and diapedesis of lymphocytes,2/14,1.23e-02,CXCL8; VCAM1
+77,Platelet amyloid precursor protein pathway,2/14,1.23e-02,PLAU; SERPINE1
+78,Vitamin B12 metabolism,3/52,1.25e-02,IFNG; SERPINE1; APOE
+79,JNK/MAPK pathway,3/53,1.31e-02,DUSP4; JUN; DUSP10
+80,Adhesion and diapedesis of granulocytes,2/15,1.31e-02,CXCL8; IFNG
+81,Fibrinolysis pathway,2/15,1.31e-02,PLAU; SERPINE1
+82,Hematopoiesis regulation by cytokines,2/15,1.31e-02,CXCL8; CD8A
+83,Interleukin-17 signaling pathway,2/15,1.31e-02,CXCL8; CD8A
+84,Cytosolic DNA-sensing pathway,3/56,1.43e-02,AIM2; CCL4L2; CCL4
+85,Peptide G-protein coupled receptors,5/192,1.43e-02,CXCL8; CCL4; XCL2; CCL3; XCL1
+86,Hypoxia-inducible factor in the cardivascular system,2/16,1.44e-02,JUN; VEGFA
+87,SHP2 signaling,3/57,1.45e-02,IFNG; IL2RB; VEGFA
+88,Mechanism of gene regulation by peroxisome proliferators via PPAR-alpha,3/57,1.45e-02,JUN; APOA2; PTGS2
+89,Caspase cascade in apoptosis,3/59,1.48e-02,PRF1; TNFSF10; GZMB
+90,NO2-dependent IL-12 pathway in NK cells,2/17,1.48e-02,IFNG; IL12RB2
+91,Integrin beta-5 pathway,2/17,1.48e-02,VCAM1; PLAU
+92,Inflammasomes,2/17,1.48e-02,AIM2; NLRC4
+93,Chylomicron-mediated lipid transport,2/17,1.48e-02,APOA2; APOE
+94,Cells and molecules involved in local acute inflammatory response,2/17,1.48e-02,CXCL8; VCAM1
+95,Arachidonic acid metabolism,3/58,1.48e-02,ALOX15; PTGS2; ALOX15B
+96,Jak-STAT signaling pathway,5/199,1.48e-02,CXCL8; IFNG; LEP; IL2RB; IL12RB2
+97,Interleukin-1 signaling pathway,4/125,1.58e-02,JUN; CXCL8; IL1R2; PTGS2
+98,Pertussis toxin-insensitive CCR5 signaling in macrophage,2/18,1.58e-02,JUN; CCL4
+99,Downregulation of MTA-3 in ER-negative breast tumors,2/18,1.58e-02,TUBA1A; SNAI1
+100,Folate metabolism,3/63,1.69e-02,IFNG; SERPINE1; FOLR3
+101,TP53 network,2/19,1.69e-02,TNFSF10; PMAIP1
+102,Tob role in T-cell activation,2/19,1.69e-02,TGFBR3; IFNG
+103,Eicosanoid biosynthesis,2/19,1.69e-02,PTGS2; ALOX15B
+104,LPA receptor mediated events,3/65,1.77e-02,JUN; CXCL8; HBEGF
+105,Oncostatin M,6/311,1.96e-02,JUN; CXCL8; PLAU; SERPINE1; PTGS2; VEGFA
+106,Epithelial cell signaling in Helicobacter pylori infection,3/68,1.98e-02,JUN; CXCL8; HBEGF
+107,S1P/S1P1 pathway,2/21,1.99e-02,PTGS2; VEGFA
+108,Complement and coagulation cascades,3/70,2.10e-02,PLAU; SERPINE1; APOA2
+109,Leishmaniasis,3/72,2.25e-02,JUN; IFNG; PTGS2
+110,Blood clotting cascade,2/23,2.30e-02,PLAU; SERPINE1
+111,Th1/Th2 differentiation pathway,2/23,2.30e-02,IFNG; IL12RB2
+112,SHC1 events in ERBB2 signaling,2/25,2.68e-02,EREG; HBEGF
+113,Signaling events mediated by hepatocyte growth factor receptor (c-Met),3/79,2.81e-02,EGR1; JUN; SNAI1
+114,Apoptosis,5/242,2.82e-02,JUN; PRF1; TNFSF10; PMAIP1; GZMB
+115,Interleukin-9 regulation of target genes,2/26,2.82e-02,CCL3; GZMB
+116,ATM-dependent DNA damage response,3/82,3.01e-02,JUN; PLAU; PMAIP1
+117,SMAD2/3 nuclear pathway,3/82,3.01e-02,JUN; SERPINE1; RUNX3
+118,Response to elevated platelet cytosolic calcium,3/83,3.06e-02,SERPINE1; HRG; VEGFA
+119,Toll receptor cascades,4/159,3.06e-02,DUSP4; JUN; TLR8; TLR5
+120,Myc active pathway,3/85,3.24e-02,SNAI1; PMAIP1; KIR3DL1
+121,Integrin beta-2 pathway,2/29,3.29e-02,VCAM1; PLAU
+122,Lipoprotein metabolism,2/29,3.29e-02,APOA2; APOE
+123,Apoptosis intrinsic pathway,2/30,3.40e-02,PMAIP1; GZMB
+124,Inflammatory response pathway,2/30,3.40e-02,IFNG; IL2RB
+125,Interleukin-2/STAT5 pathway,2/30,3.40e-02,IL2RB; PRF1
+126,Nuclear events mediated by MAP kinases,2/30,3.40e-02,DUSP4; JUN
+127,Extracellular matrix organization,3/93,3.90e-02,MMP25; CTSG; ELANE
+128,ERBB signaling pathway,3/94,3.99e-02,JUN; EREG; HBEGF
+129,Interleukin-7 interactions in immune response,2/34,4.23e-02,JUN; CXCL8
+130,Mitochondrial pathway of apoptosis: BH3-only Bcl-2 family,3/97,4.27e-02,JUN; GZMB; CTSG
+131,Prion diseases,2/35,4.37e-02,EGR1; NCAM1
+132,Cytokines and inflammatory response,2/35,4.37e-02,CXCL8; IFNG
+133,p38 alpha/beta MAPK downstream pathway,2/38,5.00e-02,JUN; PTGS2
+134,ERBB4 signaling events,2/38,5.00e-02,EREG; HBEGF
+135,BMAL1-CLOCK/NPAS2 activates circadian expression,2/38,5.00e-02,SERPINE1; BHLHE40
+136,GPCR ligand binding,6/410,5.43e-02,CXCL8; PTAFR; CCL4; XCL2; CCL3; XCL1
+137,Nuclear signaling by ErbB4,2/40,5.43e-02,EREG; HBEGF
+138,Bladder cancer,2/42,5.91e-02,CXCL8; VEGFA
+139,"Platelet activation, signaling and aggregation",4/205,6.15e-02,SERPINE1; HRG; RHOB; VEGFA
+140,Gastrin-CREB signaling pathway via PKC and MAPK,4/206,6.20e-02,PTAFR; XCL2; XCL1; HBEGF
+141,Heart development,2/44,6.27e-02,BHLHE40; VEGFA
+142,PI3K events in ERBB2 signaling,2/44,6.27e-02,EREG; HBEGF
+143,Defensins,2/45,6.39e-02,DEFA4; DEFA3
+144,Integrin-linked kinase signaling,2/45,6.39e-02,JUN; SNAI1
+145,Interleukin-3 signaling pathway,2/45,6.39e-02,JUN; CXCL8
+146,p53 activity regulation,3/118,6.39e-02,SERPINE1; PMAIP1; GADD45G
+147,"Nucleotide-binding domain, leucine rich repeat containing receptor (NLR) signaling pathways",2/47,6.86e-02,AIM2; NLRC4
+148,"Lipid digestion, mobilization, and transport",2/48,7.08e-02,APOA2; APOE
+149,Activation of NOXA and translocation to mitochondria,1/5,7.15e-02,PMAIP1
+150,Kit receptor transcriptional targets,1/5,7.15e-02,VEGFA
+151,Neurophilin interactions with VEGF and VEGF receptor,1/5,7.15e-02,VEGFA
+152,Autoimmune thyroid disease,2/52,8.01e-02,PRF1; GZMB
+153,Androgen receptor regulation of biosynthesis and transcription,2/53,8.24e-02,EGR1; JUN
+154,Cell adhesion molecules (CAMs),3/133,8.25e-02,VCAM1; CD8A; NCAM1
+155,Focal adhesion,4/233,8.31e-02,JUN; SPP1; RHOB; VEGFA
+156,RANKL signaling pathway,2/54,8.35e-02,JUN; VCAM1
+157,Hemostasis pathway,6/468,8.35e-02,PLAU; SERPINE1; MRVI1; HRG; RHOB; VEGFA
+158,T cell receptor signaling in naive CD8+ T cells,2/55,8.54e-02,CD8A; PRF1
+159,Diabetes pathways,3/137,8.62e-02,CXCL8; LEP; CTSG
+160,T cell receptor signaling pathway,3/139,8.83e-02,JUN; IFNG; CD8A
+161,Systemic lupus erythematosus,3/139,8.83e-02,IFNG; CTSG; ELANE
+162,Pathogenic Escherichia coli infection,2/57,8.90e-02,TUBA1A; TLR5
+163,Inactivation of BCL-2 by BH3-only proteins,1/7,9.22e-02,PMAIP1
+164,Circadian rhythm,2/62,1.02e-01,SERPINE1; BHLHE40
+165,TSP1-induced apoptosis in microvascular endothelial cell,1/8,1.03e-01,JUN
+166,Mechanism of acetaminophen activity and toxicity,1/8,1.03e-01,PTGS2
+167,Organic cation transport,1/8,1.03e-01,SLC22A4
+168,Activation of pro-caspase 8,1/9,1.12e-01,TNFSF10
+169,Alpha-4 beta-7 integrin signaling,1/9,1.12e-01,VCAM1
+170,EGFR transactivation by gastrin,1/9,1.12e-01,HBEGF
+171,Gene expression regulation by hypoxia-inducible factor,1/9,1.12e-01,VEGFA
+172,Telomerase regulation,2/67,1.12e-01,JUN; IFNG
+173,NFAT involvement in hypertrophy of the heart,2/69,1.18e-01,ALOX15B; HBEGF
+174,Free radical-induced apoptosis,1/10,1.18e-01,CXCL8
+175,TRAF6-mediated IRF7 activation in TLR7/8 or 9 signaling,1/10,1.18e-01,TLR8
+176,Ran role in mitotic spindle regulation,1/10,1.18e-01,TPX2
+177,Renal cell carcinoma,2/70,1.18e-01,JUN; VEGFA
+178,Activation of the AP-1 family of transcription factors,1/10,1.18e-01,JUN
+179,MicroRNA regulation of DNA damage response,2/70,1.18e-01,PMAIP1; GADD45G
+180,Apoptotic DNA fragmentation and tissue homeostasis,1/10,1.18e-01,GZMB
+181,E2F transcription factor network,2/74,1.26e-01,PLAU; SERPINE1
+182,Integrins in angiogenesis,2/74,1.26e-01,SPP1; VEGFA
+183,Reversal of insulin resistance by leptin,1/11,1.26e-01,LEP
+184,Bone mineralization regulation,1/11,1.26e-01,SPP1
+185,Signaling by VEGF,1/11,1.26e-01,VEGFA
+186,VEGF signaling pathway,2/76,1.30e-01,PTGS2; VEGFA
+187,ERK inactivation,1/12,1.35e-01,DUSP4
+188,Toll-like receptor endosomal trafficking and processing,1/12,1.35e-01,TLR8
+189,p73 transcription factor network,2/79,1.37e-01,TUBA1A; SERPINE1
+190,Nuclear beta-catenin signaling and target gene transcription regulation,2/80,1.40e-01,JUN; CXCL8
+191,T helper cell surface molecules,1/13,1.42e-01,CD8A
+192,Death receptor signaling,1/13,1.42e-01,TNFSF10
+193,MAP kinase downregulation by phosphorylation of MEK1 by Cdk5/p35,1/13,1.42e-01,EGR1
+194,Organic cation/anion/zwitterion transport,1/13,1.42e-01,SLC22A4
+195,Differentiation pathway in PC12 cells,2/84,1.48e-01,EGR1; JUN
+196,C-Myb transcription factor network,2/85,1.49e-01,PTGS2; ELANE
+197,Integrin cell surface interactions,2/85,1.49e-01,VCAM1; SPP1
+198,T cell receptor/JNK pathway,1/14,1.49e-01,JUN
+199,Interferon gamma signaling regulation,1/14,1.49e-01,IFNG
+200,HDL-mediated lipid transport,1/15,1.54e-01,APOE
+201,Erythrocyte differentiation pathway,1/15,1.54e-01,CCL3
+202,Calcium signaling by HBx of hepatitis B virus,1/15,1.54e-01,JUN
+203,Hematopoietic cell lineage,2/88,1.54e-01,CD8A; IL1R2
+204,"Androgen receptor signaling, proteolysis, and transcription regulation",2/88,1.54e-01,JUN; RHOB
+205,Repression of pain sensation by the transcriptional regulator DREAM,1/15,1.54e-01,JUN
+206,Neural crest differentiation,2/91,1.61e-01,SNAI1; RHOB
+207,Renin-angiotensin system,1/17,1.61e-01,CTSG
+208,Osteoclast signaling,1/17,1.61e-01,SPP1
+209,Insulin-like growth factor (IGF) activity regulation by insulin-like growth factor binding proteins (IGFBPs),1/17,1.61e-01,CTSG
+210,Dendritic cells in regulating TH1 and TH2 development,1/17,1.61e-01,IFNG
+211,Synaptic proteins at the synaptic junction,1/17,1.61e-01,NCAM1
+212,Cadmium-induced DNA biosynthesis and proliferation in macrophages,1/17,1.61e-01,JUN
+213,Post-chaperonin tubulin folding pathway,1/17,1.61e-01,TUBA1A
+214,Syndecan 3 pathway,1/17,1.61e-01,CXCL8
+215,ACE inhibitor pathway,1/17,1.61e-01,CTSG
+216,Selenium metabolism and selenoproteins,1/16,1.61e-01,JUN
+217,"Ghrelin biosynthesis, secretion, and deacylation",1/16,1.61e-01,LEP
+218,Signaling by ERBB4,2/93,1.61e-01,EREG; HBEGF
+219,Activation of BH3-only proteins,1/17,1.61e-01,PMAIP1
+220,Endocytosis,3/201,1.61e-01,IL2RB; FOLR3; HSPA1B
+221,Pathways in cancer,4/325,1.61e-01,JUN; CXCL8; PTGS2; VEGFA
+222,Adaptive immune system,6/606,1.64e-01,VCAM1; CD8A; KIR3DL1; KIR2DL1; KIR3DL2; KIR2DL3
+223,Serotonin receptor 4/6/7 and NR3C signaling,1/18,1.67e-01,EGR1
+224,Effect of METS on macrophage differentiation,1/18,1.67e-01,JUN
+225,Wnt signaling pathway and pluripotency,2/98,1.67e-01,JUN; PLAU
+226,Potassium channels,2/99,1.70e-01,KCNH7; KCNJ2
+227,Apoptosis modulation by HSP70,1/19,1.73e-01,HSPA1B
+228,Small ligand GPCRs,1/19,1.73e-01,PTAFR
+229,GnRH signaling pathway,2/101,1.73e-01,JUN; HBEGF
+230,Signaling by ERBB2,2/102,1.75e-01,EREG; HBEGF
+231,Nerve growth factor (NGF) pathway,1/20,1.78e-01,JUN
+232,Interleukin-3 regulation of hematopoietic cells,1/20,1.78e-01,CXCL8
+233,Estrogen receptor signaling pathway,1/20,1.78e-01,JUN
+234,ID regulation of gene expression,1/20,1.78e-01,CXCL8
+235,ERBB1 downstream pathway,2/106,1.83e-01,EGR1; JUN
+236,IGF1 signaling pathway,1/21,1.84e-01,JUN
+237,Oxidative stress-induced gene expression via Nrf2,1/21,1.84e-01,JUN
+238,Signaling by interleukins,2/109,1.89e-01,IL1R2; IL2RB
+239,Epstein-Barr virus LMP1 signaling,1/22,1.91e-01,CXCL8
+240,"Incretin biosynthesis, secretion, and inactivation",1/23,1.93e-01,LEP
+241,Interleukin-11 pathway,1/23,1.93e-01,JUN
+242,Eicosanoid metabolism,1/23,1.93e-01,PTGS2
+243,Modulation of interferon signaling by chaperones,1/23,1.93e-01,IFNG
+244,Angiogenesis,1/23,1.93e-01,VEGFA
+245,Epidermal growth factor receptor (EGFR) pathway,2/111,1.93e-01,JUN; RHOB
+246,Signaling events mediated by PRL,1/23,1.93e-01,EGR1
+247,Wnt signaling pathway,3/231,1.93e-01,JUN; PLAU; KREMEN1
+248,Plexin D1 signaling,1/24,1.99e-01,VEGFA
+249,Inhibition of cellular proliferation by Gleevec,1/24,1.99e-01,JUN
+250,Signaling by GPCR,8/977,2.01e-01,CXCL8; PTAFR; CCL4; XCL2; CCL3; XCL1; RHOB; HBEGF
+251,Cellular response to hypoxia,1/25,2.01e-01,VEGFA
+252,Corticotropin releasing hormone pathway,1/25,2.01e-01,CXCL8
+253,TPO signaling pathway,1/25,2.01e-01,JUN
+254,Fatty acid biosynthesis,1/25,2.01e-01,ECHDC3
+255,Ghrelin pathway,1/25,2.01e-01,CXCL8
+256,Prolactin regulation of apoptosis,2/118,2.01e-01,DUSP4; EGR1
+257,Physiological and pathological hypertrophy  of the heart,1/26,2.07e-01,JUN
+258,VEGFR1 pathway,1/27,2.12e-01,VEGFA
+259,TNF/stress-related signaling,1/27,2.12e-01,JUN
+260,CTCF pathway,1/27,2.12e-01,TGFBR3
+261,Cooperation of prefoldin and TriC/CCT  in actin and tubulin folding,1/27,2.12e-01,TUBA1A
+262,TRAIL signaling pathway,1/28,2.16e-01,TNFSF10
+263,Interleukin receptor SHC signaling,1/28,2.16e-01,IL2RB
+264,Nitric oxide stimulation of guanylate cyclase,1/28,2.16e-01,MRVI1
+265,PERK-regulated gene expression,1/28,2.16e-01,CXCL8
+266,S1P/S1P3 pathway,1/29,2.20e-01,VEGFA
+267,Sema4D in semaphorin signaling,1/29,2.20e-01,RHOB
+268,Matrix metalloproteinases,1/29,2.20e-01,MMP25
+269,Interferon-beta enhancer pathway,1/30,2.21e-01,JUN
+270,PDGFA signaling pathway,1/30,2.21e-01,JUN
+271,Ovarian infertility genes,1/30,2.21e-01,EGR1
+272,p38-alpha and p38-beta regulation,1/30,2.21e-01,DUSP10
+273,Tumor necrosis factor (TNF) pathway,1/30,2.21e-01,JUN
+274,TNFR1 signaling pathway,1/30,2.21e-01,JUN
+275,Asthma,1/30,2.21e-01,PRG2
+276,Signaling pathway from G-protein families,1/30,2.21e-01,JUN
+277,Adipogenesis,2/133,2.23e-01,LEP; SERPINE1
+278,Prostaglandin biosynthesis and regulation,1/31,2.23e-01,PTGS2
+279,CD40/CD40L signaling,1/31,2.23e-01,JUN
+280,Stathmin and breast cancer resistance to antimicrotubule agents,1/31,2.23e-01,TUBA1A
+281,Inwardly rectifying potassium channels,1/31,2.23e-01,KCNJ2
+282,NF-kappaB activation by non-typeable Hemophilus influenzae,1/31,2.23e-01,CXCL8
+283,Syndecan 2 pathway,1/33,2.34e-01,CXCL8
+284,Glycoprotein VI-mediated activation cascade,1/33,2.34e-01,RHOB
+285,Monoamine transport,1/34,2.36e-01,AMPH
+286,MAPK/TRK pathway,1/34,2.36e-01,EGR1
+287,Induction of apoptosis through DR3 and DR4/5 death receptors,1/34,2.36e-01,TNFSF10
+288,EPO receptor signaling,1/34,2.36e-01,JUN
+289,EGF receptor transactivation by GPCRs in cardiac hypertrophy,1/34,2.36e-01,JUN
+290,Neuroactive ligand-receptor interaction,3/272,2.36e-01,LEP; PTAFR; CTSG
+291,Primary immunodeficiency,1/35,2.38e-01,CD8A
+292,Autophagy regulation,1/35,2.38e-01,IFNG
+293,Signal transduction by L1,1/35,2.38e-01,NCAM1
+294,Interleukin-2/PI3K pathway,1/35,2.38e-01,IL2RB
+295,Linoleic acid metabolism,1/35,2.38e-01,ALOX15
+296,Insulin signaling pathway,3/277,2.38e-01,EGR1; JUN; RHOB
+297,PI3K/PLC/TRK pathway,1/36,2.43e-01,EGR1
+298,Latent infection of Homo sapiens with Mycobacterium tuberculosis,1/37,2.46e-01,LTF
+299,Interleukin-23-mediated signaling events,1/37,2.46e-01,IFNG
+300,ALK in cardiac myocytes,1/37,2.46e-01,TGFBR3
+301,Signaling of hepatocyte growth factor receptor,1/38,2.51e-01,JUN
+302,Signal transduction through IL-1R,1/38,2.51e-01,JUN
+303,Integrated breast cancer pathway,2/152,2.53e-01,JUN; VEGFA
+304,Angiotensin II-mediated activation of JNK pathway via Pyk2-dependent signaling,1/39,2.53e-01,JUN
+305,Signaling events regulated by Ret tyrosine kinase,1/39,2.53e-01,JUN
+306,FAS pathway and stress induction of heat shock protein regulation,1/39,2.53e-01,JUN
+307,Integrin signaling pathway,2/155,2.58e-01,JUN; RHOB
+308,Fc epsilon receptor I signaling in mast cells,1/41,2.59e-01,JUN
+309,ERBB1 internalization pathway,1/41,2.59e-01,AMPH
+310,FOXM1 transcription factor network,1/41,2.59e-01,HSPA1B
+311,Alpha-M beta-2 integrin signaling,1/41,2.59e-01,PLAU
+312,Plasma membrane estrogen receptor signaling,1/41,2.59e-01,HBEGF
+313,Transcriptional activity of SMAD2/SMAD3-SMAD4 heterotrimer,1/41,2.59e-01,SERPINE1
+314,TWEAK signaling pathway,1/42,2.62e-01,JUN
+315,"VEGF, hypoxia, and angiogenesis",1/42,2.62e-01,VEGFA
+316,Signaling events mediated by T cell protein tyrosine phosphatase (TC-PTP),1/42,2.62e-01,VEGFA
+317,Voltage-gated potassium channels,1/43,2.67e-01,KCNH7
+318,ERBB2/ERBB3 signaling events,1/44,2.70e-01,JUN
+319,HNF3A pathway,1/44,2.70e-01,JUN
+320,NCAM1 interactions,1/44,2.70e-01,NCAM1
+321,RhoA signaling pathway,1/45,2.73e-01,JUN
+322,Wnt interactions in lipid metabolism and immune response,1/45,2.73e-01,APOE
+323,"Interleukin-3, interleukin-5, and GM-CSF signaling",1/45,2.73e-01,IL2RB
+324,Polo-like kinase 1 (PLK1) pathway,1/46,2.77e-01,TPX2
+325,Agrin in postsynaptic differentiation,1/47,2.81e-01,JUN
+326,Actions of nitric oxide in the heart,1/47,2.81e-01,VEGFA
+327,ATM pathway,1/48,2.85e-01,JUN
+328,Presenilin action in Notch and Wnt signaling,1/48,2.85e-01,JUN
+329,G alpha 12 pathway,1/49,2.88e-01,JUN
+330,Interleukin-5 signaling pathway,1/49,2.88e-01,JUN
+331,Type II interferon signaling (interferon-gamma),1/50,2.92e-01,IFNG
+332,Amyloids,1/51,2.97e-01,LTF
+333,Signaling events mediated by PTP1B,1/52,3.00e-01,LEP
+334,Interleukin-2 receptor beta chain in T cell activation,1/52,3.00e-01,IL2RB
+335,Protein folding,1/53,3.03e-01,TUBA1A
+336,GABA A and B receptor activation,1/53,3.03e-01,KCNJ2
+337,Kit receptor signaling pathway,1/54,3.07e-01,SNAI1
+338,TAp63 pathway,1/55,3.11e-01,PMAIP1
+339,Thromboxane A2 receptor signaling,1/56,3.15e-01,VCAM1
+340,Signal transduction,7/1020,3.16e-01,DUSP4; JUN; CXCL8; CCL4; CCL3; EREG; HBEGF
+341,Pre-NOTCH expression and processing,1/57,3.16e-01,JUN
+342,Inositol phosphate metabolism,1/57,3.16e-01,IMPA2
+343,Keratinocyte differentiation,1/57,3.16e-01,JUN
+344,Leptin signaling pathway,1/61,3.34e-01,LEP
+345,Shigellosis,1/62,3.36e-01,CXCL8
+346,Signaling events mediated by focal adhesion kinase,1/62,3.36e-01,JUN
+347,Colorectal cancer,1/62,3.36e-01,JUN
+348,Interferon alpha/beta signaling,1/64,3.39e-01,EGR1
+349,Endothelins,1/64,3.39e-01,JUN
+350,MAPK cascade role in angiogenesis,1/64,3.39e-01,VEGFA
+351,Angiotensin II-stimulated signaling through G-proteins and beta-arrestin,1/64,3.39e-01,EGR1
+352,Proteasome degradation,1/63,3.39e-01,IFNG
+353,Validated nuclear estrogen receptor alpha network,1/64,3.39e-01,JUN
+354,ERK1/ERK2 MAPK pathway,1/65,3.43e-01,DUSP4
+355,Retinoblastoma protein regulation,1/66,3.44e-01,JUN
+356,Semaphorin interactions,1/66,3.44e-01,RHOB
+357,Signaling by TGF-beta receptor complex,1/66,3.44e-01,SERPINE1
+358,Thyroid-stimulating hormone signaling pathway,1/66,3.44e-01,JUN
+359,Adipocytokine signaling pathway,1/67,3.46e-01,LEP
+360,SIDS susceptibility pathways,1/67,3.46e-01,CXCL8
+361,AMPK signaling,1/68,3.49e-01,LEP
+362,Mitochondrial pathway of apoptosis: multidomain Bcl-2 family,1/71,3.51e-01,HSPA1B
+363,Interleukin-6 signaling pathway,1/71,3.51e-01,JUN
+364,Viral myocarditis,1/71,3.51e-01,PRF1
+365,Rac1 cell motility signaling pathway,1/71,3.51e-01,JUN
+366,RIG-I-like receptor signaling pathway,1/71,3.51e-01,CXCL8
+367,CDC42 signaling events,1/70,3.51e-01,JUN
+368,Signaling events mediated by VEGFR1 and VEGFR2,1/70,3.51e-01,VEGFA
+369,Pancreatic cancer,1/70,3.51e-01,VEGFA
+370,PPAR signaling pathway,1/69,3.51e-01,APOA2
+371,Phase I of biological oxidations: functionalization of compounds,1/69,3.51e-01,PTGS2
+372,NCAM signaling for neurite out-growth,1/70,3.51e-01,NCAM1
+373,Adherens junction cell adhesion,1/74,3.62e-01,SNAI1
+374,Gastric acid secretion,1/74,3.62e-01,KCNJ2
+375,Prolactin activation of MAPK signaling,1/75,3.65e-01,JUN
+376,Transcriptional regulation of white adipocyte differentiation,1/77,3.70e-01,LEP
+377,G alpha (12/13) signaling events,1/77,3.70e-01,RHOB
+378,Mitochondrial pathway of apoptosis: caspases,1/77,3.70e-01,HSPA1B
+379,Phosphatidylinositol signaling system,1/78,3.72e-01,IMPA2
+380,Apoptosis regulation,1/78,3.72e-01,IFNG
+381,Unfolded protein response,1/79,3.75e-01,CXCL8
+382,MAP kinase signaling pathway,1/81,3.81e-01,JUN
+383,Platelet homeostasis,1/82,3.84e-01,MRVI1
+384,Small cell lung cancer,1/84,3.90e-01,PTGS2
+385,ECM-receptor interaction,1/84,3.90e-01,SPP1
+386,TGF-beta regulation of skeletal system development,1/85,3.93e-01,IFNG
+387,Developmental biology,3/420,3.95e-01,LEP; NCAM1; RHOB
+388,Mitotic G2-G2/M phases,1/87,3.98e-01,TUBA1A
+389,Gap junction pathway,1/90,4.08e-01,TUBA1A
+390,Fc gamma receptor-mediated phagocytosis,1/94,4.20e-01,AMPH
+391,L1CAM interactions,1/94,4.20e-01,NCAM1
+392,"Transport of glucose and other sugars, bile salts and organic acids, metal ions and amine compounds",1/96,4.26e-01,SLC22A4
+393,Granule cell survival pathway,1/99,4.35e-01,JUN
+394,TNF-alpha signaling pathway,1/101,4.40e-01,JUN
+395,Interleukin-4 signaling pathway,1/104,4.49e-01,ALOX15
+396,Neuronal system,2/283,4.57e-01,KCNH7; KCNJ2
+397,G alpha i pathway,1/108,4.60e-01,HBEGF
+398,Lipid metabolism regulation by peroxisome proliferator-activated receptor alpha (PPAR-alpha),1/112,4.72e-01,APOA2
+399,mTOR signaling pathway,1/113,4.74e-01,VEGFA
+400,Disease,4/674,4.76e-01,CXCL8; LEP; CTSG; LTF
+401,Fas signaling pathway,1/115,4.77e-01,CXCL8
+402,CXCR4 signaling pathway,1/116,4.78e-01,RHOB
+403,Vascular smooth muscle contraction,1/116,4.78e-01,MRVI1
+404,Leukocyte transendothelial migration,1/117,4.80e-01,VCAM1
+405,Signaling by NOTCH,1/119,4.85e-01,JUN
+406,Lysosome,1/121,4.89e-01,CTSG
+407,Signaling by PDGF,1/122,4.91e-01,SPP1
+408,Rho GTPase cycle,1/123,4.93e-01,RHOB
+409,p75 neurotrophin receptor-mediated signaling,1/124,4.95e-01,RHOB
+410,Integration of energy metabolism,1/125,4.96e-01,LEP
+411,Neurotrophin signaling pathway,1/126,4.98e-01,JUN
+412,Spliceosome,1/127,4.99e-01,HSPA1B
+413,PDGFB signaling pathway,1/129,5.04e-01,JUN
+414,Axon guidance,2/325,5.11e-01,NCAM1; RHOB
+415,NGF signaling via TRKA from the plasma membrane,1/136,5.20e-01,DUSP4
+416,Biological oxidations,1/139,5.27e-01,PTGS2
+417,EGF/EGFR signaling pathway,1/141,5.31e-01,JUN
+418,Phagosome,1/154,5.62e-01,TUBA1A
+419,Myometrial relaxation and contraction pathways,1/155,5.64e-01,JUN
+420,Generic transcription pathway,2/377,5.87e-01,ZNF331; SERPINE1
+421,Protein processing in the endoplasmic reticulum,1/166,5.87e-01,HSPA1B
+422,Alzheimer's disease,1/169,5.92e-01,APOE
+423,"Fatty acid, triacylglycerol, and ketone body metabolism",1/173,5.99e-01,APOA2
+424,Calcium signaling pathway,1/178,6.09e-01,PTAFR
+425,Transmission across chemical synapses,1/190,6.32e-01,KCNJ2
+426,G alpha (i) signaling events,1/199,6.48e-01,CXCL8
+427,Antigen-activated B-cell receptor generation of second messengers,1/211,6.68e-01,JUN
+428,Cell cycle,2/453,6.78e-01,TUBA1A; GADD45G
+429,Signaling by NGF,1/221,6.83e-01,DUSP4
+430,Lipid and lipoprotein metabolism,2/489,7.16e-01,APOA2; APOE
+431,SLC-mediated transmembrane transport,1/251,7.26e-01,SLC22A4
+432,Class A GPCRs (rhodopsin-like),1/253,7.28e-01,PTAFR
+433,Metabolism,6/1615,8.33e-01,IMPA2; LEP; ALOX15; APOA2; APOE; ALOX15B
+434,Transmembrane transport of small molecules,1/432,8.92e-01,SLC22A4
+435,Protein metabolism,1/442,8.96e-01,TUBA1A
+436,Gene expression,2/968,9.58e-01,ZNF331; SERPINE1
